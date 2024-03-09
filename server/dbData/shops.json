@@ -1,0 +1,57 @@
+[
+    {
+        "shop_id": 1,
+        "shop_name": "Fresh Mart",
+        "shop_owner": "John Doe",
+        "address": "123 Main Street",
+        "postal_code": 12345,
+        "phone_no": "+1 123-456-7890",
+        "email": "freshmart@example.com",
+        "products": [1, 2, 3, 4, 5],
+        "orders": ["order001", "order002"]
+    },
+    {
+        "shop_id": 2,
+        "shop_name": "Dairy Delight",
+        "shop_owner": "Jane Smith",
+        "address": "456 Dairy Lane",
+        "postal_code": 54321,
+        "phone_no": "+1 987-654-3210",
+        "email": "dairydelight@example.com",
+        "products": [6, 7, 8, 9, 10],
+        "orders": ["order003", "order004"]
+    },
+    {
+        "shop_id": 3,
+        "shop_name": "Bakery Bliss",
+        "shop_owner": "Chris Baker",
+        "address": "789 Bake Street",
+        "postal_code": 67890,
+        "phone_no": "+1 555-123-4567",
+        "email": "bakerybliss@example.com",
+        "products": [11, 12, 13, 14, 15],
+        "orders": ["order005", "order006"]
+    },
+    {
+        "shop_id": 4,
+        "shop_name": "Supermarket Plus",
+        "shop_owner": "Sara Supermarket",
+        "address": "101 Supermarket Avenue",
+        "postal_code": 13579,
+        "phone_no": "+1 111-222-3333",
+        "email": "supermarketplus@example.com",
+        "products": [16, 17, 18, 19, 20],
+        "orders": ["order007", "order008"]
+    },
+    {
+        "shop_id": 5,
+        "shop_name": "Variety Emporium",
+        "shop_owner": "Victor Variety",
+        "address": "246 Emporium Lane",
+        "postal_code": 97531,
+        "phone_no": "+1 333-444-5555",
+        "email": "varietyemporium@example.com",
+        "products": [21, 22, 23, 24, 25],
+        "orders": ["order009", "order010"]
+    }
+]

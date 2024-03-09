@@ -1,0 +1,32 @@
+[
+    {
+        "order_id": 1,
+        "shop_id": 1,
+        "user_id": 2,
+        "type": "One-time",
+        "status": "Processing",
+        "items": [101, 102, 103],
+        "createdAt": "2024-01-23T12:10:00.000Z",
+        "updatedAt": "2024-01-23T12:10:00.000Z"
+    },
+    {
+        "order_id": 2,
+        "shop_id": 3,
+        "user_id": 4,
+        "type": "Subscription",
+        "status": "Shipped",
+        "items": [104, 105, 106],
+        "createdAt": "2024-01-23T12:15:00.000Z",
+        "updatedAt": "2024-01-23T12:15:00.000Z"
+    },
+    {
+        "order_id": 3,
+        "shop_id": 5,
+        "user_id": 1,
+        "type": "One-time",
+        "status": "Delivered",
+        "items": [107, 108, 109],
+        "createdAt": "2024-01-23T12:20:00.000Z",
+        "updatedAt": "2024-01-23T12:20:00.000Z"
+    }
+]

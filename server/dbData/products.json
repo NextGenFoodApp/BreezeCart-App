@@ -1,0 +1,237 @@
+[
+    {
+        "product_id": 1,
+        "product_name": "Tomatoes",
+        "category_id": 1,
+        "price": 2.5,
+        "shop_id": 123,
+        "items": [
+            {"size": "small", "price": 2.5},
+            {"size": "medium", "price": 3.5},
+            {"size": "large", "price": 5.0}
+        ]
+    },
+    {
+        "product_id": 2,
+        "product_name": "Milk",
+        "category_id": 2,
+        "price": 1.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 3,
+        "product_name": "Baguette",
+        "category_id": 3,
+        "price": 2.0,
+        "shop_id": 123
+    },
+    {
+        "product_id": 4,
+        "product_name": "Canned Soup",
+        "category_id": 4,
+        "price": 1.5,
+        "shop_id": 123
+    },
+    {
+        "product_id": 5,
+        "product_name": "Chicken Breast",
+        "category_id": 5,
+        "price": 7.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 6,
+        "product_name": "Orange Juice",
+        "category_id": 6,
+        "price": 3.49,
+        "shop_id": 123
+    },
+    {
+        "product_id": 7,
+        "product_name": "Potato Chips",
+        "category_id": 7,
+        "price": 1.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 8,
+        "product_name": "Frozen Pizza",
+        "category_id": 8,
+        "price": 5.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 9,
+        "product_name": "Toilet Paper",
+        "category_id": 9,
+        "price": 4.0,
+        "shop_id": 123
+    },
+    {
+        "product_id": 10,
+        "product_name": "Shampoo",
+        "category_id": 10,
+        "price": 3.5,
+        "shop_id": 123
+    },
+    {
+        "product_id": 11,
+        "product_name": "Apples",
+        "category_id": 1,
+        "price": 3.0,
+        "shop_id": 123
+    },
+    {
+        "product_id": 12,
+        "product_name": "Cheese",
+        "category_id": 2,
+        "price": 4.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 13,
+        "product_name": "Whole Wheat Bread",
+        "category_id": 3,
+        "price": 2.5,
+        "shop_id": 123
+    },
+    {
+        "product_id": 14,
+        "product_name": "Canned Vegetables",
+        "category_id": 4,
+        "price": 1.75,
+        "shop_id": 123
+    },
+    {
+        "product_id": 15,
+        "product_name": "Salmon Fillet",
+        "category_id": 5,
+        "price": 9.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 16,
+        "product_name": "Lemonade",
+        "category_id": 6,
+        "price": 2.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 17,
+        "product_name": "Chocolate Bar",
+        "category_id": 7,
+        "price": 1.49,
+        "shop_id": 123
+    },
+    {
+        "product_id": 18,
+        "product_name": "Frozen Vegetables Mix",
+        "category_id": 8,
+        "price": 4.49,
+        "shop_id": 123
+    },
+    {
+        "product_id": 19,
+        "product_name": "Paper Towels",
+        "category_id": 9,
+        "price": 3.5,
+        "shop_id": 123
+    },
+    {
+        "product_id": 20,
+        "product_name": "Body Wash",
+        "category_id": 10,
+        "price": 2.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 21,
+        "product_name": "Bananas",
+        "category_id": 1,
+        "price": 1.5,
+        "shop_id": 123
+    },
+    {
+        "product_id": 22,
+        "product_name": "Yogurt",
+        "category_id": 2,
+        "price": 3.49,
+        "shop_id": 123
+    },
+    {
+        "product_id": 23,
+        "product_name": "Croissants",
+        "category_id": 3,
+        "price": 2.75,
+        "shop_id": 123
+    },
+    {
+        "product_id": 24,
+        "product_name": "Canned Tuna",
+        "category_id": 4,
+        "price": 1.99,
+        "shop_id": 123
+    },
+    {
+        "product_id": 25,
+        "product_name": "Ground Beef",
+        "category_id": 5,
+        "price": 6.49,
+        "shop_id": 123
+    },
+    {
+        "product_id": 26,
+        "product_name": "Strawberries",
+        "category_id": 1,
+        "shop_id": 123,
+        "items": [
+            {"size": "small", "price": 3.5},
+            {"size": "medium", "price": 5.5},
+            {"size": "large", "price": 8.0}
+        ]
+    },
+    {
+        "product_id": 27,
+        "product_name": "Almond Milk",
+        "category_id": 2,
+        "shop_id": 123,
+        "items": [
+            {"flavor": "original", "price": 2.49},
+            {"flavor": "vanilla", "price": 2.99},
+            {"flavor": "chocolate", "price": 3.49}
+        ]
+    },
+    {
+        "product_id": 28,
+        "product_name": "Multigrain Baguette",
+        "category_id": 3,
+        "shop_id": 123,
+        "items": [
+            {"type": "whole grain", "price": 2.25},
+            {"type": "seeded", "price": 2.75},
+            {"type": "oat", "price": 3.0}
+        ]
+    },
+    {
+        "product_id": 29,
+        "product_name": "Organic Soup Variety Pack",
+        "category_id": 4,
+        "shop_id": 123,
+        "items": [
+            {"flavor": "tomato basil", "price": 2.0},
+            {"flavor": "chicken noodle", "price": 2.5},
+            {"flavor": "vegetable medley", "price": 2.75}
+        ]
+    },
+    {
+        "product_id": 30,
+        "product_name": "Assorted Sushi Platter",
+        "category_id": 5,
+        "shop_id": 123,
+        "items": [
+            {"type": "California roll", "price": 9.99},
+            {"type": "spicy tuna roll", "price": 11.99},
+            {"type": "salmon nigiri", "price": 8.49}
+        ]
+    }
+]

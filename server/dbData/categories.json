@@ -1,0 +1,42 @@
+[
+    {
+        "category_id": 1,
+        "category_name": "Fresh Produce"
+    },
+    {
+        "category_id": 2,
+        "category_name": "Dairy and Eggs"
+    },
+    {
+        "category_id": 3,
+        "category_name": "Bakery"
+    },
+    {
+        "category_id": 4,
+        "category_name": "Canned Goods"
+    },
+    {
+        "category_id": 5,
+        "category_name": "Meat and Seafood"
+    },
+    {
+        "category_id": 6,
+        "category_name": "Beverages"
+    },
+    {
+        "category_id": 7,
+        "category_name": "Snacks and Sweets"
+    },
+    {
+        "category_id": 8,
+        "category_name": "Frozen Foods"
+    },
+    {
+        "category_id": 9,
+        "category_name": "Household Essentials"
+    },
+    {
+        "category_id": 10,
+        "category_name": "Personal Care"
+    }
+]

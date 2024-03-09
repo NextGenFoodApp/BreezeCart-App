@@ -1,0 +1,57 @@
+[
+    {
+        "user_id": 1,
+        "name": "Admin User",
+        "email": "admin@example.com",
+        "password": "adminpassword",
+        "is_admin": true,
+        "current_bulk_id": 101,
+        "bulk_history": ["bulk001", "bulk002"],
+        "createdAt": "2024-01-23T12:00:00.000Z",
+        "updatedAt": "2024-01-23T12:00:00.000Z"
+    },
+    {
+        "user_id": 2,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "password": "userpassword",
+        "is_admin": false,
+        "current_bulk_id": 102,
+        "bulk_history": ["bulk003", "bulk004"],
+        "createdAt": "2024-01-23T12:01:00.000Z",
+        "updatedAt": "2024-01-23T12:01:00.000Z"
+    },
+    {
+        "user_id": 3,
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "password": "userpassword",
+        "is_admin": false,
+        "current_bulk_id": 103,
+        "bulk_history": ["bulk005", "bulk006"],
+        "createdAt": "2024-01-23T12:02:00.000Z",
+        "updatedAt": "2024-01-23T12:02:00.000Z"
+    },
+    {
+        "user_id": 4,
+        "name": "Chris Baker",
+        "email": "chris.baker@example.com",
+        "password": "userpassword",
+        "is_admin": false,
+        "current_bulk_id": 104,
+        "bulk_history": ["bulk007", "bulk008"],
+        "createdAt": "2024-01-23T12:03:00.000Z",
+        "updatedAt": "2024-01-23T12:03:00.000Z"
+    },
+    {
+        "user_id": 5,
+        "name": "Sara Superuser",
+        "email": "sara.superuser@example.com",
+        "password": "userpassword",
+        "is_admin": false,
+        "current_bulk_id": 105,
+        "bulk_history": ["bulk009", "bulk010"],
+        "createdAt": "2024-01-23T12:04:00.000Z",
+        "updatedAt": "2024-01-23T12:04:00.000Z"
+    }
+]
