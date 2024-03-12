@@ -40,6 +40,10 @@ const shopSchema = new Schema({
     orders:{
         type: String,
         required: true
+    },
+    logo:{
+        type: String,
+        required: true
     }
 },
 {
