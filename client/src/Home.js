@@ -3,115 +3,51 @@ import axios from 'axios';
 import { Container, Typography, Button, Grid, Card, CardMedia, CardContent } from '@mui/material';
 import styled from '@mui/material/styles/styled';
 
-// Logo Slider
+// Shop Logo Grid
+const ShopLogoGrid = () => {
+  const [images, setImages] = useState([]);
 
-const RootContainer = styled('div')({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    maxWidth: '100%',
-    height: '100%',
-  });
-  
-  const SliderContainer = styled('div')({
-    position: 'relative',
-    overflow: 'hidden',
-    maxWidth: '100%',
-    height: 600,
-    borderRadius: '8px', // Adjust as needed
-    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)', // Adjust as needed
-  });
-  
-  const Slider = styled('div')({
-    display: 'flex',
-    transition: 'transform 0.5s ease',
-  });
-  
-  const Slide = styled('div')({
-    minWidth: '40%',
-    flex: 1,
-  });
-  
-  const SlideCard = styled(Card)({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-  });
-  
-  const SlideCardContent = styled(CardContent)({
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    color: '#fff',
-    padding: '16px',
-  });
-  
-  const LogoSlider = () => {
-    const [images, setImages] = useState([]);
-    const [currentSlide, setCurrentSlide] = useState(0);
-  
-    useEffect(() => {
-      axios.get('http://localhost:3030/shops')
-        .then(response => {
-          setImages(response.data.map(shop => shop.logo));
-        })
-        .catch(error => {
-          console.error('Error fetching images:', error);
-        });
-    }, []);
-  
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCurrentSlide(current => (current === images.length - 1 ? 0 : current + 1));
-      }, 3000);
-  
-      return () => clearInterval(interval);
-    }, [images]);
-  
-    const handlePrevSlide = () => {
-      setCurrentSlide(current => (current === 0 ? images.length - 1 : current - 1));
-    };
-  
-    const handleNextSlide = () => {
-      setCurrentSlide(current => (current === images.length - 1 ? 0 : current + 1));
-    };
-  
-    return (
-      <Container maxWidth="md">
-        <RootContainer>
-          <SliderContainer>
-            <Slider style={{ transform: `translateX(-${currentSlide * (100 / images.length)}%)` }}>
-              {images.map((image, index) => (
-                <Slide key={index}>
-                  <SlideCard>
-                    <CardMedia
-                      component="img"
-                      alt={`Shop ${index}`}
-                      src={image}
-                      title={`Shop ${index}`}
-                    />
-                    <SlideCardContent>
-                      <Typography variant="h5" component="h2">
-                        Shop {index + 1}
-                      </Typography>
-                      <Typography variant="body2" component="p">
-                        Description of the shop
-                      </Typography>
-                    </SlideCardContent>
-                  </SlideCard>
-                </Slide>
-              ))}
-            </Slider>
-            <Button onClick={handlePrevSlide}>Prev</Button>
-            <Button onClick={handleNextSlide}>Next</Button>
-          </SliderContainer>
-        </RootContainer>
-      </Container>
-    );
-  };
+  useEffect(() => {
+    axios.get('http://localhost:3030/shops')
+      .then(response => {
+        setImages(response.data.map(shop => shop));
+      })
+      .catch(error => {
+        console.error('Error fetching images:', error);
+      });
+  }, []);
 
+  return (
+    <Container maxWidth="md">
+      <HeroContent>
+      <Grid container spacing={3}>
+        {images.map((image, index) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
+            <Button onClick={() =>
+                      (window.location.href = `http://localhost:3000/shops/${image.shop_id}`)
+                    }>
+              <Card>
+                <CardMedia
+                  component="img"
+                  alt={`Shop ${index}`}
+                  image={image.logo}
+                  title={`Shop ${index}`}
+                />
+              </Card>
+            </Button>
+          </Grid>
+        ))}
+      </Grid>
+      </HeroContent>
+    </Container>
+  );
+};
 
 const HeroContent = styled('div')({
   backgroundColor: theme => theme.palette.background.paper,
   padding: theme => theme.spacing(8, 0, 6),
+  marginTop: 30,
+  marginBottom: 60,
 });
 
 const CardContainer = styled(Card)({
@@ -140,7 +76,7 @@ const HomePage = () => {
             Welcome to BreezeCart
           </Typography>
           <Typography variant="h5" align="center" color="textSecondary" paragraph>
-            Your one-stop solution for all grocery needs.
+            Follow Your Doorstep
           </Typography>
           <div className="heroButtons">
             <Grid container spacing={2} justifyContent="center" justify="center">
@@ -160,9 +96,10 @@ const HomePage = () => {
       </HeroContent>
 
       {/* Shops */}
-      <LogoSlider/>
+      <ShopLogoGrid/>
 
       {/* Features Section */}
+      <HeroContent>
       <Container maxWidth="md">
         <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
           Our Features
@@ -215,36 +152,8 @@ const HomePage = () => {
           </Grid>
         </Grid>
       </Container>
+      </HeroContent>
 
-      {/* Testimonials Section */}
-      <Container maxWidth="md">
-        <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
-          What Our Customers Say
-        </Typography>
-        {/* Testimonials Cards */}
-        {/* Add your testimonials here */}
-      </Container>
-
-      {/* Call to Action Section */}
-      <Container maxWidth="md">
-        <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
-          Ready to Get Started?
-        </Typography>
-        <div className="heroButtons">
-          <Grid container spacing={2} justify="center">
-            <Grid item>
-              <Button variant="contained" color="primary">
-                Shop Now
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="outlined" color="primary">
-                Learn More
-              </Button>
-            </Grid>
-          </Grid>
-        </div>
-      </Container>
     </div>
   );
 }

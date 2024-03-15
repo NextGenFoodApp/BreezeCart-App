@@ -1,5 +1,6 @@
 const Product = require('../models/productModel');
 
+// Get all products in the database.
 exports.getAllProducts = async () => {
     try{
         const products = await Product.find();
@@ -11,6 +12,7 @@ exports.getAllProducts = async () => {
     }
 }
 
+// Get one product
 exports.getSpecificProduct = async (id) => {
     try{
         const product = await Product.findOne({product_id: id});
@@ -22,6 +24,19 @@ exports.getSpecificProduct = async (id) => {
     }
 }
 
+// Get all products in one shop
+exports.getShopProducts = async (shop_id) => {
+    try{
+        const products = await Product.find({shop_id: shop_id});
+        console.log(products);
+        return products;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+// Add new product
 exports.addNewProduct = async (product) => {
     try{
         const newProduct = new Product(product);
