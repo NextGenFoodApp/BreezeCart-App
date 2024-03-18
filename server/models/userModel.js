@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema({
         default: false
     },
     current_bulk_id: {
-        type: Number,
+        type: Array,
         required: true
     },
     bulk_history: {

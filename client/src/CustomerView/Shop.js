@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Container, Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
+import { Container, Grid, Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
 
 const ShopPage = () => {
   const { id } = useParams();
@@ -29,6 +29,16 @@ const ShopPage = () => {
       });
   }, [id]);
 
+  const handleAddToCart = (productId) => {
+    // Implement functionality to add product to cart
+    console.log('Added product to cart:', productId);
+  };
+
+  const handleAddToBulk = (productId) => {
+    // Implement functionality to add product to bulk
+    console.log('Added product to bulk:', productId);
+  };
+
   return (
     <Container maxWidth="md">
       {shopDetails && (
@@ -44,11 +54,14 @@ const ShopPage = () => {
               title={shopDetails.name}
             />
             <CardContent>
+              <Typography variant="h4" color="textSecondary">
+                {shopDetails.shop_name}
+              </Typography>
               <Typography variant="body1" color="textSecondary">
                 Address: {shopDetails.address}
               </Typography>
               <Typography variant="body1" color="textSecondary">
-                Phone: {shopDetails.phone}
+                Phone: {shopDetails.phone_no}
               </Typography>
               <Typography variant="body1" color="textSecondary">
                 Email: {shopDetails.email}
@@ -66,8 +79,8 @@ const ShopPage = () => {
             <Card>
               <CardMedia
                 component="img"
-                //alt={product.product_name}
-                //image={product.image}
+                alt={product.product_name}
+                image={product.image}
                 title={product.product_name}
               />
               <CardContent>
@@ -77,6 +90,8 @@ const ShopPage = () => {
                 <Typography variant="body2" color="textSecondary" component="p">
                   {product.price}
                 </Typography>
+                <Button variant="contained" color="primary" onClick={() => handleAddToCart(product.id)}>Add to my cart</Button>
+                <Button variant="contained" color="secondary" onClick={() => handleAddToBulk(product.id)}>Add to my bulk</Button>
               </CardContent>
             </Card>
           </Grid>

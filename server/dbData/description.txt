@@ -1,0 +1,25 @@
+bulk - Every active bulk must be delivered according to its frequency starting from the given date.
+     - A user can maintain multiple bulks with different frequencies.
+     - 5 past bulks of every user is kept saved in bulk history. Others are auto deleted.
+     - Every item of a bulk has a product_id. This depicts what is the required shop because a product is unique to a shop.
+     - So, a bulk can have products from multiple shops.
+     - So can cart.
+
+categories - product categories
+
+orders - If a user buys products from multiple shops, those are separate orders, not one.
+       - One-time order delivers the item list in user's cart.
+       - Subscription order delivers the item list in user's recurring bulk.
+       - A subscription puts multiple orders in given frequency (weekly/bi-weekly/...)
+
+products - Every product belong to a unique shop. 
+         - There can be same product in multiple shops so they are stored under different product_id's.
+         - Products without variation items have a price for itself.
+         - Products with variation items have item prices separately.
+
+shops - Every shop has a product list and an order list.
+      - Entering shop_id and password, shop owner can login to the shop profile and dashboard.
+      - In shop dashboard, owner can add/delete/update products.
+
+users - Every user has current bulks list and bulk history.
+      - According to the value of is_admin attribute, login nature is different. 

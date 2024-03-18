@@ -1,0 +1,203 @@
+[
+    {
+      "bulk_id": 1,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 2,
+          "item_id": 1,
+          "quantity": 3
+        },
+        {
+          "product_id": 3,
+          "item_id": 2,
+          "quantity": 2
+        }
+      ],
+      "frequency": "weekly",
+      "delivery_starting_date": "2024-03-20",
+      "status": "active"
+    },
+    {
+      "bulk_id": 2,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 5,
+          "item_id": null,
+          "quantity": 1
+        },
+        {
+          "product_id": 6,
+          "item_id": null,
+          "quantity": 2
+        }
+      ],
+      "frequency": "biweekly",
+      "delivery_starting_date": "2024-03-22",
+      "status": "active"
+    },
+    {
+      "bulk_id": 3,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 10,
+          "item_id": null,
+          "quantity": 1
+        },
+        {
+          "product_id": 12,
+          "item_id": null,
+          "quantity": 1
+        }
+      ],
+      "frequency": "twice a week",
+      "delivery_starting_date": "2024-03-21",
+      "status": "active"
+    },
+    {
+      "bulk_id": 4,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 17,
+          "item_id": null,
+          "quantity": 3
+        },
+        {
+          "product_id": 19,
+          "item_id": null,
+          "quantity": 2
+        }
+      ],
+      "frequency": "monthly",
+      "delivery_starting_date": "2024-03-25",
+      "status": "active"
+    },
+    {
+      "bulk_id": 5,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 20,
+          "item_id": null,
+          "quantity": 1
+        },
+        {
+          "product_id": 22,
+          "item_id": null,
+          "quantity": 2
+        }
+      ],
+      "frequency": "weekly",
+      "delivery_starting_date": "2024-03-20",
+      "status": "active"
+    },
+    {
+      "bulk_id": 6,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 25,
+          "item_id": null,
+          "quantity": 1
+        },
+        {
+          "product_id": 26,
+          "item_id": 2,
+          "quantity": 2
+        }
+      ],
+      "frequency": "weekly",
+      "delivery_starting_date": "2024-03-20",
+      "status": "active"
+    },
+    {
+      "bulk_id": 7,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 27,
+          "item_id": 1,
+          "quantity": 1
+        },
+        {
+          "product_id": 28,
+          "item_id": 2,
+          "quantity": 2
+        }
+      ],
+      "frequency": "monthly",
+      "delivery_starting_date": "2024-03-25",
+      "status": "active"
+    },
+    {
+      "bulk_id": 8,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 30,
+          "item_id": 1,
+          "quantity": 1
+        },
+        {
+          "product_id": 1,
+          "item_id": 3,
+          "quantity": 2
+        }
+      ],
+      "frequency": "twice a week",
+      "delivery_starting_date": "2024-03-21",
+      "status": "active"
+    },
+    {
+      "bulk_id": 9,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 7,
+          "item_id": null,
+          "quantity": 3
+        },
+        {
+          "product_id": 8,
+          "item_id": null,
+          "quantity": 2
+        }
+      ],
+      "frequency": "weekly",
+      "delivery_starting_date": "2024-03-20",
+      "status": "active"
+    },
+    {
+      "bulk_id": 10,
+      "createdAt": "2024-03-17",
+      "updatedAt": "2024-03-17",
+      "items": [
+        {
+          "product_id": 14,
+          "item_id": null,
+          "quantity": 1
+        },
+        {
+          "product_id": 15,
+          "item_id": null,
+          "quantity": 2
+        }
+      ],
+      "frequency": "monthly",
+      "delivery_starting_date": "2024-03-25",
+      "status": "active"
+    }
+  ]
+  

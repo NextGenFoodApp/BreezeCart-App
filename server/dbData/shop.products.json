@@ -1,0 +1,416 @@
+[{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4075"
+  },
+  "product_id": 11,
+  "product_name": "Apples",
+  "category_id": 1,
+  "price": 3,
+  "shop_id": 2,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fapple-fruit.jpg?alt=media&token=6798dc50-946b-4ecc-a888-77d95c1405a2"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4073"
+  },
+  "product_id": 9,
+  "product_name": "Cuttlery Sets",
+  "category_id": 9,
+  "price": 4,
+  "shop_id": 3,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fcuttlery%20sets.jpeg?alt=media&token=5015d890-9779-4493-a118-91040e67d3b3"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4074"
+  },
+  "product_id": 10,
+  "product_name": "Shampoo",
+  "category_id": 10,
+  "price": 3.5,
+  "shop_id": 1,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fshampoo.jpeg?alt=media&token=65391be2-63bb-4674-ac20-7b0a29157c0b"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4077"
+  },
+  "product_id": 13,
+  "product_name": "Whole Wheat Bread",
+  "category_id": 3,
+  "price": 2.5,
+  "shop_id": 5,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fbread.jpeg?alt=media&token=29c2a296-29df-4415-8dd9-f6de9131ab47"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4079"
+  },
+  "product_id": 15,
+  "product_name": "Salmon Fillet",
+  "category_id": 5,
+  "price": 9.99,
+  "shop_id": 2,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fsalmon.jpeg?alt=media&token=2c968504-d0c2-4260-9343-ba85cc62a974"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e407a"
+  },
+  "product_id": 16,
+  "product_name": "Lemonade",
+  "category_id": 6,
+  "price": 2.99,
+  "shop_id": 4,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Flemonade.jpeg?alt=media&token=8ceb9374-dfae-4da6-bd10-34be88bc2032"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e407e"
+  },
+  "product_id": 20,
+  "product_name": "Body Wash",
+  "category_id": 10,
+  "price": 2.99,
+  "shop_id": 1,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fbody%20wash.jpeg?alt=media&token=0b301f44-1737-4c25-8047-295bde73794e"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4080"
+  },
+  "product_id": 22,
+  "product_name": "Yogurt",
+  "category_id": 2,
+  "price": 3.49,
+  "shop_id": 5,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fyogurt.jpeg?alt=media&token=49e969dc-ddad-4266-ba2a-4ec7b453099e"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e406b"
+  },
+  "product_id": 1,
+  "product_name": "Tomatoes",
+  "category_id": 1,
+  "shop_id": 3,
+  "items": [
+    {
+      "size": "small",
+      "price": 2.5,
+      "item_id": 1
+    },
+    {
+      "size": "medium",
+      "price": 3.5,
+      "item_id": 2
+    },
+    {
+      "size": "large",
+      "price": 5,
+      "item_id": 3
+    }
+  ],
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Ftomatoes.webp?alt=media&token=46847031-d74d-4b7c-9046-479418ef4d34"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e406e"
+  },
+  "product_id": 4,
+  "product_name": "Canned Soup",
+  "category_id": 4,
+  "price": 1.5,
+  "shop_id": 2,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fcanned%20soup.jpg?alt=media&token=3190849f-ca94-4a58-951a-e4e7650f8094"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e407b"
+  },
+  "product_id": 17,
+  "product_name": "Chocolate Bar",
+  "category_id": 7,
+  "price": 1.49,
+  "shop_id": 4,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fchocolate.webp?alt=media&token=51d54864-1d1b-45b9-a79d-da8c9031322b"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e407c"
+  },
+  "product_id": 18,
+  "product_name": "Frozen Vegetables Mix",
+  "category_id": 8,
+  "price": 4.49,
+  "shop_id": 5,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2FFrozen%20Vegetables%20Mix.webp?alt=media&token=6b072556-ef80-4314-9e5f-119fbe78760c"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e407d"
+  },
+  "product_id": 19,
+  "product_name": "Paper Towels",
+  "category_id": 9,
+  "price": 3.5,
+  "shop_id": 1,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2FPaper%20Towels.jpeg?alt=media&token=6ab6763b-6214-4c74-b5dc-a4e641e4b26b"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e407f"
+  },
+  "product_id": 21,
+  "product_name": "Bananas",
+  "category_id": 1,
+  "price": 1.5,
+  "shop_id": 4,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fbananas.jpg?alt=media&token=2bde144d-cd7e-4565-a6c8-4e4e9daf9a26"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4081"
+  },
+  "product_id": 23,
+  "product_name": "Croissants",
+  "category_id": 3,
+  "price": 2.75,
+  "shop_id": 3,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2FCroissants.jpeg?alt=media&token=54726845-8df7-409e-9ab3-73d9c0f32d86"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4085"
+  },
+  "product_id": 27,
+  "product_name": "Almond Milk",
+  "category_id": 2,
+  "shop_id": 5,
+  "items": [
+    {
+      "flavor": "original",
+      "price": 2.49,
+      "item_id": 1
+    },
+    {
+      "flavor": "vanilla",
+      "price": 2.99,
+      "item_id": 2
+    },
+    {
+      "flavor": "chocolate",
+      "price": 3.49,
+      "item_id": 3
+    }
+  ],
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2FAlmond%20Milk.jpeg?alt=media&token=dd0bc641-f2f8-41d4-a9c0-0896f6cb4032"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4076"
+  },
+  "product_id": 12,
+  "product_name": "Cheese",
+  "category_id": 2,
+  "price": 4.99,
+  "shop_id": 1,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fcheese.jpeg?alt=media&token=511ce917-fd5b-4d10-a547-5a040336751e"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4082"
+  },
+  "product_id": 24,
+  "product_name": "Canned Tuna",
+  "category_id": 4,
+  "price": 1.99,
+  "shop_id": 4,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2FCanned%20Tuna.webp?alt=media&token=51e1b384-70e2-4e23-a22e-cf8832619a2e"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4088"
+  },
+  "product_id": 30,
+  "product_name": "Assorted Sushi Platter",
+  "category_id": 5,
+  "shop_id": 2,
+  "items": [
+    {
+      "type": "California roll",
+      "price": 9.99,
+      "item_id": 1
+    },
+    {
+      "type": "spicy tuna roll",
+      "price": 11.99,
+      "item_id": 2
+    },
+    {
+      "type": "salmon nigiri",
+      "price": 8.49,
+      "item_id": 3
+    }
+  ],
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2FAssorted%20Sushi%20Platter.jpeg?alt=media&token=a691d8b0-f51a-4847-9408-621609428eb8"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e406c"
+  },
+  "product_id": 2,
+  "product_name": "Milk",
+  "category_id": 2,
+  "price": 1.99,
+  "shop_id": 5,
+  "image": "https://firebasestorage.googleapis.com/v0/b/breezecart-app.appspot.com/o/products%2Fmilk.jpeg?alt=media&token=e171d1c8-0f03-4124-bdfc-77203a25e547"
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e406d"
+  },
+  "product_id": 3,
+  "product_name": "Baguette",
+  "category_id": 3,
+  "price": 2,
+  "shop_id": 123
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e406f"
+  },
+  "product_id": 5,
+  "product_name": "Chicken Breast",
+  "category_id": 5,
+  "price": 7.99,
+  "shop_id": 123
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4070"
+  },
+  "product_id": 6,
+  "product_name": "Orange Juice",
+  "category_id": 6,
+  "price": 3.49,
+  "shop_id": 123
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4071"
+  },
+  "product_id": 7,
+  "product_name": "Potato Chips",
+  "category_id": 7,
+  "price": 1.99,
+  "shop_id": 123
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4072"
+  },
+  "product_id": 8,
+  "product_name": "Frozen Pizza",
+  "category_id": 8,
+  "price": 5.99,
+  "shop_id": 123
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4078"
+  },
+  "product_id": 14,
+  "product_name": "Canned Vegetables",
+  "category_id": 4,
+  "price": 1.75,
+  "shop_id": 123
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4083"
+  },
+  "product_id": 25,
+  "product_name": "Ground Beef",
+  "category_id": 5,
+  "price": 6.49,
+  "shop_id": 123
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4084"
+  },
+  "product_id": 26,
+  "product_name": "Strawberries",
+  "category_id": 1,
+  "shop_id": 123,
+  "items": [
+    {
+      "size": "small",
+      "price": 3.5,
+      "item_id": 1
+    },
+    {
+      "size": "medium",
+      "price": 5.5,
+      "item_id": 2
+    },
+    {
+      "size": "large",
+      "price": 8,
+      "item_id": 3
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4086"
+  },
+  "product_id": 28,
+  "product_name": "Multigrain Baguette",
+  "category_id": 3,
+  "shop_id": 123,
+  "items": [
+    {
+      "type": "whole grain",
+      "price": 2.25,
+      "item_id": 1
+    },
+    {
+      "type": "seeded",
+      "price": 2.75,
+      "item_id": 2
+    },
+    {
+      "type": "oat",
+      "price": 3,
+      "item_id": 3
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "65b0b75e5ae6fc15f79e4087"
+  },
+  "product_id": 29,
+  "product_name": "Organic Soup Variety Pack",
+  "category_id": 4,
+  "shop_id": 123,
+  "items": [
+    {
+      "flavor": "tomato basil",
+      "price": 2,
+      "item_id": 1
+    },
+    {
+      "flavor": "chicken noodle",
+      "price": 2.5,
+      "item_id": 2
+    },
+    {
+      "flavor": "vegetable medley",
+      "price": 2.75,
+      "item_id": 3
+    }
+  ]
+}]

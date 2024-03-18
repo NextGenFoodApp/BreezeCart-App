@@ -28,6 +28,10 @@ const productSchema = new Schema({
     items:{
         type: Array,
         default: []
+    },
+    image:{
+        type: String,
+        required: true
     }
 },
 {
