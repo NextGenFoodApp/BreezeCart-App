@@ -32,3 +32,14 @@ exports.addNewShop = async (shop) => {
         console.log(err);
     }
 }
+
+exports.loginShop = async (shop_id, password) => {
+    try{
+        const shop = await Shop.findOne({shop_id:shop_id, password:password});
+        console.log(shop);
+        return shop;
+    }
+    catch(err){
+        console.log(err);
+    }
+}

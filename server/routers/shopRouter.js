@@ -30,4 +30,9 @@ router.post('/', async (req,res)=>{
     await ShopController.addNewShop(new_category);
 })
 
+router.post('/login', async(req,res)=>{
+    const {shop_id,password} = req.body;
+    await UserController.loginShop(shop_id, password);
+})
+
 module.exports = router;
