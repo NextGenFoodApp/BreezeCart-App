@@ -21,6 +21,12 @@ router.get('/s/:shop_id', async (req,res) => {
     res.send(products);
 })
 
+// Get all products in one category
+router.get('/c/:category_id', async (req,res) => {
+    const products = await ProductController.getCategoryProducts(req.params.category_id);
+    res.send(products);
+})
+
 // Add new product
 router.post('/', async (req,res)=>{
     const products = await ProductController.getAllProducts();

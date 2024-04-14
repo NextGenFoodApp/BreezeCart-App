@@ -43,6 +43,40 @@ const ShopLogoGrid = () => {
   );
 };
 
+// Category Button Grid
+const CategoryButtonGrid = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3030/categories')
+      .then(response => {
+        setCategories(response.data.map(category => category));
+      })
+      .catch(error => {
+        console.error('Error fetching categories:', error);
+      });
+  }, []);
+
+  return (
+    <Container maxWidth="md">
+      <HeroContent>
+      <Grid container spacing={3}>
+        {categories.map((category, index) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
+            <Button onClick={() =>
+                      (window.location.href = `http://localhost:3000/categories/${category.category_id}`)
+                    }>
+              {category.category_name}
+            </Button>
+          </Grid>
+        ))}
+      </Grid>
+      </HeroContent>
+    </Container>
+  );
+};
+
+
 const HeroContent = styled('div')({
   backgroundColor: theme => theme.palette.background.paper,
   padding: theme => theme.spacing(8, 0, 6),
@@ -97,6 +131,9 @@ const HomePage = () => {
 
       {/* Shops */}
       <ShopLogoGrid/>
+
+      {/* Categories */}
+      <CategoryButtonGrid/>
 
       {/* Features Section */}
       <HeroContent>

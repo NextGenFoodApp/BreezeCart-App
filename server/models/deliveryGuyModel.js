@@ -3,13 +3,13 @@ const db = require('../db');
 
 const {Schema} = mongoose;
 
-const shopSchema = new Schema({
-    shop_id:{
+const deliveryGuySchema = new Schema({
+    delivery_guy_id:{
         type: Number,
         required: true,
         unique: true 
     },
-    shop_name:{
+    name:{
         type: String,
         required: true
     },
@@ -17,16 +17,8 @@ const shopSchema = new Schema({
         type: String,
         required: true
     },
-    shop_owner:{
-        type: String,
-        required: true
-    },
     address: {
         type: String,
-        required : true 
-    },
-    postal_code: {
-        type: Number,
         required : true 
     },
     phone_no: {
@@ -37,15 +29,11 @@ const shopSchema = new Schema({
         type: String,
         required : true 
     },
-    products:{
-        type: Array,
-        default: []
-    },
-    orders:{
+    nic:{
         type: String,
-        required: true
+        required : true 
     },
-    logo:{
+    image:{
         type: String,
         required: true
     },
@@ -70,6 +58,6 @@ const shopSchema = new Schema({
     timestamps: true
 });
 
-const shopModel = db.model('shops', shopSchema);
+const deliveryGuyModel = db.model('delivery_guys', deliveryGuySchema);
 
-module.exports = shopModel;
+module.exports = deliveryGuyModel;

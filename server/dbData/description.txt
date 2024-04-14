@@ -17,7 +17,7 @@ products - Every product belong to a unique shop.
          - Products without variation items have a price for itself.
          - Products with variation items have item prices separately.
 
-shops - Every shop has a product list and an order list.
+shops - Every shop has a product list and an order list. 
       - Entering shop_id and password, shop owner can login to the shop profile and dashboard.
       - In shop dashboard, owner can add/delete/update products.
 

@@ -14,6 +14,14 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    address:{
+        type: String,
+        required: true
+    },
+    phone_no:{
+        type: String,
+        required: true
+    },
     password:{
         type: String,
         required: true 
@@ -22,13 +30,17 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    current_bulk_id: {
+    current_bulks_id: {
         type: Array,
         required: true
     },
     bulk_history: {
         type: Array,
         default : []
+    },
+    image:{
+        type: String,
+        required: true
     }
 },
 {

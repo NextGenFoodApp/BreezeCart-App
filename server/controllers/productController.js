@@ -36,6 +36,18 @@ exports.getShopProducts = async (shop_id) => {
     }
 }
 
+// Get all products in one category
+exports.getCategoryProducts = async (category_id) => {
+    try{
+        const products = await Product.find({category_id: category_id});
+        console.log(products);
+        return products;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 // Add new product
 exports.addNewProduct = async (product) => {
     try{

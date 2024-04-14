@@ -3,23 +3,23 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Container, Grid, Card, CardMedia, CardContent, Typography, Button, Link } from '@mui/material';
 
-const ShopPage = () => {
+const CategoryPage = () => {
   const { id } = useParams();
-  const [shopDetails, setShopDetails] = useState(null);
+  const [categoryDetails, setCategoryDetails] = useState(null);
   const [products, setProducts] = useState([]);
 
   useEffect( () => {
-    // Fetch shop details
-    axios.get(`http://localhost:3030/shops/${id}`)
+    // Fetch category details
+    axios.get(`http://localhost:3030/categories/${id}`)
       .then(response => {
-        setShopDetails(response.data);
+        setCategoryDetails(response.data);
       })
       .catch(error => {
         console.error('Error fetching shop details:', error);
       });
 
-    // Fetch products of the shop
-    axios.get(`http://localhost:3030/products/s/${id}`)
+    // Fetch products of the category
+    axios.get(`http://localhost:3030/products/c/${id}`)
       .then(response => {
         setProducts(response.data);
         console.log(response);
@@ -31,33 +31,11 @@ const ShopPage = () => {
 
   return (
     <Container maxWidth="md">
-      {shopDetails && (
+      {categoryDetails && (
         <div>
           <Typography variant="h4" gutterBottom>
-            {shopDetails.name}
+            {categoryDetails.category_name}
           </Typography>
-          <Card>
-            <CardMedia
-              component="img"
-              alt={shopDetails.name}
-              image={shopDetails.logo}
-              title={shopDetails.name}
-            />
-            <CardContent>
-              <Typography variant="h4" color="textSecondary">
-                {shopDetails.shop_name}
-              </Typography>
-              <Typography variant="body1" color="textSecondary">
-                Address: {shopDetails.address}
-              </Typography>
-              <Typography variant="body1" color="textSecondary">
-                Phone: {shopDetails.phone_no}
-              </Typography>
-              <Typography variant="body1" color="textSecondary">
-                Email: {shopDetails.email}
-              </Typography>
-            </CardContent>
-          </Card>
         </div>
       )}
       <Typography variant="h5" gutterBottom style={{ marginTop: '20px' }}>
@@ -92,4 +70,4 @@ const ShopPage = () => {
   );
 };
 
-export default ShopPage;
+export default CategoryPage;
