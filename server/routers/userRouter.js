@@ -9,17 +9,19 @@ router.get('/', async(req,res)=>{
 })
 
 router.get('/:id', async(req,res)=>{
-    const user = await UserController.getSpecificUsers(req.params.id);
+    const user = await UserController.getSpecificUser(req.params.id);
     res.send(user);
 })
 
 router.post('/register', async(req,res)=>{
-    await UserController.registerUser(req.body);
+    const user = await UserController.registerUser(req.body);
+    res.send(user);
 })
 
 router.post('/login', async(req,res)=>{
     const {email,password} = req.body;
-    await UserController.loginUser(email, password);
+    const user = await UserController.loginUser(email, password);
+    res.send(user);
 })
 
 router.post('/', async (req,res)=>{
@@ -35,7 +37,8 @@ router.post('/', async (req,res)=>{
         is_admin : req.body.is_admin,
         current_bulks_id : [],
         bulk_history : [],
-        image : req.body.image
+        image : req.body.image,
+        cart : [],
     }
     await ShopController.addNewShop(new_user);
 })

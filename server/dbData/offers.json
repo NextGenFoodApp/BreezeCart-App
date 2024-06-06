@@ -1,0 +1,82 @@
+[
+    {
+        "offer_id": 1,
+        "shop_id": 1,
+        "description": "20% off on all electronics",
+        "image": "https://example.com/images/electronics.jpg",
+        "start_date": "2024-06-01",
+        "end_date": "2024-06-15"
+    },
+    {
+        "offer_id": 2,
+        "shop_id": 2,
+        "description": "Buy 1 Get 1 Free on all clothing items",
+        "image": "https://example.com/images/clothing.jpg",
+        "start_date": "2024-06-05",
+        "end_date": "2024-06-20"
+    },
+    {
+        "offer_id": 3,
+        "shop_id": 3,
+        "description": "30% off on all groceries",
+        "image": "https://example.com/images/groceries.jpg",
+        "start_date": "2024-06-10",
+        "end_date": "2024-06-25"
+    },
+    {
+        "offer_id": 4,
+        "shop_id": 4,
+        "description": "15% off on all furniture",
+        "image": "https://example.com/images/furniture.jpg",
+        "start_date": "2024-06-01",
+        "end_date": "2024-06-30"
+    },
+    {
+        "offer_id": 5,
+        "shop_id": 5,
+        "description": "Free shipping on orders over $50",
+        "image": "https://example.com/images/shipping.jpg",
+        "start_date": "2024-06-15",
+        "end_date": "2024-07-15"
+    },
+    {
+        "offer_id": 6,
+        "shop_id": 1,
+        "description": "10% off on all books",
+        "image": "https://example.com/images/books.jpg",
+        "start_date": "2024-06-20",
+        "end_date": "2024-07-05"
+    },
+    {
+        "offer_id": 7,
+        "shop_id": 2,
+        "description": "Free gift with every purchase over $100",
+        "image": "https://example.com/images/gift.jpg",
+        "start_date": "2024-06-25",
+        "end_date": "2024-07-10"
+    },
+    {
+        "offer_id": 8,
+        "shop_id": 3,
+        "description": "25% off on all beauty products",
+        "image": "https://example.com/images/beauty.jpg",
+        "start_date": "2024-07-01",
+        "end_date": "2024-07-15"
+    },
+    {
+        "offer_id": 9,
+        "shop_id": 4,
+        "description": "Buy 2 Get 1 Free on all toys",
+        "image": "https://example.com/images/toys.jpg",
+        "start_date": "2024-07-05",
+        "end_date": "2024-07-20"
+    },
+    {
+        "offer_id": 10,
+        "shop_id": 5,
+        "description": "50% off on selected items",
+        "image": "https://example.com/images/selected_items.jpg",
+        "start_date": "2024-07-10",
+        "end_date": "2024-07-25"
+    }
+]

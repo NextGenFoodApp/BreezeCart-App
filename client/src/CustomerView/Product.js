@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography, Link, Grid, Card, CardMedia, Button } from '@mui/material';
+import { Typography, Link, Grid, Card, CardMedia, Button, TextField } from '@mui/material';
 import axios from 'axios';
 
 const ProductPage = () => {
@@ -8,6 +8,7 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [category, setCategory] = useState(null);
   const [shop, setShop] = useState(null);
+  const [quantity, setQuantity] = useState(1); // State for quantity
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -27,6 +28,10 @@ const ProductPage = () => {
 
     fetchProduct();
   }, [id]);
+
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
 
   const handleAddToCart = (productId) => {
     // Implement functionality to add product to cart
@@ -74,6 +79,14 @@ const ProductPage = () => {
                 Size: {item.size}, Price: ${item.price}
               </Typography>
             ))}
+            <TextField
+              label="Quantity"
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
+              inputProps={{ min: 1 }}
+              style={{ marginBottom: '16px' }}
+            />
             <Button variant="contained" color="primary" onClick={() => handleAddToCart(product.id)}>Add to my cart</Button>
             <Button variant="contained" color="secondary" onClick={() => handleAddToBulk(product.id)}>Add to my bulk</Button>
           </Grid>

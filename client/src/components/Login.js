@@ -27,7 +27,7 @@ const Login = () => {
 
   const handleShopOwnerLogin = async () => {
     try {
-        const response = await axios.post('http://localhost:3030/shops/login', { shopId, password: shopPassword });
+        const response = await axios.post('http://localhost:3030/shops/login', { shop_id: shopId, password: shopPassword });
         console.log("Shop Owner Login: ", shopId, shopPassword);
         localStorage.setItem('shop', JSON.stringify(response.data));
         console.log(localStorage.getItem('shop'));

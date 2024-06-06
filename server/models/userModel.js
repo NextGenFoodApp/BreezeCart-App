@@ -41,6 +41,9 @@ const userSchema = mongoose.Schema({
     image:{
         type: String,
         required: true
+    },
+    cart:{
+        type: Array
     }
 },
 {

@@ -38,7 +38,8 @@ router.post('/', async (req,res)=>{
 
 router.post('/login', async(req,res)=>{
     const {shop_id,password} = req.body;
-    await UserController.loginShop(shop_id, password);
+    const shop = await UserController.loginShop(shop_id, password);
+    res.send(shop);
 })
 
 module.exports = router;
