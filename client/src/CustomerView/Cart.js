@@ -6,6 +6,7 @@ import axios from 'axios';
 const CartPage = () => {
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState([]);
+  const [cartDetails, setCartDetails] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,6 +15,7 @@ const CartPage = () => {
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         setUser(parsedUser);
+        console.log(parsedUser);
 
         if (parsedUser.user_id) {
           try {
@@ -33,6 +35,33 @@ const CartPage = () => {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    const fetchCartDetails = async () => {
+      const cartDetails = await Promise.all(cart.map(async (cartItem) => {
+        try {
+          const productResponse = await axios.get(`http://localhost:3030/products/${cartItem.product_id}`);
+          const product = productResponse.data;
+          const item = product.items.find(item => item.item_id === cartItem.item_id);
+          return {
+            product_name: product.product_name,
+            unit: item.unit,
+            unit_price: item.price,
+            quantity: cartItem.quantity,
+            total_price: item.price * cartItem.quantity
+          };
+        } catch (error) {
+          console.error('Error fetching product data:', error);
+          return null;
+        }
+      }));
+
+      setCartDetails(cartDetails.filter(detail => detail !== null));
+    };
+
+    if (cart.length > 0) {
+      fetchCartDetails();
+    }
+  }, [cart]);
 
   const handleCheckout = () => {
     navigate('/checkout');
@@ -44,7 +73,7 @@ const CartPage = () => {
   };
 
   const calculateTotal = () => {
-    return cart.reduce((total, product) => total + (product.unit_price * product.quantity), 0);
+    return cartDetails.reduce((total, item) => total + item.total_price, 0);
   };
 
   return (
@@ -65,21 +94,21 @@ const CartPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {cart.map((product) => (
-                <TableRow key={product.id}>
-                  <TableCell>{product.product_name}</TableCell>
-                  <TableCell>{product.variation ? product.variation : '-'}</TableCell>
-                  <TableCell align="right">${product.unit_price}</TableCell>
-                  <TableCell align="right">{product.quantity}</TableCell>
-                  <TableCell align="right">${(product.unit_price * product.quantity)}</TableCell>
+              {cartDetails.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{item.product_name}</TableCell>
+                  <TableCell>{item.unit}</TableCell>
+                  <TableCell align="right">${item.unit_price.toFixed(2)}</TableCell>
+                  <TableCell align="right">{item.quantity}</TableCell>
+                  <TableCell align="right">${item.total_price.toFixed(2)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
-      <Grid item xs={12} style={{ textAlign: 'right', marginTop: '20px' }}>
-        <Typography variant="h6">Total Cart Value: ${calculateTotal()}</Typography>
+      <Grid item xs={12} md={8} style={{ textAlign: 'right', marginTop: '20px' }}>
+        <Typography variant="h6">Total Cart Value: ${calculateTotal().toFixed(2)}</Typography>
         <Button variant="contained" color="primary" onClick={handleCheckout} style={{ margin: '10px' }}>
           Checkout
         </Button>
