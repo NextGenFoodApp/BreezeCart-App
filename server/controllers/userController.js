@@ -43,3 +43,37 @@ exports.loginUser = async (email, password) => {
         console.log(err);
     }
 }
+
+// Add an item to cart 
+exports.addToCart = async (id, item) => {
+    try{
+        const user = await User.findOne({user_id : id});
+        let userCart = user.cart;
+        userCart.push(item);
+        await User.updateOne(
+            {user_id : id},
+            {$set: {cart: userCart}}
+        );
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+// Delete an item from the cart
+exports.deleteItemFromCart = async (id, index) => {
+    try{
+        const user = await User.findOne({user_id : id});
+        let userCart = user.cart;
+        const newCart = userCart.filter((_,i) => i !== index);
+        console.log(index);
+        console.log(newCart);
+        await User.updateOne(
+            {user_id : id},
+            {$set: {cart: newCart}}
+        );
+    }
+    catch(err){
+        console.log(err);
+    }
+}

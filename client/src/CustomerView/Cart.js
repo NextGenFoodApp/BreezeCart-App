@@ -1,67 +1,110 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, TextField } from '@mui/material';
+import { Delete, Check } from '@mui/icons-material';
 import axios from 'axios';
 
 const CartPage = () => {
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState([]);
   const [cartDetails, setCartDetails] = useState([]);
+  const [quantityChanges, setQuantityChanges] = useState({});
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
+  const fetchUserData = async () => {
+    try {
       const storedUser = localStorage.getItem('user');
+      console.log(localStorage);
+      console.log(localStorage.getItem('user'));
+      console.log(storedUser);
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         setUser(parsedUser);
-        console.log(parsedUser);
+        console.log('Parsed user:', parsedUser);
 
-        if (parsedUser.user_id) {
+        if (parsedUser && parsedUser.user_id) {
           try {
             const response = await axios.get(`http://localhost:3030/users/${parsedUser.user_id}`);
             setCart(response.data.cart);
+            console.log('Cart data:', response.data.cart);
           } catch (error) {
-            console.error('Error fetching user data:', error);
+            console.error('Error fetching user data from API:', error);
           }
         } else {
-          console.error('No user ID found');
+          console.error('No user ID found in the parsed user object');
         }
       } else {
         console.error('No user found in localStorage');
       }
-    };
-
-    fetchUserData();
-  }, []);
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchCartDetails = async () => {
-      const cartDetails = await Promise.all(cart.map(async (cartItem) => {
-        try {
-          const productResponse = await axios.get(`http://localhost:3030/products/${cartItem.product_id}`);
-          const product = productResponse.data;
-          const item = product.items.find(item => item.item_id === cartItem.item_id);
-          return {
-            product_name: product.product_name,
-            unit: item.unit,
-            unit_price: item.price,
-            quantity: cartItem.quantity,
-            total_price: item.price * cartItem.quantity
-          };
-        } catch (error) {
-          console.error('Error fetching product data:', error);
-          return null;
-        }
-      }));
+    fetchUserData();
+  }, []); // The empty array ensures this runs only once when the component mounts
 
-      setCartDetails(cartDetails.filter(detail => detail !== null));
-    };
+  const fetchCartDetails = async () => {
+    const cartDetails = await Promise.all(cart.map(async (cartItem) => {
+      try {
+        const productResponse = await axios.get(`http://localhost:3030/products/${cartItem.product_id}`);
+        const product = productResponse.data;
+        const item = product.items.find(item => item.item_id === cartItem.item_id);
+        return {
+          product_name: product.product_name,
+          unit: item.unit,
+          unit_price: item.price,
+          quantity: cartItem.quantity,
+          total_price: item.price * cartItem.quantity
+        };
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+        return null;
+      }
+    }));
 
+    setCartDetails(cartDetails.filter(detail => detail !== null));
+  };
+
+  useEffect(() => {
     if (cart.length > 0) {
       fetchCartDetails();
     }
   }, [cart]);
+
+  const handleQuantityChange = (index, value) => {
+    setQuantityChanges({
+      ...quantityChanges,
+      [index]: value,
+    });
+  };
+
+  const handleConfirmChange = (index) => {
+    const newCartDetails = [...cartDetails];
+    newCartDetails[index].quantity = quantityChanges[index];
+    newCartDetails[index].total_price = newCartDetails[index].unit_price * quantityChanges[index];
+    setCartDetails(newCartDetails);
+    setQuantityChanges({
+      ...quantityChanges,
+      [index]: undefined,
+    });
+    // Update the cart in the backend
+    // ...
+  };
+
+  const handleDelete = async(index) => {
+    const newCartDetails = cartDetails.filter((_, i) => i !== index);
+    setCartDetails(newCartDetails);
+    await axios.post('http://localhost:3030/users/delete-item-from-cart',
+      {
+        userId: user.user_id,
+        deleteItemIndex: index
+      }
+    );
+    fetchUserData();
+    fetchCartDetails();
+  };
 
   const handleCheckout = () => {
     navigate('/checkout');
@@ -91,6 +134,7 @@ const CartPage = () => {
                 <TableCell style={{ fontWeight: 'bold' }} align="right">Unit Price</TableCell>
                 <TableCell style={{ fontWeight: 'bold' }} align="right">Quantity</TableCell>
                 <TableCell style={{ fontWeight: 'bold' }} align="right">Total Price</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }} align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -99,8 +143,24 @@ const CartPage = () => {
                   <TableCell>{item.product_name}</TableCell>
                   <TableCell>{item.unit}</TableCell>
                   <TableCell align="right">${item.unit_price.toFixed(2)}</TableCell>
-                  <TableCell align="right">{item.quantity}</TableCell>
+                  <TableCell align="right">
+                    <TextField
+                      type="number"
+                      value={quantityChanges[index] !== undefined ? quantityChanges[index] : item.quantity}
+                      onChange={(e) => handleQuantityChange(index, parseInt(e.target.value, 10))}
+                      inputProps={{ min: 1 }}
+                      size="small"
+                    />
+                  </TableCell>
                   <TableCell align="right">${item.total_price.toFixed(2)}</TableCell>
+                  <TableCell align="center">
+                    <IconButton color="primary" onClick={() => handleConfirmChange(index)}>
+                      <Check style={{ color: 'green' }} />
+                    </IconButton>
+                    <IconButton color="secondary" onClick={() => handleDelete(index)}>
+                      <Delete style={{ color: 'red' }} />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

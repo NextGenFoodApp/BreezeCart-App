@@ -59,3 +59,4 @@ exports.addNewProduct = async (product) => {
         console.log(err);
     }
 }
+

@@ -17,12 +17,12 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
-    price:{
-        type: Number,
-        required: true
-    },
     shop_id:{
         type: Number,
+        required: true 
+    },
+    attribute:{
+        type: String,
         required: true 
     },
     items:{

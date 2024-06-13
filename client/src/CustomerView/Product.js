@@ -7,9 +7,32 @@ const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [category, setCategory] = useState(null);
+  const [user, setUser] = useState(null);
   const [shop, setShop] = useState(null);
   const [quantity, setQuantity] = useState(1); // State for quantity
   const [selectedItem, setSelectedItem] = useState(null); // State for selected variation item
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const storedUser = localStorage.getItem('user');
+        console.log(localStorage);
+        console.log(localStorage.getItem('user'))
+        console.log(storedUser);
+        if (storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+          console.log('Parsed user:', parsedUser);
+        } else {
+          console.error('No user found in localStorage');
+        }
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -35,14 +58,26 @@ const ProductPage = () => {
     setQuantity(event.target.value);
   };
 
-  const handleAddToCart = (productId) => {
-    // Implement functionality to add product to cart
-    console.log('Added product to cart:', productId);
+  const handleAddToCart = async (itemId) => {
+    console.log('Added product to cart: ', product.product_id);
+    console.log('Added item: ', itemId);
+    console.log('Added quantity: ', quantity);
+    await axios.post('http://localhost:3030/users/add-to-cart',
+      {
+        userId: user.user_id,
+        addItem: {
+          item_id: itemId,
+          product_id: product.product_id,
+          quantity: +quantity
+        }
+      }
+    );
   };
 
-  const handleAddToBulk = (productId) => {
-    // Implement functionality to add product to bulk
-    console.log('Added product to bulk:', productId);
+  const handleAddToBulk = (itemId) => {
+    console.log('Added product to bulk:', product.product_id);
+    console.log('Added item: ', itemId);
+    console.log('Added quantity: ', quantity);
   };
 
   const handleItemClick = (item) => {
@@ -131,7 +166,7 @@ const ProductPage = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => handleAddToCart(product.id)}
+                  onClick={() => handleAddToCart(selectedItem ? selectedItem.item_id : 0)}
                   sx={{ flex: 1 }}
                 >
                   Add to my cart
@@ -139,7 +174,7 @@ const ProductPage = () => {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={() => handleAddToBulk(product.id)}
+                  onClick={() => handleAddToBulk(selectedItem ? selectedItem.item_id : 0)}
                   sx={{ flex: 1 }}
                 >
                   Add to my bulk

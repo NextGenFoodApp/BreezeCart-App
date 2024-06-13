@@ -43,4 +43,12 @@ router.post('/', async (req,res)=>{
     await ShopController.addNewShop(new_user);
 })
 
+router.post('/add-to-cart', async(req,res)=>{
+    await UserController.addToCart(req.body.userId, req.body.addItem);
+})
+
+router.post('/delete-item-from-cart', async(req,res)=>{
+    await UserController.deleteItemFromCart(req.body.userId, req.body.deleteItemIndex);
+})
+
 module.exports = router;
