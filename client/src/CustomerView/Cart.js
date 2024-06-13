@@ -80,17 +80,22 @@ const CartPage = () => {
     });
   };
 
-  const handleConfirmChange = (index) => {
+  const handleConfirmChange = async(index) => {
     const newCartDetails = [...cartDetails];
-    newCartDetails[index].quantity = quantityChanges[index];
-    newCartDetails[index].total_price = newCartDetails[index].unit_price * quantityChanges[index];
+    newCartDetails[index].quantity = quantityChanges[index] ? quantityChanges[index] : newCartDetails[index].quantity;
+    newCartDetails[index].total_price = newCartDetails[index].unit_price * newCartDetails[index].quantity;
     setCartDetails(newCartDetails);
+    await axios.post('http://localhost:3030/users/update-cart-item-quantity',
+      {
+        userId: user.user_id,
+        updateItemIndex: index,
+        newQuantity: quantityChanges[index] 
+      }
+    );
     setQuantityChanges({
       ...quantityChanges,
       [index]: undefined,
     });
-    // Update the cart in the backend
-    // ...
   };
 
   const handleDelete = async(index) => {

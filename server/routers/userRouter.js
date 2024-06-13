@@ -51,4 +51,8 @@ router.post('/delete-item-from-cart', async(req,res)=>{
     await UserController.deleteItemFromCart(req.body.userId, req.body.deleteItemIndex);
 })
 
+router.post('/update-cart-item-quantity', async(req,res)=>{
+    await UserController.updateCartItemQuantity(req.body.userId, req.body.updateItemIndex, req.body.newQuantity);
+})
+
 module.exports = router;

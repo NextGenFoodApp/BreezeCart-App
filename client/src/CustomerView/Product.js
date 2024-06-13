@@ -166,16 +166,18 @@ const ProductPage = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => handleAddToCart(selectedItem ? selectedItem.item_id : 0)}
+                  onClick={() => handleAddToCart(selectedItem ? selectedItem.item_id : 1)}
                   sx={{ flex: 1 }}
+                  disabled={!selectedItem && product.items.length > 1}
                 >
                   Add to my cart
                 </Button>
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={() => handleAddToBulk(selectedItem ? selectedItem.item_id : 0)}
+                  onClick={() => handleAddToBulk(selectedItem ? selectedItem.item_id : 1)}
                   sx={{ flex: 1 }}
+                  disabled={!selectedItem && product.items.length > 1}
                 >
                   Add to my bulk
                 </Button>

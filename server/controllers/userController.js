@@ -49,7 +49,14 @@ exports.addToCart = async (id, item) => {
     try{
         const user = await User.findOne({user_id : id});
         let userCart = user.cart;
-        userCart.push(item);
+        let updated = false;
+        userCart.map((i,index) => {
+            if(i.product_id === item.product_id && i.item_id === item.item_id){
+                userCart[index].quantity += item.quantity;
+                updated = true;
+            }
+        });
+        if(!updated) userCart.push(item); 
         await User.updateOne(
             {user_id : id},
             {$set: {cart: userCart}}
@@ -71,6 +78,22 @@ exports.deleteItemFromCart = async (id, index) => {
         await User.updateOne(
             {user_id : id},
             {$set: {cart: newCart}}
+        );
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+// Update quantity of a cart item 
+exports.updateCartItemQuantity = async (id, index, newQuantity) => {
+    try{
+        const user = await User.findOne({user_id : id});
+        let userCart = user.cart;
+        userCart[index].quantity = newQuantity;
+        await User.updateOne(
+            {user_id : id},
+            {$set: {cart: userCart}}
         );
     }
     catch(err){
