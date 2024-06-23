@@ -15,7 +15,7 @@ exports.getAllBulks = async () => {
 // Get one bulk
 exports.getSpecificBulk = async (id) => {
     try{
-        const bulk = await bulk.findOne({bulk_id: id});
+        const bulk = await Bulk.findOne({bulk_id: id});
         console.log(bulk);
         return bulk;
     }

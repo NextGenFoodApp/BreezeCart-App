@@ -53,6 +53,9 @@ const NavBar = () => {
         <Button color="inherit" component={Link} to="/cart">
           Cart
         </Button>
+        <Button color="inherit" component={Link} to="/bulks">
+          Bulks
+        </Button>
       </Toolbar>
     </AppBar>
   );

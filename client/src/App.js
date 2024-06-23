@@ -10,6 +10,7 @@ import ProductPage from "./CustomerView/Product";
 import CategoryPage from "./CustomerView/Category";
 import Register from "./components/Register";
 import CartPage from "./CustomerView/Cart";
+import Bulks from "./CustomerView/Bulks";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path='/shopownerview/dashboard' element={<ShopDashboard/>} />
           <Route path='/products/:id' element={<ProductPage/>} /> 
           <Route path='/cart' element={<CartPage/>} /> 
+          <Route path='/bulks' element={<Bulks/>} /> 
         </Routes>
     </div>
   )

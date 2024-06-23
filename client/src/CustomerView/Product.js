@@ -62,7 +62,7 @@ const ProductPage = () => {
     console.log('Added product to cart: ', product.product_id);
     console.log('Added item: ', itemId);
     console.log('Added quantity: ', quantity);
-    await axios.post('http://localhost:3030/users/add-to-cart',
+    if(user) await axios.post('http://localhost:3030/users/add-to-cart',
       {
         userId: user.user_id,
         addItem: {
@@ -72,6 +72,7 @@ const ProductPage = () => {
         }
       }
     );
+    else window.location.href = '/login';
   };
 
   const handleAddToBulk = (itemId) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, TextField } from '@mui/material';
+import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, TextField, Box } from '@mui/material';
 import { Delete, Check } from '@mui/icons-material';
 import axios from 'axios';
 
@@ -171,6 +171,12 @@ const CartPage = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        {cartDetails.length === 0 && (
+            <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
+              <Typography variant='h6' align='center'>Cart is empty.</Typography>
+              <Button variant='contained' color='primary' href='/login'>Login</Button>
+            </Box>
+        )}
       </Grid>
       <Grid item xs={12} md={8} style={{ textAlign: 'right', marginTop: '20px' }}>
         <Typography variant="h6">Total Cart Value: ${calculateTotal().toFixed(2)}</Typography>

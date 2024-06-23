@@ -9,6 +9,14 @@ const bulkSchema = new Schema({
         required: true,
         unique: true 
     },
+    createdAt:{
+        type: Date,
+        required: true
+    },
+    updatedAt:{
+        type: Date,
+        required: true
+    },
     items:{
         type: Array,
         default: []
@@ -30,6 +38,6 @@ const bulkSchema = new Schema({
     timestamps: true
 });
 
-const orderModel = db.model('orders', orderSchema);
+const bulkModel = db.model('bulks', bulkSchema);
 
-module.exports = orderModel;
+module.exports = bulkModel; 
