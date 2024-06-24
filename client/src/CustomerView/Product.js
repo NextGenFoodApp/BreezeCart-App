@@ -75,10 +75,21 @@ const ProductPage = () => {
     else window.location.href = '/login';
   };
 
-  const handleAddToBulk = (itemId) => {
+  const handleAddToBulk = async (itemId) => {
     console.log('Added product to bulk:', product.product_id);
     console.log('Added item: ', itemId);
     console.log('Added quantity: ', quantity);
+    if(user) await axios.post('http://localhost:3030/bulks/add-to-bulk',
+      {
+        bulkId: JSON.parse(localStorage.getItem('bulk_id')),
+        addItem: {
+          item_id: itemId,
+          product_id: product.product_id,
+          quantity: +quantity
+        }
+      }
+    );
+    else window.location.href = '/login';
   };
 
   const handleItemClick = (item) => {

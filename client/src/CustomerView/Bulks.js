@@ -9,7 +9,7 @@ const Bulks = () => {
   const [user, setUser] = useState(null);
   const [currentBulks, setCurrentBulks] = useState([]);
   const [bulkHistory, setBulkHistory] = useState([]);
-  const [selectedBulkId, setSelectedBulkId] = useState(null);
+  const [selectedBulkId, setSelectedBulkId] = useState(localStorage.getItem('bulk_id'));
   const [selectedBulk, setSelectedBulk] = useState([]);
   const [selectedBulkDetails, setSelectedBulkDetails] = useState([]);
   const [quantityChanges, setQuantityChanges] = useState({});
@@ -92,15 +92,41 @@ const Bulks = () => {
 
 
   const handleQuantityChange = (index, value) => {
-    
+    setQuantityChanges({
+      ...quantityChanges,
+      [index]: value,
+    });
   };
 
   const handleConfirmChange = async(index) => {
-    
+    const newSelectedBulkDetails = [...selectedBulkDetails];
+    newSelectedBulkDetails[index].quantity = quantityChanges[index] ? quantityChanges[index] : newSelectedBulkDetails[index].quantity;
+    newSelectedBulkDetails[index].total_price = newSelectedBulkDetails[index].unit_price * newSelectedBulkDetails[index].quantity;
+    setSelectedBulkDetails(newSelectedBulkDetails);
+    await axios.post('http://localhost:3030/bulks/update-bulk-item-quantity',
+      {
+        bulkId: JSON.parse(localStorage.getItem('bulk_id')),
+        updateItemIndex: index,
+        newQuantity: quantityChanges[index] 
+      }
+    );
+    setQuantityChanges({
+      ...quantityChanges,
+      [index]: undefined,
+    });
   };
 
   const handleDelete = async(index) => {
-  
+    const newSelectedBulkDetails = selectedBulkDetails.filter((_, i) => i !== index);
+    setSelectedBulkDetails(newSelectedBulkDetails);
+    await axios.post('http://localhost:3030/bulks/delete-item-from-bulk',
+      {
+        bulkId: JSON.parse(localStorage.getItem('bulk_id')),
+        deleteItemIndex: index
+      }
+    );
+    fetchUserData();
+    fetchBulkDetails();
   };
 
   const handleCheckout = () => {

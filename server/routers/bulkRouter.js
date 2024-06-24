@@ -29,4 +29,17 @@ router.post('/', async (req,res)=>{
     await BulkController.addNewBulk(new_bulk);
 })
 
+// Add an item to a bulk  
+router.post('/add-to-bulk', async(req,res)=>{
+    await BulkController.addToBulk(req.body.bulkId, req.body.addItem);
+})
+
+router.post('/delete-item-from-bulk', async(req,res)=>{
+    await BulkController.deleteItemFromBulk(req.body.bulkId, req.body.deleteItemIndex);
+})
+
+router.post('/update-bulk-item-quantity', async(req,res)=>{
+    await BulkController.updateBulkItemQuantity(req.body.bulkId, req.body.updateItemIndex, req.body.newQuantity);
+})
+
 module.exports = router;

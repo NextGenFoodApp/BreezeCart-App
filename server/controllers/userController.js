@@ -100,3 +100,4 @@ exports.updateCartItemQuantity = async (id, index, newQuantity) => {
         console.log(err);
     }
 }
+
