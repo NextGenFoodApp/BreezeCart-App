@@ -59,6 +59,31 @@ exports.addToBulk = async (id, item) => {
     }
 }
 
+// Add cart items to a bulk  
+exports.addCartToBulk = async (id, cartItems) => {
+    try{
+        const bulk = await Bulk.findOne({bulk_id : id});
+        let bulkItems = bulk.items;
+        for(const item of cartItems){
+            let updated = false;
+            bulkItems.map((i,index) => {
+                if(i.product_id === item.product_id && i.item_id === item.item_id){
+                    bulkItems[index].quantity += item.quantity;
+                    updated = true;
+                }
+            });
+            if(!updated) bulkItems.push(item); 
+        }
+        await Bulk.updateOne(
+            {bulk_id : id},
+            {$set: {items: bulkItems}}
+        );
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 // Delete an item from a bulk 
 exports.deleteItemFromBulk = async (id, index) => {
     try{
@@ -85,7 +110,7 @@ exports.updateBulkItemQuantity = async (id, index, newQuantity) => {
         bulkItems[index].quantity = newQuantity;
         await Bulk.updateOne(
             {bulk_id : id},
-            {$set: {items: bulkItems}}
+            {$set: {items: bulkItems}} 
         );
     }
     catch(err){

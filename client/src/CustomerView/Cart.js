@@ -115,10 +115,31 @@ const CartPage = () => {
     navigate('/checkout');
   };
 
-  const handleAddToBulk = () => {
-    // Implement functionality to add cart to bulk
-    console.log('Cart added to bulk');
+  const handleAddCartToBulk = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3030/users/${user.user_id}`);
+      const user_cart = response.data.cart;
+      console.log(user_cart);
+  
+      const bulk_id = JSON.parse(localStorage.getItem('bulk_id'));
+      if (!user) {
+        window.location.href = '/login';
+        return;
+      }
+  
+      await axios.post(`http://localhost:3030/bulks/add-cart-to-bulk`,
+        {
+          bulkId: bulk_id,
+          addItemSet: user_cart
+        }
+      );
+  
+      console.log('Cart added to bulk');
+    } catch (error) {
+      console.error('Error adding cart to bulk:', error);
+    }
   };
+  
 
   const calculateTotal = () => {
     return cartDetails.reduce((total, item) => total + item.total_price, 0);
@@ -183,7 +204,7 @@ const CartPage = () => {
         <Button variant="contained" color="primary" onClick={handleCheckout} style={{ margin: '10px' }}>
           Checkout
         </Button>
-        <Button variant="contained" color="secondary" onClick={handleAddToBulk}>
+        <Button variant="contained" color="secondary" onClick={handleAddCartToBulk}>
           Add Cart to My Bulk
         </Button>
       </Grid>

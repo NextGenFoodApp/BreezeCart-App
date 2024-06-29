@@ -34,6 +34,11 @@ router.post('/add-to-bulk', async(req,res)=>{
     await BulkController.addToBulk(req.body.bulkId, req.body.addItem);
 })
 
+// Add cart items to a bulk  
+router.post('/add-cart-to-bulk', async(req,res)=>{
+    await BulkController.addCartToBulk(req.body.bulkId, req.body.addItemSet);
+})
+
 router.post('/delete-item-from-bulk', async(req,res)=>{
     await BulkController.deleteItemFromBulk(req.body.bulkId, req.body.deleteItemIndex);
 })
@@ -42,4 +47,4 @@ router.post('/update-bulk-item-quantity', async(req,res)=>{
     await BulkController.updateBulkItemQuantity(req.body.bulkId, req.body.updateItemIndex, req.body.newQuantity);
 })
 
-module.exports = router;
+module.exports = router; 

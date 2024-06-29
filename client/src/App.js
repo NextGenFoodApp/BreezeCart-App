@@ -15,6 +15,7 @@ import CategoryPage from "./CustomerView/Category";
 import Register from "./components/Register";
 import CartPage from "./CustomerView/Cart";
 import Bulks from "./CustomerView/Bulks";
+import Checkout from "./CustomerView/Checkout";
 
 const App = () => {
 
@@ -101,6 +102,7 @@ const App = () => {
           <Route path='/products/:id' element={<ProductPage/>} /> 
           <Route path='/cart' element={<CartPage/>} /> 
           <Route path='/bulks' element={<Bulks/>} /> 
+          <Route path='/checkout' element={<Checkout/>} /> 
         </Routes>
 
         <div style={{ textAlign: 'center', padding: '20px' }}>
