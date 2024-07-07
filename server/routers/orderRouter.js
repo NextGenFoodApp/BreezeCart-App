@@ -18,11 +18,11 @@ router.post('/', async (req,res)=>{
     const new_order_id = orders.length + 1;
     const new_order = {
         order_id : new_order_id,
-        user_id : req.body.user_id,
-        shop_id : req.body.shop_id,
-        type : req.body.type,
-        status : req.body.status,
-        items : []
+        user_id : req.body.userId,
+        status : "Placed",
+        items : req.body.itemList,
+        total_price: req.body.totalPrice,
+        shipping_address: req.body.shippingAddress 
     }
     await OrderController.addNewOrder(new_order);
 })

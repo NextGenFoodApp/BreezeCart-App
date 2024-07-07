@@ -55,4 +55,9 @@ router.post('/update-cart-item-quantity', async(req,res)=>{
     await UserController.updateCartItemQuantity(req.body.userId, req.body.updateItemIndex, req.body.newQuantity);
 })
 
+router.post('/empty-the-cart', async(req,res)=>{
+    const response = await UserController.emptyTheCart(req.body.userId);
+    res.send(response);
+})
+
 module.exports = router;

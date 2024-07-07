@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, TextField, Box } from '@mui/material';
 import { Delete, Check } from '@mui/icons-material';
 import axios from 'axios';
+import Checkout from './Checkout';
 
 const CartPage = () => {
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState([]);
   const [cartDetails, setCartDetails] = useState([]);
   const [quantityChanges, setQuantityChanges] = useState({});
+  const [goToCheckout, setGoToCheckout] = useState(false);
   const navigate = useNavigate();
 
   const fetchUserData = async () => {
@@ -111,8 +113,8 @@ const CartPage = () => {
     fetchCartDetails();
   };
 
-  const handleCheckout = () => {
-    navigate('/checkout');
+  const handleCheckout = async () => {
+    setGoToCheckout(true);
   };
 
   const handleAddCartToBulk = async () => {
@@ -146,6 +148,7 @@ const CartPage = () => {
   };
 
   return (
+    <>
     <Grid container spacing={3} style={{ padding: '20px', justifyContent: 'center' }}>
       <Grid item xs={12} style={{ textAlign: 'center' }}>
         <Typography variant="h4" gutterBottom>Shopping Cart</Typography>
@@ -199,16 +202,20 @@ const CartPage = () => {
             </Box>
         )}
       </Grid>
-      <Grid item xs={12} md={8} style={{ textAlign: 'right', marginTop: '20px' }}>
-        <Typography variant="h6">Total Cart Value: ${calculateTotal().toFixed(2)}</Typography>
-        <Button variant="contained" color="primary" onClick={handleCheckout} style={{ margin: '10px' }}>
-          Checkout
-        </Button>
-        <Button variant="contained" color="secondary" onClick={handleAddCartToBulk}>
-          Add Cart to My Bulk
-        </Button>
-      </Grid>
+      {cartDetails.length > 0 && (
+        <Grid item xs={12} md={8} style={{ textAlign: 'right', marginTop: '20px' }}>
+          <Typography variant="h6">Total Cart Value: ${calculateTotal().toFixed(2)}</Typography>
+          <Button variant="contained" color="primary" onClick={handleCheckout} style={{ margin: '10px' }}>
+            Checkout
+          </Button>
+          <Button variant="contained" color="secondary" onClick={handleAddCartToBulk}>
+            Add Cart to My Bulk
+          </Button>
+        </Grid>
+      )}
     </Grid>
+    {goToCheckout && <Checkout /> }
+    </>
   );
 };
 

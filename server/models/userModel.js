@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
         required: true
     },
     name:{
-        type: String,
+        type: Object,
         required: true
     },
     email:{
@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    phone_no:{
+    phone:{
         type: String,
         required: true
     },
@@ -30,9 +30,13 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    current_bulks_id: {
-        type: Array,
+    address: {
+        type: Object,
         required: true
+    },
+    current_bulk_id: {
+        type: Array,
+        default : []
     },
     bulk_history: {
         type: Array,
@@ -43,7 +47,8 @@ const userSchema = mongoose.Schema({
         required: true
     },
     cart:{
-        type: Array
+        type: Array,
+        default : []
     }
 },
 {

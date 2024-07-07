@@ -9,25 +9,25 @@ const orderSchema = new Schema({
         required: true,
         unique: true 
     },
-    shop_id:{
-        type: Number,
-        required: true
-    },
     user_id:{
         type: Number,
         required: true
     },
-    type:{
-        type: String,  // One-time or Subscription
-        required: true
-    },
     status:{
-        type: String,
+        type: String,    // Placed, Processing, Shipped, Delivered 
         required: true 
     },
     items:{
         type: Array,
         default: []
+    },
+    total_price:{
+        type: Number,
+        required: true 
+    },
+    shipping_address:{
+        type: Object,
+        required: true 
     }
 },
 {

@@ -101,3 +101,17 @@ exports.updateCartItemQuantity = async (id, index, newQuantity) => {
     }
 }
 
+// Empty the cart  
+exports.emptyTheCart = async (id) => {
+    try{
+        const response = await User.updateOne(
+            {user_id : id},
+            {$set: {cart: []}}
+        );
+        return response;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
