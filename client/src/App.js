@@ -84,10 +84,6 @@ const App = () => {
     setIsDrawerOpen(false);
   };
 
-  const SetStoredBulkId = (id) => {
-    localStorage.setItem('bulk_id', id);
-  };
-
   return (
     <div>
         <NavBar/>

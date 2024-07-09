@@ -16,6 +16,7 @@ const NavBar = () => {
   const handleLogout = () => {
     localStorage.removeItem('user'); // Remove 'user' item from localStorage
     // You may add additional logout logic here, such as redirecting to the home page
+    localStorage.setItem('bulk_id',0); 
   };
 
 

@@ -104,9 +104,10 @@ exports.updateCartItemQuantity = async (id, index, newQuantity) => {
 // Empty the cart  
 exports.emptyTheCart = async (id) => {
     try{
-        const response = await User.updateOne(
+        const response = await User.findOneAndUpdate(
             {user_id : id},
-            {$set: {cart: []}}
+            {$set: {cart: []}},
+            {new: true}
         );
         return response;
     }

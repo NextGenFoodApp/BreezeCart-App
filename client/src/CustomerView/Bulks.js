@@ -4,6 +4,7 @@ import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHea
 import { Delete, Check } from '@mui/icons-material';
 import axios from 'axios';
 
+
 const Bulks = () => {
 
   const [user, setUser] = useState(null);
@@ -13,6 +14,7 @@ const Bulks = () => {
   const [selectedBulk, setSelectedBulk] = useState([]);
   const [selectedBulkDetails, setSelectedBulkDetails] = useState([]);
   const [quantityChanges, setQuantityChanges] = useState({});
+  const [timesCounter, setTimesCounter] = useState(1);
   const navigate = useNavigate();
 
   const fetchUserData = async () => {
@@ -98,6 +100,10 @@ const Bulks = () => {
     });
   };
 
+  const handleTimesChange = (value) => {
+    setTimesCounter(value);
+  };
+
   const handleConfirmChange = async(index) => {
     const newSelectedBulkDetails = [...selectedBulkDetails];
     newSelectedBulkDetails[index].quantity = quantityChanges[index] ? quantityChanges[index] : newSelectedBulkDetails[index].quantity;
@@ -129,8 +135,24 @@ const Bulks = () => {
     fetchBulkDetails();
   };
 
-  const handleCheckout = () => {
-    navigate('/checkout');
+  const handlePayment = async () => {
+    await fetchBulk();
+    await fetchBulkDetails();
+    const mergedArray = selectedBulk.map((item, index) => {
+      return {
+        ...item,
+        ...selectedBulkDetails[index]
+      };
+    });
+    console.log(mergedArray);
+    await axios.post(`http://localhost:3030/bulk-orders`,{
+      userId: user.user_id,
+      bulkId: selectedBulkId,
+      timesCount: timesCounter,
+      items: mergedArray,
+      bulkValue: calculateTotal().toFixed(2),
+      paidAmount: (calculateTotal().toFixed(2))*timesCounter 
+    });
   };
 
   const calculateTotal = () => {
@@ -145,16 +167,6 @@ const Bulks = () => {
       <Box display='flex' alignItems='center' justifyContent='center'>
         {
           currentBulks.map((bulk_id)=>(
-            <Button onClick={() => setSelectedBulkId(bulk_id)}>
-              Bulk {bulk_id}
-            </Button>
-          ))
-        }
-      </Box>
-        <Typography variant='h6' align='center' gutterBottom>Bulk History</Typography>
-      <Box display='flex' alignItems='center' justifyContent='center'>
-        {
-          bulkHistory.map((bulk_id)=>(
             <Button onClick={() => setSelectedBulkId(bulk_id)}>
               Bulk {bulk_id}
             </Button>
@@ -220,9 +232,19 @@ const Bulks = () => {
           </Grid>
           {selectedBulk && selectedBulk.length > 0 && (<Grid item xs={12} md={8} style={{ textAlign: 'right', marginTop: '20px' }}>
             <Typography variant="h6">Total Cart Value: ${calculateTotal().toFixed(2)}</Typography>
-            <Button variant="contained" color="primary" onClick={handleCheckout} style={{ margin: '10px' }}>
-              Checkout 
-            </Button>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}> 
+              <TextField
+                type="number"
+                value={timesCounter}
+                onChange={(e) => handleTimesChange(parseInt(e.target.value, 10))}
+                inputProps={{ min: 1 }}
+                size="medium"
+              />
+              <Typography variant="h6">Payment Value: ${(calculateTotal().toFixed(2))*timesCounter}</Typography>
+              <Button variant="contained" color="primary" onClick={handlePayment} style={{ margin: '10px' }}>
+                Pay Now 
+              </Button>
+            </div>
           </Grid>)}
         </Grid>
     </div>

@@ -18,7 +18,9 @@ const Login = () => {
         const response = await axios.post('http://localhost:3030/users/login', { email, password });
         console.log("Customer Login: ", email, password);
         localStorage.setItem('user', JSON.stringify(response.data));
-        console.log(localStorage.getItem('user'));
+        const user = JSON.parse(localStorage.getItem('user'));
+        console.log(user); 
+        localStorage.setItem('bulk_id', user.current_bulk_id[0]);
         window.location.href = '/customerview/dashboard';
     } catch (error) {
     console.error('Error logging in as customer:', error);

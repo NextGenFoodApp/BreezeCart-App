@@ -98,16 +98,25 @@ const Checkout = () => {
       shippingAddress = address;
     }
     if(isProperlyFilled){
+      const mergedArray = cart.map((item, index) => {
+        return {
+          ...item,
+          ...cartDetails[index]
+        };
+      });
+
       await axios.post(`http://localhost:3030/orders/`,{
         userId: user.user_id,
-        itemList: cartDetails,
+        itemList: mergedArray,
         shippingAddress: shippingAddress,
         totalPrice: calculateTotal().toFixed(2) 
       });
+
       const response = await axios.post(`http://localhost:3030/users/empty-the-cart`,{
         userId: user.user_id  
       });
-      console.log(response);
+      console.log(response);  
+                // Special :- Cart Emptying is not working after checkout. ######## 
     }
   }
 

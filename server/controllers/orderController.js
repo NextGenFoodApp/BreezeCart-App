@@ -1,8 +1,8 @@
-const Product = require('../models/orderModel');
+const Order = require('../models/orderModel');
 
 exports.getAllOrders = async () => {
     try{
-        const orders = await Product.find();
+        const orders = await Order.find();
         console.log(orders);
         return orders;
     }
@@ -13,7 +13,7 @@ exports.getAllOrders = async () => {
 
 exports.getSpecificOrder = async (id) => {
     try{
-        const order = await Product.findOne({order_id: id});
+        const order = await Order.findOne({order_id: id});
         console.log(order);
         return order;
     }
@@ -24,7 +24,7 @@ exports.getSpecificOrder = async (id) => {
 
 exports.addNewOrder = async (order) => {
     try{
-        const newOrder = new Product(order);
+        const newOrder = new Order(order);
         const addedOrder = await newOrder.save();
         console.log(addedOrder);
     }

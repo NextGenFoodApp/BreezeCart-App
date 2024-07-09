@@ -13,12 +13,14 @@ const shopRoutes = require('./routers/shopRouter');
 const userRoutes = require('./routers/userRouter');
 const orderRoutes = require('./routers/orderRouter');
 const bulkRoutes = require('./routers/bulkRouter');
+const bulkOrderRoutes = require('./routers/bulkOrderRouter')
 
 app.use('/categories', categoryRoutes);
 app.use('/products', productRoutes);
 app.use('/shops', shopRoutes);
 app.use('/users', userRoutes);
 app.use('/orders', orderRoutes);
-app.use('/bulks', bulkRoutes); 
+app.use('/bulks', bulkRoutes);
+app.use('/bulk-orders',bulkOrderRoutes); 
 
 module.exports = app;
