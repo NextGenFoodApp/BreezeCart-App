@@ -43,6 +43,22 @@ router.post('/', async (req,res)=>{
     await ShopController.addNewShop(new_user);
 })
 
+router.post('/update', async (req,res) => {
+    await UserController.updateUser(req.body.id, req.body.name, req.body.address, req.body.email, req.body.phone);
+})
+
+router.post('/update-bulks', async (req,res) => {
+    await UserController.updateBulks(req.body.userId, req.body.currentBulks, req.body.bulkHistory);
+})
+
+router.post('/activate-bulk', async (req,res) => {
+    await UserController.activateBulk(req.body.bulkId);
+})
+
+router.post('/deactivate-bulk', async (req,res) => {
+    await UserController.deactivateBulk(req.body.bulkId);
+})
+
 router.post('/add-to-cart', async(req,res)=>{
     await UserController.addToCart(req.body.userId, req.body.addItem);
 })

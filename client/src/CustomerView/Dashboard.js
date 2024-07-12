@@ -1,42 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Container, Paper } from '@mui/material';
+import React from 'react';
+import { Container, Grid, Typography } from '@mui/material';
+import UserInfo from '../components/UserInfo';
+import UserBulk from '../components/UserBulk';
+
 
 const UserDashboard = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Retrieve user details from localStorage
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      console.log(storedUser);
-    }
-  }, []);
 
   return (
-    <Container maxWidth="sm">
-      <Paper style={{ padding: '20px', marginTop: '20px' }}>
-        <Typography variant="h5" align="center" gutterBottom>
-          User Dashboard
-        </Typography>
-        {user ? (
-          <div>
-            <Typography variant="body1" gutterBottom>
-              Name: {user.name}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Email: {user.email}
-            </Typography>
-            {/* You can display more user details here */}
-          </div>
-        ) : (
-          <Typography variant="body1" gutterBottom>
-            No user data found.
-          </Typography>
-        )}
-      </Paper>
-    </Container>
+    <>
+      <Typography variant='h2' align='center' style={{alignTop: 50}}>Profile</Typography>
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <UserInfo />
+          </Grid>
+          <Grid item xs={6}>
+            <UserBulk />
+          </Grid>
+        </Grid>
+      </Container>
+    </>
   );
-};
+
+}
 
 export default UserDashboard;

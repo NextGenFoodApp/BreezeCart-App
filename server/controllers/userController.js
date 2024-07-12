@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Bulk = require('../models/bulkModel');
 
 exports.getAllUsers = async () => {
     try{
@@ -42,6 +43,47 @@ exports.loginUser = async (email, password) => {
     catch(err){
         console.log(err);
     }
+}
+
+exports.updateUser = async (id, name, address, email, phone) => {
+    await User.updateOne(
+        {user_id : id},
+        {$set: {
+            name: name,
+            address: address,
+            email: email,
+            phone: phone
+        }}
+    );
+}
+
+// Activate or Deactivate a bulk 
+exports.updateBulks = async (userId, currentBulks, bulkHistory) => {
+    await User.updateOne(
+        {user_id : userId},
+        {$set: {
+            current_bulk_id: currentBulks,
+            bulk_history: bulkHistory
+        }}
+    );
+}
+
+exports.activateBulk = async (bulkId) => {
+    await Bulk.updateOne(
+        {bulk_id : bulkId},
+        {$set: {
+            status: "active"
+        }}
+    )
+}
+
+exports.deactivateBulk = async (bulkId) => {
+    await Bulk.updateOne(
+        {bulk_id : bulkId},
+        {$set: {
+            status: "inactive"
+        }}
+    )
 }
 
 // Add an item to cart 
