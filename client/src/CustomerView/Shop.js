@@ -42,6 +42,7 @@ const ShopPage = () => {
               alt={shopDetails.name}
               image={shopDetails.logo}
               title={shopDetails.name}
+              sx={{ width: '200px' }}
             />
             <CardContent>
               <Typography variant="h4" color="textSecondary">

@@ -43,3 +43,17 @@ exports.loginShop = async (shop_id, password) => {
         console.log(err);
     }
 }
+
+exports.updateShop = async (id, name, owner, address, postal_code, email, phone) => {
+    await Shop.updateOne(
+        {shop_id : id},
+        {$set: {
+            shop_name: name,
+            shop_owner: owner,
+            address: address,
+            postal_code: postal_code,
+            email: email,
+            phone: phone
+        }}
+    );
+}

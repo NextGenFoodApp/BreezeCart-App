@@ -1,41 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Container, Paper } from '@mui/material';
+import React from 'react';
+import { Container, Grid, Typography } from '@mui/material';
+import ShopInfo from '../components/ShopInfo';
+import ShopProducts from '../components/ShopProducts';
 
-const ShopDashboard = () => {
-  const [shop, setShop] = useState(null);
 
-  useEffect(() => {
-    // Retrieve shop details from localStorage
-    const storedShop = localStorage.getItem('shop');
-    if (storedShop) {
-      setShop(JSON.parse(storedShop));
-    }
-  }, []);
+const UserDashboard = () => {
 
   return (
-    <Container maxWidth="sm">
-      <Paper style={{ padding: '20px', marginTop: '20px' }}>
-        <Typography variant="h5" align="center" gutterBottom>
-          Shop Dashboard
-        </Typography>
-        {shop ? (
-          <div>
-            <Typography variant="body1" gutterBottom>
-              Shop Name: {shop.name}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Location: {shop.location}
-            </Typography>
-            {/* You can display more shop details here */}
-          </div>
-        ) : (
-          <Typography variant="body1" gutterBottom>
-            No shop data found.
-          </Typography>
-        )}
-      </Paper>
-    </Container>
+    <>
+      <Typography variant='h2' align='center' style={{alignTop: 50}}>Profile</Typography>
+      <ShopInfo/>
+      <ShopProducts/>
+    </>
   );
-};
 
-export default ShopDashboard;
+}
+
+export default UserDashboard;
