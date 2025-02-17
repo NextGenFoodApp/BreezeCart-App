@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, TextField, Box } from '@mui/material';
+import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
+        Paper, Button, IconButton, TextField, Box } from '@mui/material';
 import { Delete, Check } from '@mui/icons-material';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 const Bulks = () => {
@@ -145,7 +147,7 @@ const Bulks = () => {
       };
     });
     console.log(mergedArray);
-    await axios.post(`http://localhost:3030/bulk-orders`,{
+    const response = await axios.post(`http://localhost:3030/bulk-orders`,{
       userId: user.user_id,
       bulkId: selectedBulkId,
       timesCount: timesCounter,
@@ -153,6 +155,10 @@ const Bulks = () => {
       bulkValue: calculateTotal().toFixed(2),
       paidAmount: (calculateTotal().toFixed(2))*timesCounter 
     });
+    console.log(response);
+    Swal.fire('Congrats', 'Your payment is successful.','success').then(result=>{
+      window.location.reload();
+    })
   };
 
   const calculateTotal = () => {

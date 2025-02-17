@@ -22,6 +22,7 @@ const NavBar = () => {
     }else if(isShopLoggedIn){
       localStorage.removeItem('shop'); 
     }
+    window.location.href = '/'; 
   };
 
 
@@ -35,6 +36,13 @@ const NavBar = () => {
           Home
         </Button>
         {/* Conditionally render the login/register button */}
+        {isUserLoggedIn || isShopLoggedIn ? (
+          <></>
+        ) : (
+          <Button color="inherit" component={Link} to="/login">
+            Login 
+          </Button>
+        )}
         {isUserLoggedIn ? 
           (
             <Button color="inherit" component={Link} to="/customerview/dashboard">
@@ -42,9 +50,7 @@ const NavBar = () => {
             </Button>
           )
         :(
-          <Button color="inherit" component={Link} to="/login">
-            Login 
-          </Button>
+          <></>
         )
         }
         {isShopLoggedIn ? 

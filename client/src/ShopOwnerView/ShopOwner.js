@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Container, Grid, Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
+import { Container, Grid, Card, CardMedia, CardContent, Typography, Button, Link, Box, Paper } from '@mui/material';
 
-const ShopPage = () => {
+const ShopOwnerPage = () => {
   const { id } = useParams();
   const [shopDetails, setShopDetails] = useState(null);
   const [products, setProducts] = useState([]);
@@ -61,9 +61,18 @@ const ShopPage = () => {
           </Card>
         </div>
       )}
-      <Typography variant="h5" gutterBottom style={{ marginTop: '20px' }}>
-        Products
-      </Typography>
+      <Box display="flex" alignItems="center" gap="10px" margin='30px'>
+        <Typography variant="h4" gutterBottom style={{ marginTop: '20px' }}>
+          Products
+        </Typography>
+        <Button 
+          variant="contained" 
+          color="success"
+          style={{ padding: '10px 20px' }}
+        >
+          Add New Product
+        </Button>
+      </Box>
       <Grid container spacing={3}>
         {products.map((product, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
@@ -74,16 +83,24 @@ const ShopPage = () => {
                   image={product.image}
                   title={product.product_name}
                 />
-                <CardContent>
+                <CardContent display='flex' alignItems='center'>
                   <Typography variant="h6" component="h2">
                     {product.product_name}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
+                  <Typography variant="body2" align='center' color="textSecondary" component="p">
                     {product.price}
                   </Typography>
-                  <Button variant="contained" color="primary" onClick={() => {
-                    window.location.href = `http://localhost:3000/products/${product.product_id}`
+                  <Button variant="contained" align='center' style={{margin:'6px', fontSize:'12px'}} color="primary" onClick={() => {
+                    window.location.href = `/products/${product.product_id}`
                   }}>View Product</Button>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="contained" align='center' style={{margin:'6px', fontSize:'10px'}} color="warning" onClick={() => {
+                      window.location.href = ``
+                    }}>Hide</Button>
+                    <Button variant="contained" align='center' style={{margin:'6px', fontSize:'10px'}} color="error" onClick={() => {
+                      window.location.href = ``
+                    }}>Remove</Button>
+                  </Box>
                 </CardContent>
               </Card>
             </Grid>
@@ -93,4 +110,4 @@ const ShopPage = () => {
   );
 };
 
-export default ShopPage;
+export default ShopOwnerPage;

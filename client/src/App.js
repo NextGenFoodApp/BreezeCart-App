@@ -7,6 +7,7 @@ import {Route, Routes} from 'react-router-dom';
 import axios from "axios";
 import HomePage from "./Home";
 import ShopPage from "./CustomerView/Shop";
+import ShopOwnerPage from "./ShopOwnerView/ShopOwner";
 import Login from "./components/Login";
 import UserDashboard from "./CustomerView/Dashboard";
 import ShopDashboard from "./ShopOwnerView/Dashboard";
@@ -90,6 +91,7 @@ const App = () => {
         <Routes>
           <Route exact path='/' element={<HomePage/>}/>
           <Route path='/shops/:id' element={<ShopPage/>} />
+          <Route path='/shop-owners/:id' element={<ShopOwnerPage/>} />
           <Route path='/categories/:id' element={<CategoryPage/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/register' element={<Register/>} />
