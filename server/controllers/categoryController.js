@@ -7,7 +7,7 @@ exports.getAllCategories = async () => {
         return categories;
     }
     catch(err){
-        res.status(400).json(err);
+        console.log(err);
     }
 }
 
@@ -18,7 +18,7 @@ exports.getSpecificCategory = async (id) => {
         return category;
     }
     catch(err){
-        res.status(400).json(err);
+        console.log(err);
     }
 }
 
@@ -29,6 +29,6 @@ exports.addNewCategory = async (category) => {
         console.log(addedCategory);
     }
     catch(err){
-        res.status(400).json(err);
+        console.log(err);
     }
 }
