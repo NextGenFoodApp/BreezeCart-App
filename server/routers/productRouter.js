@@ -95,4 +95,32 @@ router.post("/upload-item-image", upload.single("image"), async (req, res) => {
   }
 });
 
+// DELETE product by product_id
+router.delete("/:product_id", async (req, res) => {
+  try {
+    const { product_id } = req.params;
+
+    // Optional: validate product_id is a number
+    if (isNaN(product_id)) {
+      return res.status(400).json({ message: "Invalid product ID." });
+    }
+
+    // Try to delete the product
+    const deleted = await ProductController.deleteProductById(
+      Number(product_id)
+    );
+
+    if (deleted) {
+      return res.status(200).json({ message: "Product deleted successfully." });
+    } else {
+      return res.status(404).json({ message: "Product not found." });
+    }
+  } catch (err) {
+    console.error("Error deleting product:", err);
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: err.message });
+  }
+});
+
 module.exports = router;
