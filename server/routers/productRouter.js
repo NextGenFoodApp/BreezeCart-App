@@ -35,20 +35,51 @@ router.get("/c/:category_id", async (req, res) => {
 
 // Add new product
 router.post("/", async (req, res) => {
-  console.log("Comes to the product add method .");
-  console.log("Received body:", req.body);
-  const products = await ProductController.getAllProducts();
-  const new_product_id = products.length + 1;
-  const new_product = {
-    product_id: new_product_id,
-    product_name: req.body.product_name,
-    category_id: req.body.category_id,
-    shop_id: req.body.shop_id,
-    price: req.body.price,
-    attribute: req.body.attribute,
-    items: req.body.items,
-  };
-  await ProductController.addNewProduct(new_product);
+  try {
+    console.log("Comes to the product add method.");
+    console.log("Received body:", req.body);
+
+    // Retrieve all products
+    const products = await ProductController.getAllProducts();
+
+    // Generate new product ID
+    const new_product_id = products.length + 1;
+
+    // Parse items safely
+    let parsedItems;
+    try {
+      parsedItems = JSON.parse(req.body.items);
+    } catch (parseError) {
+      return res
+        .status(400)
+        .json({ message: "Invalid JSON in 'items' field." });
+    }
+
+    // Construct the new product
+    const new_product = {
+      product_id: new_product_id,
+      product_name: req.body.product_name,
+      category_id: req.body.category_id,
+      shop_id: req.body.shop_id,
+      price: req.body.price,
+      attribute: req.body.attribute,
+      items: parsedItems,
+      image: req.body.image, // Assuming image is a base64 or URL string
+    };
+
+    // Save the product
+    await ProductController.addNewProduct(new_product);
+
+    // Send success response
+    res
+      .status(201)
+      .json({ message: "Product added successfully", product: new_product });
+  } catch (err) {
+    console.error("Error adding product:", err);
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: err.message });
+  }
 });
 
 // Add item iamge to imgbb
