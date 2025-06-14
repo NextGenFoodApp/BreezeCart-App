@@ -26,12 +26,36 @@ const ShopOwnerPage = () => {
     navigate("/add-product");
   };
 
+  // Function to fetch shop details
+  const fetchShopDetails = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3030/shops/${id}`);
+      setShopDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching shop details:", error);
+    }
+  };
+
+  // Function to fetch products of the shop
+  const fetchShopProducts = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3030/products/s/${id}`
+      );
+      setProducts(response.data);
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
   const deleteProduct = async (productId) => {
     try {
       const response = await axios.delete(
         `http://localhost:3030/products/${productId}`
       );
       console.log("Delete response:", response.data);
+      fetchShopProducts(); // Refresh the product list after deletion
       alert("Product deleted successfully!");
     } catch (error) {
       if (error.response) {
@@ -44,27 +68,10 @@ const ShopOwnerPage = () => {
     }
   };
 
+  // Call both functions on component mount
   useEffect(() => {
-    // Fetch shop details
-    axios
-      .get(`http://localhost:3030/shops/${id}`)
-      .then((response) => {
-        setShopDetails(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching shop details:", error);
-      });
-
-    // Fetch products of the shop
-    axios
-      .get(`http://localhost:3030/products/s/${id}`)
-      .then((response) => {
-        setProducts(response.data);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error("Error fetching products:", error);
-      });
+    fetchShopDetails();
+    fetchShopProducts();
   }, [id]);
 
   return (
