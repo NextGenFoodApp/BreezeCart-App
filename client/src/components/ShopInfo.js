@@ -1,41 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Card, CardContent, CardMedia, Typography, TextField, Button, Grid } from '@mui/material';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  TextField,
+  Button,
+  Grid,
+  Box,
+} from "@mui/material";
+import axios from "axios";
+
+import EditIcon from "@mui/icons-material/Edit";
 
 const ShopInfo = () => {
   const [shopId, setShopId] = useState(0);
   const [shop, setShop] = useState({
-    shopName: '',
-    shopOwner: '',
-    address: '',
+    shopName: "",
+    shopOwner: "",
+    address: "",
     postalCode: 0,
-    phone: '',
-    email: '',
-    logo: ''
+    phone: "",
+    email: "",
+    logo: "",
   });
-
   const [editField, setEditField] = useState(null);
 
   useEffect(() => {
-    const storedShop = localStorage.getItem('shop');
+    const storedShop = localStorage.getItem("shop");
     const parsedShop = JSON.parse(storedShop);
     const shopId = parsedShop.shop_id;
     setShopId(shopId);
-    axios.get(`http://localhost:3030/shops/${shopId}`)
-      .then(response => {
+    axios
+      .get(`http://localhost:3030/shops/${shopId}`)
+      .then((response) => {
         const data = response.data;
         setShop({
           shopName: data.shop_name,
           shopOwner: data.shop_owner,
           address: data.address,
-          postalCode: data.postal_code, 
+          postalCode: data.postal_code,
           email: data.email,
           phone: data.phone_no,
-          logo: data.logo
+          logo: data.logo,
         });
       })
-      .catch(error => {
-        console.error('There was an error fetching the shop data!', error);
+      .catch((error) => {
+        console.error("There was an error fetching the shop data!", error);
       });
   }, []);
 
@@ -45,76 +57,138 @@ const ShopInfo = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setShop({ ...shop , [name]: value });
+    setShop({ ...shop, [name]: value });
   };
 
   const handleSaveClick = () => {
     setEditField(null);
     axios.post(`http://localhost:3030/shops/update`, {
-        shop_id: shopId,
-        shop_name: shop.shopName,
-        shop_owner: shop.shopOwner,
-        address: shop.address,
-        postal_code: shop.postalCode,
-        email: shop.email,
-        phone: shop.phone
+      shop_id: shopId,
+      shop_name: shop.shopName,
+      shop_owner: shop.shopOwner,
+      address: shop.address,
+      postal_code: shop.postalCode,
+      email: shop.email,
+      phone: shop.phone,
     });
   };
 
   return (
-    <Container>
-        <Grid container spacing={2}>
-            <Grid item xs={6}>
-                <Card>
-                    <CardContent>
-                        <CardMedia
-                            component="img"
-                            alt={`Shop ${shopId}`}
-                            image={shop.logo}
-                            title={`Shop ${shopId}`}
-                            sx={{ width: '200px' }}
-                        />
-                    </CardContent>
-                </Card>
-            </Grid>
-            <Grid item xs={6}>
-            <Card>
-                <CardContent>
-                    {['shopName', 'shopOwner', 'address', 'postalCode', 'email', 'phone'].map((field, index) => (
-                    <Grid container key={index} alignItems="center" spacing={1}>
-                        <Grid item xs={5}>
-                        <Typography variant="body1">
-                            {field.replace(/^\w/, (c) => c.toUpperCase())}:
-                        </Typography>
-                        </Grid>
-                        <Grid item xs={5}>
-                        {editField === field ? (
-                            <TextField
-                            fullWidth
-                            variant="standard"
-                            name={field}
-                            value={shop[field]}
-                            onChange={handleInputChange}
-                            />
-                        ) : (
-                            <Typography variant="body2">
-                            {field.includes('address.') ? shop.address[field.split('.')[1]] : shop[field]}
-                            </Typography>
-                        )}
-                        </Grid>
-                        <Grid item xs={2}>
-                        {editField === field ? (
-                            <Button variant="contained" color="primary" onClick={handleSaveClick}>✔️</Button>
-                        ) : (
-                            <Button variant="outlined" onClick={() => handleEditClick(field)}>Edit</Button>
-                        )}
-                        </Grid>
-                    </Grid>
-                    ))}
-                </CardContent>
-                </Card>
-            </Grid>
+    <Container maxWidth="md" sx={{ mt: 5, fontFamily: "Roboto, sans-serif" }}>
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        sx={{ fontWeight: "bold", mb: 4, color: "#1976d2" }}
+      >
+        Shop Information
+      </Typography>
+
+      <Grid container spacing={4}>
+        {/* Left Side - Shop Image */}
+        <Grid
+          item
+          xs={12}
+          md={4}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              p: 2,
+            }}
+          >
+            <CardMedia
+              component="img"
+              alt={`Shop ${shopId}`}
+              image={shop.logo}
+              title={`Shop ${shopId}`}
+              sx={{
+                width: "100%",
+                maxHeight: 250,
+                objectFit: "contain",
+                borderRadius: 2,
+                boxShadow: 3,
+              }}
+            />
+          </Box>
         </Grid>
+
+        {/* Right Side - Shop Details */}
+        <Grid item xs={12} md={8}>
+          <Card elevation={4}>
+            <CardContent>
+              {[
+                { label: "Shop Name", key: "shopName" },
+                { label: "Owner", key: "shopOwner" },
+                { label: "Address", key: "address" },
+                { label: "Postal Code", key: "postalCode" },
+                { label: "Email", key: "email" },
+                { label: "Phone", key: "phone" },
+              ].map(({ label, key }, index) => (
+                <Grid
+                  container
+                  key={index}
+                  alignItems="center"
+                  spacing={1}
+                  sx={{ mb: 2 }}
+                >
+                  <Grid item xs={4}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                      {label}:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    {editField === key ? (
+                      <TextField
+                        fullWidth
+                        variant="standard"
+                        name={key}
+                        value={shop[key]}
+                        onChange={handleInputChange}
+                        sx={{ fontSize: "1rem" }}
+                      />
+                    ) : (
+                      <Typography variant="body1" sx={{ fontSize: "1rem" }}>
+                        {shop[key]}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={2}>
+                    {editField === key ? (
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={handleSaveClick}
+                        sx={{ minWidth: "36px", px: 1 }}
+                      >
+                        ✔
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        onClick={() => handleEditClick(key)}
+                        startIcon={<EditIcon />}
+                        sx={{ textTransform: "none", px: 1 }}
+                      >
+                        Edit
+                      </Button>
+                    )}
+                  </Grid>
+                </Grid>
+              ))}
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </Container>
   );
 };
