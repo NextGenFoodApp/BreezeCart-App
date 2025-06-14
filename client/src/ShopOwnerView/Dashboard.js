@@ -6,9 +6,6 @@ import ShopProducts from "../components/ShopProducts";
 const UserDashboard = () => {
   return (
     <>
-      <Typography variant="h2" align="center" style={{ alignTop: 50 }}>
-        Profile
-      </Typography>
       <ShopInfo />
       <ShopProducts />
     </>
