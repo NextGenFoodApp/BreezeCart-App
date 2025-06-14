@@ -23,6 +23,7 @@ import {
 } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {toast, ToastContainer} from "react-toastify";
 
 const UserBulk = () => {
     const theme = useTheme();
@@ -82,9 +83,6 @@ const UserBulk = () => {
         setBulkHistoryIds(newHistory);
 
         axios.post(`http://localhost:3030/users/deactivate-bulk`, { bulkId: id })
-            .then(() => {
-                window.location.reload();
-            })
             .catch(error => {
                 console.error('Error deactivating bulk:', error);
             });
@@ -105,12 +103,8 @@ const UserBulk = () => {
                     bulkHistory: newHistory
                 });
             })
-            .then(() => {
-                window.location.reload();
-            })
             .catch(error => {
                 console.error('Error updating bulks:', error);
-                // Revert on error
                 setBulkHistoryIds(bulkHistoryIds);
                 setCurrentBulkIds(currentBulkIds);
             });
@@ -193,9 +187,10 @@ const UserBulk = () => {
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleDeactivate(id);
+                                        toast.success('Bulk deactivated');
                                         setTimeout(() => {
                                             window.location.reload();
-                                        }, 1000);
+                                        }, 5000);
                                     }}
                                 >
                                     Deactivate
@@ -209,9 +204,10 @@ const UserBulk = () => {
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleActivate(id);
+                                        toast.success('Bulk activated');
                                         setTimeout(() => {
                                             window.location.reload();
-                                        }, 1000);
+                                        }, 5000);
                                     }}
                                 >
                                     Activate
@@ -234,7 +230,7 @@ const UserBulk = () => {
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
-                p: 3,
+                p: '27px',
                 backgroundColor: theme.palette.primary.main,
                 color: 'white'
             }}>
@@ -281,6 +277,7 @@ const UserBulk = () => {
                     </>
                 )}
             </CardContent>
+            <ToastContainer position="top-center" autoClose={5000} />
         </Card>
     );
 };
