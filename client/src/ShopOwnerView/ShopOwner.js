@@ -26,6 +26,24 @@ const ShopOwnerPage = () => {
     navigate("/add-product");
   };
 
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3030/products/${productId}`
+      );
+      console.log("Delete response:", response.data);
+      alert("Product deleted successfully!");
+    } catch (error) {
+      if (error.response) {
+        console.error("API Error:", error.response.data);
+        alert(`Error: ${error.response.data.message}`);
+      } else {
+        console.error("Error:", error.message);
+        alert("An error occurred while deleting the product.");
+      }
+    }
+  };
+
   useEffect(() => {
     // Fetch shop details
     axios
@@ -144,7 +162,10 @@ const ShopOwnerPage = () => {
                     align="center"
                     style={{ margin: "6px", fontSize: "10px" }}
                     color="error"
-                    onClick={}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      deleteProduct(product.product_id);
+                    }}
                   >
                     Remove
                   </Button>
