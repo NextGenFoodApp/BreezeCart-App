@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
+import EditIcon from "@mui/icons-material/Edit";
+
 const ShopInfo = () => {
   const [shopId, setShopId] = useState(0);
   const [shop, setShop] = useState({
@@ -83,18 +85,44 @@ const ShopInfo = () => {
       </Typography>
 
       <Grid container spacing={4}>
-        <Grid item xs={12} md={4}>
-          <Card elevation={4} sx={{ p: 2, textAlign: "center" }}>
+        {/* Left Side - Shop Image */}
+        <Grid
+          item
+          xs={12}
+          md={4}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              p: 2,
+            }}
+          >
             <CardMedia
               component="img"
               alt={`Shop ${shopId}`}
               image={shop.logo}
               title={`Shop ${shopId}`}
-              sx={{ width: "100%", height: 200, objectFit: "contain" }}
+              sx={{
+                width: "100%",
+                maxHeight: 250,
+                objectFit: "contain",
+                borderRadius: 2,
+                boxShadow: 3,
+              }}
             />
-          </Card>
+          </Box>
         </Grid>
 
+        {/* Right Side - Shop Details */}
         <Grid item xs={12} md={8}>
           <Card elevation={4}>
             <CardContent>
@@ -148,7 +176,8 @@ const ShopInfo = () => {
                       <Button
                         variant="outlined"
                         onClick={() => handleEditClick(key)}
-                        sx={{ minWidth: "36px", px: 1 }}
+                        startIcon={<EditIcon />}
+                        sx={{ textTransform: "none", px: 1 }}
                       >
                         Edit
                       </Button>
