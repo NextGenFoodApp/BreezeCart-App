@@ -29,30 +29,50 @@ router.post("/", async (req, res) => {
   await BulkController.addNewBulk(new_bulk);
 });
 
-// Add new bulk
+// Route: POST /default (Create default bulk for a user)
 router.post("/default", async (req, res) => {
-  // 2. Create default bulk
-  const bulks = await BulkController.getAllBulks();
-  const new_bulk_id = bulks.length + 1;
+  try {
+    const { user_id } = req.body;
 
-  const today = new Date();
-  const currentDate = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
+    if (!user_id) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
 
-  const new_bulk = {
-    bulk_id: new_bulk_id,
-    bulk_name: "Default Bulk",
-    items: [],
-    createdAt: currentDate,
-    user_id: req.body.user_id,
-    status: "active",
-  };
+    // Get all bulks to generate new ID
+    const bulks = await BulkController.getAllBulks();
+    const new_bulk_id = bulks.length + 1;
 
-  await BulkController.addNewBulk(new_bulk);
-  console.log("Bulk Created Successfully ------------------ ");
+    const today = new Date();
+    const currentDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    const new_bulk = {
+      bulk_id: new_bulk_id,
+      bulk_name: "Default Bulk",
+      items: [],
+      createdAt: currentDate,
+      user_id,
+      status: "active",
+    };
+
+    // Save new bulk
+    const savedBulk = await BulkController.addNewBulk(new_bulk);
+    console.log("Bulk Created Successfully ------------------ ");
+
+    return res.status(201).json({
+      message: "Default bulk created successfully",
+      bulk: savedBulk,
+    });
+  } catch (error) {
+    console.error("Error creating default bulk:", error);
+    return res.status(500).json({
+      message: "Internal server error while creating bulk",
+      error: error.message,
+    });
+  }
 });
 
 // Add an item to a bulk
