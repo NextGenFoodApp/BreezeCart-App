@@ -24,6 +24,7 @@ const HomePage = () => {
                     py: 10,
                     position: 'relative',
                     overflow: 'hidden',
+                    marginTop: 3,
                     '&::before': {
                         content: '""',
                         position: 'absolute',

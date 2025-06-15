@@ -31,7 +31,6 @@ const NavBar = () => {
           sx={{
             background: 'linear-gradient(135deg, #3f51b5 0%, #2196f3 100%)',
             boxShadow: '0 3px 5px rgba(0,0,0,0.2)',
-            marginBottom: 3
           }}
       >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>

@@ -26,6 +26,7 @@ import {
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SelectBulk from "../components/HomeComponents/SelectBulk";
 
 
 const ProductPage = () => {
@@ -126,6 +127,8 @@ const ProductPage = () => {
     }
 
     return (
+        <Box>
+        <SelectBulk />
         <Grid container spacing={4} sx={{p: 4}}>
             <Grid item xs={12} md={6}>
                 <Tooltip
@@ -136,10 +139,10 @@ const ProductPage = () => {
                     <Card
                         sx={{
                             borderRadius: 3,
-                            overflow: 'hidden', // ⬅️ Prevent overflow
+                            overflow: 'hidden',
                             boxShadow: 3,
                             position: 'relative',
-                            height: {xs: 300, md: 400} // ⬅️ Fixed height to avoid layout jump
+                            height: {xs: 300, md: 400}
                         }}
                         onMouseEnter={() => setImageHover(true)}
                         onMouseLeave={() => setImageHover(false)}
@@ -389,6 +392,7 @@ const ProductPage = () => {
             </Grid>
             <ToastContainer position="top-center" autoClose={7000} />
         </Grid>
+        </Box>
     );
 };
 
