@@ -17,9 +17,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [shopId, setShopId] = useState("");
   const [shopPassword, setShopPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLoginTypeChange = (event) => {
     setLoginType(event.target.value);
+    setError("");
   };
 
   const handleCustomerLogin = async () => {
