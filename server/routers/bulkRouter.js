@@ -29,6 +29,32 @@ router.post("/", async (req, res) => {
   await BulkController.addNewBulk(new_bulk);
 });
 
+// Add new bulk
+router.post("/default", async (req, res) => {
+  // 2. Create default bulk
+  const bulks = await BulkController.getAllBulks();
+  const new_bulk_id = bulks.length + 1;
+
+  const today = new Date();
+  const currentDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
+
+  const new_bulk = {
+    bulk_id: new_bulk_id,
+    bulk_name: "Default Bulk",
+    items: [],
+    createdAt: currentDate,
+    user_id: req.body.user_id,
+    status: "active",
+  };
+
+  await BulkController.addNewBulk(new_bulk);
+  console.log("Bulk Created Successfully ------------------ ");
+});
+
 // Add an item to a bulk
 router.post("/add-to-bulk", async (req, res) => {
   await BulkController.addToBulk(req.body.bulkId, req.body.addItem);
