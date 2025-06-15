@@ -145,7 +145,7 @@ const ShopOwnerPage = () => {
                   {product.product_name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
-                  Price: Rs. {product.price}
+                  Price: $ {product.items[0].price}
                 </Typography>
               </CardContent>
               <Box

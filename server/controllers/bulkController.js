@@ -99,6 +99,35 @@ exports.updateBulkItemQuantity = async (id, index, newQuantity) => {
   }
 };
 
+// Update bulk meta details
+exports.updateBulkMeta = async (req, res) => {
+  try {
+    const { bulkId, name, frequency, delivery_starting_date } = req.body;
+
+    const updatedBulk = await Bulk.findOneAndUpdate(
+      { bulk_id: bulkId },
+      {
+        $set: {
+          bulk_name: name,
+          frequency,
+          delivery_starting_date,
+          updatedAt: new Date(),
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedBulk) {
+      return res.status(404).json({ message: "Bulk not found." });
+    }
+
+    res.status(200).json({ message: "Bulk updated successfully", updatedBulk });
+  } catch (error) {
+    console.error("Failed to update bulk:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 exports.getAllActiveBulks = async () => {
   try {
     const activeBulks = await Bulk.find({ status: "active" });

@@ -35,7 +35,10 @@ const AdminShopsPage = () => {
     if (window.confirm("Are you sure you want to delete this shop?")) {
       try {
         await axios.delete(`http://localhost:3030/shops/${shopId}`);
-        setShops(shops.filter((shop) => shop.shop_id !== shopId));
+        alert("Shop deleted successfully.");
+        axios.get("http://localhost:3030/shops").then((res) => {
+          setShops(res.data);
+        });
       } catch (error) {
         alert("Failed to delete shop.");
         console.error(error);

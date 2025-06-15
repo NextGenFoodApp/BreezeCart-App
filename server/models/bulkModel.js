@@ -16,22 +16,31 @@ const bulkSchema = new Schema(
     },
     updatedAt: {
       type: Date,
-      required: true,
+      required: false,
     },
     items: {
       type: Array,
+      required: false,
       default: [],
     },
     frequency: {
       type: String,
-      required: true,
+      required: false,
     },
     delivery_starting_date: {
       type: String,
-      required: true,
+      required: false,
     },
     status: {
       type: String,
+      required: true,
+    },
+    bulk_name: {
+      type: String,
+      required: true,
+    },
+    user_id: {
+      type: Number,
       required: true,
     },
   },

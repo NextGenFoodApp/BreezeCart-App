@@ -1,118 +1,176 @@
-import React, {useState, useEffect} from "react";
-import { Fab, Drawer, Box, Typography, IconButton, Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useState, useEffect } from "react";
+import {
+  Fab,
+  Drawer,
+  Box,
+  Typography,
+  IconButton,
+  Button,
+  CircularProgress,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 
 const SelectBulk = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [currentBulks, setCurrentBulks] = useState([]);
+  const [storedBulkId, setStoredBulkId] = useState(
+    JSON.parse(localStorage.getItem("bulk_id"))
+  );
+  const [loading, setLoading] = useState(false);
 
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [user, setUser] = useState(null);
-    const [currentBulks, setCurrentBulks] = useState([]);
-    const [storedBulkId, setStoredBulkId] = useState(JSON.parse(localStorage.getItem('bulk_id')));
+  useEffect(() => {
+    setStoredBulkId(JSON.parse(localStorage.getItem("bulk_id")));
+  }, []);
 
-    useEffect(() => {
-        setStoredBulkId(JSON.parse(localStorage.getItem('bulk_id')));
-    }, []);
-
-    const fetchUserData = async () => {
-        try {
-            const storedUser = localStorage.getItem('user');
-            if (storedUser) {
-                const parsedUser = JSON.parse(storedUser);
-                setUser(parsedUser);
-                console.log('Parsed user:', parsedUser);
-
-                if (parsedUser && parsedUser.user_id) {
-                    try {
-                        const response = await axios.get(`http://localhost:3030/users/${parsedUser.user_id}`);
-                        setCurrentBulks(response.data.current_bulk_id);
-                        console.log('Current Bulks:', response.data.current_bulk_id);
-                    } catch (error) {
-                        console.error('Error fetching user data from API:', error);
-                    }
-                } else {
-                    console.error('No user ID found in the parsed user object');
-                }
-            } else {
-                console.error('No user found in localStorage');
-            }
-        } catch (error) {
-            console.error('Error parsing user data:', error);
+  const fetchUserData = async () => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        if (parsedUser && parsedUser.user_id) {
+          const response = await axios.get(
+            `http://localhost:3030/users/${parsedUser.user_id}`
+          );
+          setCurrentBulks(response.data.current_bulk_id || []);
         }
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setStoredBulkId(localStorage.getItem("bulk_id"));
     };
-
-    useEffect(() => {
-        fetchUserData();
-    }, []);
-
-    useEffect(() => {
-        const handleStorageChange = () => {
-            setStoredBulkId(localStorage.getItem('bulk_id'));
-        };
-
-        window.addEventListener('storage', handleStorageChange);
-
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-        };
-    }, []);
-
-    const handleButtonClick = (bulk_id) => {
-        localStorage.setItem('bulk_id', bulk_id);
-        setStoredBulkId(bulk_id);
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
     };
+  }, []);
 
-    const handleDrawerOpen = () => {
-        setIsDrawerOpen(true);
-    };
+  const handleButtonClick = (bulk_id) => {
+    localStorage.setItem("bulk_id", bulk_id);
+    setStoredBulkId(bulk_id);
+  };
 
-    const handleDrawerClose = () => {
-        setIsDrawerOpen(false);
-    };
+  const handleDrawerOpen = () => {
+    setIsDrawerOpen(true);
+  };
 
-    return (
-        <div>
-            <div style={{ textAlign: 'center', padding: '20px' }}>
-                <Fab
-                    color="primary"
-                    aria-label="add"
-                    onClick={handleDrawerOpen}
-                    style={{ position: 'fixed', right: 20, bottom: '70%', transform: 'translateY(50%)' }}
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
+
+  const handleCreateNewBulk = async () => {
+    console.log("Creating new bulk...");
+    console.log("User ID: ", user.user_id);
+    if (!user?.user_id) return;
+
+    try {
+      setLoading(true);
+      console.log("User ID: ", user.user_id);
+      const res = await axios.post("http://localhost:3030/bulks/default", {
+        user_id: user.user_id,
+      });
+      console.log("New bulk created: -------- ", res.data);
+      const newBulkId = res.data.bulk?.bulk_id;
+      if (newBulkId) {
+        await fetchUserData(); // refresh list
+        alert("New bulk created successfully!");
+      }
+    } catch (error) {
+      console.error("Failed to create new bulk:", error);
+      alert("Failed to create bulk");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <Fab
+          color="primary"
+          aria-label="add"
+          onClick={handleDrawerOpen}
+          style={{
+            position: "fixed",
+            right: 20,
+            bottom: "70%",
+            transform: "translateY(50%)",
+            zIndex: 1000,
+          }}
+        >
+          <AddIcon />
+        </Fab>
+
+        <Drawer anchor="right" open={isDrawerOpen} onClose={handleDrawerClose}>
+          <Box
+            sx={{ width: 300, padding: 3 }}
+            role="presentation"
+            display="flex"
+            flexDirection="column"
+          >
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              mb={2}
+            >
+              <Typography variant="h5" fontWeight="bold">
+                Bulk Manager
+              </Typography>
+              <IconButton onClick={handleDrawerClose}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+
+            <Box display="flex" flexWrap="wrap" gap={1} mb={3}>
+              {currentBulks.map((bulk_id) => (
+                <Button
+                  key={bulk_id}
+                  onClick={() => handleButtonClick(bulk_id)}
+                  variant={storedBulkId === bulk_id ? "contained" : "outlined"}
+                  color="primary"
+                  sx={{ borderRadius: 2, minWidth: 100 }}
                 >
-                    <AddIcon />
-                </Fab>
+                  Bulk {bulk_id}
+                </Button>
+              ))}
+            </Box>
 
-                <Drawer
-                    anchor="right"
-                    open={isDrawerOpen}
-                    onClose={handleDrawerClose}
-                >
-                    <Box
-                        sx={{ width: 250, padding: 2 }}
-                        role="presentation"
-                    >
-                        <IconButton onClick={handleDrawerClose}>
-                            <CloseIcon />
-                        </IconButton>
-                        <div>
-                            <Typography variant='h4' align='center' gutterBottom>Bulks</Typography>
-                            <Box display='flex' alignItems='center' justifyContent='center'>
-                                {
-                                    currentBulks.map((bulk_id)=>(
-                                        <Button key={bulk_id} onClick={() => handleButtonClick(bulk_id)}
-                                                variant= {storedBulkId === bulk_id ? 'contained' : 'outlined'}>
-                                            Bulk {bulk_id}
-                                        </Button>
-                                    ))
-                                }
-                            </Box>
-                        </div>
-                    </Box>
-                </Drawer>
-            </div>
-        </div>
-    )
-}
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleCreateNewBulk}
+              disabled={loading}
+              sx={{
+                mt: "auto",
+                borderRadius: 2,
+                fontWeight: "bold",
+                boxShadow: "0px 2px 10px rgba(0,0,0,0.2)",
+              }}
+            >
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Create New Bulk"
+              )}
+            </Button>
+          </Box>
+        </Drawer>
+      </div>
+    </div>
+  );
+};
 
-export default SelectBulk
+export default SelectBulk;

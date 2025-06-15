@@ -2,6 +2,7 @@ const express = require("express");
 const router = express();
 const User = require("../models/userModel");
 const UserController = require("../controllers/userController");
+const BulkController = require("../controllers/bulkController");
 
 router.get("/", async (req, res) => {
   const users = await UserController.getAllUsers();
@@ -24,23 +25,75 @@ router.post("/login", async (req, res) => {
   res.send(user);
 });
 
+// Add user with default Bulk ---------------------------------------
 router.post("/", async (req, res) => {
-  const users = await UserController.getAllUsers();
-  const new_user_id = users.length + 1;
-  const new_user = {
-    user_id: new_user_id,
-    name: req.body.name,
-    password: req.body.password,
-    address: req.body.address,
-    phone_no: req.body.phone_no,
-    email: req.body.email,
-    is_admin: req.body.is_admin,
-    current_bulks_id: [],
-    bulk_history: [],
-    image: req.body.image,
-    cart: [],
-  };
-  await ShopController.addNewShop(new_user);
+  try {
+    console.log("Comes to the Register User method ------ ", req.body);
+
+    // 1. Generate new user ID
+    const users = await UserController.getAllUsers();
+    const new_user_id = users.length + 1;
+
+    // 2. Create default bulk
+    const bulks = await BulkController.getAllBulks();
+    const new_bulk_id = bulks.length + 1;
+
+    const today = new Date();
+    const currentDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    const new_bulk = {
+      bulk_id: new_bulk_id,
+      bulk_name: "Default Bulk",
+      items: [],
+      createdAt: currentDate,
+      user_id: new_user_id,
+      status: "active",
+    };
+
+    await BulkController.addNewBulk(new_bulk);
+    console.log("Bulk Created Successfully ------------------ ");
+
+    // 3. Construct new user object
+    const new_user = {
+      user_id: new_user_id,
+      name: {
+        first_name: req.body.name.first_name,
+        last_name: req.body.name.last_name,
+      },
+      password: req.body.password,
+      address: {
+        address_line_1: req.body.address.address_line_1,
+        address_line_2: req.body.address.address_line_2,
+        city: req.body.address.city,
+        postcode: req.body.address.postcode,
+      },
+      phone: req.body.phone_no,
+      email: req.body.email,
+      is_admin: req.body.is_admin || false,
+      current_bulk_id: [new_bulk_id],
+      bulk_history: [],
+      cart: [],
+    };
+
+    // 4. Save the user
+    const savedUser = await UserController.registerUser(new_user);
+
+    // 5. Return success response
+    return res.status(201).json({
+      message: "User registered successfully",
+      user: savedUser,
+    });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    return res.status(500).json({
+      message: "Internal server error while registering user",
+      error: error.message,
+    });
+  }
 });
 
 router.post("/update", async (req, res) => {
