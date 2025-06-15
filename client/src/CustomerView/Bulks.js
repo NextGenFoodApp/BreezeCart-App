@@ -312,7 +312,7 @@ const Bulks = () => {
                     <TableCell>{item.product_name}</TableCell>
                     <TableCell>{item.unit}</TableCell>
                     <TableCell align="right">
-                      ${item.unit_price?.toFixed(2)}
+                      ${Number(item.unit_price || 0).toFixed(2)}
                     </TableCell>
                     <TableCell align="right">
                       <TextField
@@ -333,7 +333,7 @@ const Bulks = () => {
                       />
                     </TableCell>
                     <TableCell align="right">
-                      ${item.total_price?.toFixed(2)}
+                      ${Number(item.total_price || 0).toFixed(2)}
                     </TableCell>
                     <TableCell align="center">
                       <IconButton onClick={() => handleConfirmChange(index)}>

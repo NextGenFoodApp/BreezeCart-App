@@ -24,7 +24,7 @@ import {
 import axios from "axios";
 
 const Login = () => {
-  const [loginType, setLoginType] = useState("customer");
+  const [loginType, setLoginType] = useState("user");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [shopId, setShopId] = useState("");
@@ -49,14 +49,13 @@ const Login = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       console.log(user);
       localStorage.setItem("bulk_id", user?.current_bulk_id[0]);
-      window.location.href = "/customerview/dashboard";
       if (user?.is_admin) {
         window.location.href = "/adminview/dashboard";
       } else {
         window.location.href = "/customerview/dashboard";
       }
     } catch (error) {
-      console.error("Error logging in as customer:", error);
+      console.error("Error logging in as user:", error);
     }
   };
 
@@ -94,7 +93,7 @@ const Login = () => {
               height: 60,
             }}
           >
-            {loginType === "customer" ? (
+            {loginType === "user" ? (
               <PersonIcon fontSize="large" />
             ) : (
               <StoreIcon fontSize="large" />
@@ -105,7 +104,7 @@ const Login = () => {
             component="h1"
             sx={{ mb: 2, fontWeight: "bold" }}
           >
-            {loginType === "customer" ? "Customer Login" : "Shop Owner Login"}
+            {loginType === "user" ? "User Login" : "Shop Owner Login"}
           </Typography>
         </Box>
 
@@ -138,9 +137,9 @@ const Login = () => {
               },
             }}
           >
-            <MenuItem value="customer">
+            <MenuItem value="user">
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <PersonIcon sx={{ mr: 1 }} /> Customer
+                <PersonIcon sx={{ mr: 1 }} /> User
               </Box>
             </MenuItem>
             <MenuItem value="shopOwner">
@@ -157,7 +156,7 @@ const Login = () => {
           </Typography>
         )}
 
-        {loginType === "customer" ? (
+        {loginType === "user" ? (
           <>
             <TextField
               label="Email"
@@ -210,7 +209,7 @@ const Login = () => {
                 transition: "all 0.3s ease",
               }}
             >
-              {isLoading ? <CircularProgress size={24} /> : "Login as Customer"}
+              {isLoading ? <CircularProgress size={24} /> : "Login as User"}
             </Button>
           </>
         ) : (

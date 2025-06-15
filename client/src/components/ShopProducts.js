@@ -135,7 +135,7 @@ const ShopProducts = () => {
                     color="text.secondary"
                     sx={{ mb: 2 }}
                   >
-                    LKR {product.items[0].price}
+                    $ {product.items[0].price}
                   </Typography>
                   <Button
                     fullWidth
