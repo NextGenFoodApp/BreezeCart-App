@@ -25,23 +25,26 @@ router.post("/login", async (req, res) => {
   res.send(user);
 });
 
+// Add user with default Bulk ---------------------------------------
 router.post("/", async (req, res) => {
   try {
     console.log("Comes to the Register User method ------ ", req.body);
 
-    // Fetch all users to calculate new user ID
+    // 1. Generate new user ID
     const users = await UserController.getAllUsers();
     const new_user_id = users.length + 1;
 
-    //Create Default Bulk
+    // 2. Create default bulk
     const bulks = await BulkController.getAllBulks();
     const new_bulk_id = bulks.length + 1;
+
     const today = new Date();
     const currentDate = new Date(
       today.getFullYear(),
       today.getMonth(),
       today.getDate()
     );
+
     const new_bulk = {
       bulk_id: new_bulk_id,
       bulk_name: "Default Bulk",
@@ -50,16 +53,24 @@ router.post("/", async (req, res) => {
       user_id: new_user_id,
       status: "active",
     };
-    await BulkController.addNewBulk(new_bulk);
 
+    await BulkController.addNewBulk(new_bulk);
     console.log("Bulk Created Successfully ------------------ ");
 
-    // Construct new user object
+    // 3. Construct new user object
     const new_user = {
       user_id: new_user_id,
-      name: req.body.name,
+      name: {
+        first_name: req.body.name.first_name,
+        last_name: req.body.name.last_name,
+      },
       password: req.body.password,
-      address: req.body.address,
+      address: {
+        address_line_1: req.body.address.address_line_1,
+        address_line_2: req.body.address.address_line_2,
+        city: req.body.address.city,
+        postcode: req.body.address.postcode,
+      },
       phone: req.body.phone_no,
       email: req.body.email,
       is_admin: req.body.is_admin || false,
@@ -68,18 +79,16 @@ router.post("/", async (req, res) => {
       cart: [],
     };
 
-    // Register user
-    await UserController.registerUser(new_user);
+    // 4. Save the user
+    const savedUser = await UserController.registerUser(new_user);
 
-    // Send success response
+    // 5. Return success response
     return res.status(201).json({
-      message: "User registered successfully --------------- ",
-      user: new_user,
+      message: "User registered successfully",
+      user: savedUser,
     });
   } catch (error) {
     console.error("Error registering user:", error);
-
-    // Send error response
     return res.status(500).json({
       message: "Internal server error while registering user",
       error: error.message,

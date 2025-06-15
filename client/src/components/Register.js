@@ -17,15 +17,26 @@ import {
   Lock,
   Home,
   Phone,
+  LocationCity,
+  LocalPostOffice,
+  Apartment,
 } from "@mui/icons-material";
 import axios from "axios";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    name: {
+      first_name: "",
+      last_name: "",
+    },
     password: "",
     confirmPassword: "",
-    address: "",
+    address: {
+      address_line_1: "",
+      address_line_2: "",
+      city: "",
+      postcode: "",
+    },
     phone_no: "",
     email: "",
     is_admin: false,
@@ -37,7 +48,9 @@ const RegisterPage = () => {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
+    if (!formData.name.first_name)
+      newErrors.first_name = "First name is required";
+    if (!formData.name.last_name) newErrors.last_name = "Last name is required";
     if (!formData.password) newErrors.password = "Password is required";
     if (formData.password.length < 6)
       newErrors.password = "Minimum 6 characters";
@@ -48,21 +61,40 @@ const RegisterPage = () => {
     if (!formData.email) newErrors.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = "Invalid email address";
-    if (!formData.address) newErrors.address = "Address is required";
     if (!formData.phone_no) newErrors.phone_no = "Phone number is required";
     else if (!/^\d{10}$/.test(formData.phone_no))
       newErrors.phone_no = "Invalid phone number";
+    if (!formData.address.address_line_1)
+      newErrors.address_line_1 = "Address line 1 required";
+    if (!formData.address.city) newErrors.city = "City is required";
+    if (!formData.address.postcode) newErrors.postcode = "Postcode is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    const { name, value } = e.target;
+
+    // Handle nested values
+    if (name.startsWith("name.")) {
+      const key = name.split(".")[1];
+      setFormData((prev) => ({
+        ...prev,
+        name: { ...prev.name, [key]: value },
+      }));
+    } else if (name.startsWith("address.")) {
+      const key = name.split(".")[1];
+      setFormData((prev) => ({
+        ...prev,
+        address: { ...prev.address, [key]: value },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -72,11 +104,17 @@ const RegisterPage = () => {
     try {
       await axios.post("http://localhost:3030/users", formData);
       alert("User registered successfully!");
+      // Reset
       setFormData({
-        name: "",
+        name: { first_name: "", last_name: "" },
         password: "",
         confirmPassword: "",
-        address: "",
+        address: {
+          address_line_1: "",
+          address_line_2: "",
+          city: "",
+          postcode: "",
+        },
         phone_no: "",
         email: "",
         is_admin: false,
@@ -109,16 +147,36 @@ const RegisterPage = () => {
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            {/* Name */}
-            <Grid item xs={12}>
+            {/* First Name */}
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label="Full Name"
-                name="name"
-                value={formData.name}
+                label="First Name"
+                name="name.first_name"
+                value={formData.name.first_name}
                 onChange={handleChange}
-                error={!!errors.name}
-                helperText={errors.name}
+                error={!!errors.first_name}
+                helperText={errors.first_name}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Person />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+
+            {/* Last Name */}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Last Name"
+                name="name.last_name"
+                value={formData.name.last_name}
+                onChange={handleChange}
+                error={!!errors.last_name}
+                helperText={errors.last_name}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -169,20 +227,78 @@ const RegisterPage = () => {
               />
             </Grid>
 
-            {/* Address */}
+            {/* Address Line 1 */}
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Home Address"
-                name="address"
-                value={formData.address}
+                label="Address Line 1"
+                name="address.address_line_1"
+                value={formData.address.address_line_1}
                 onChange={handleChange}
-                error={!!errors.address}
-                helperText={errors.address}
+                error={!!errors.address_line_1}
+                helperText={errors.address_line_1}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
                       <Home />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+
+            {/* Address Line 2 */}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Address Line 2"
+                name="address.address_line_2"
+                value={formData.address.address_line_2}
+                onChange={handleChange}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Apartment />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+
+            {/* City */}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="City"
+                name="address.city"
+                value={formData.address.city}
+                onChange={handleChange}
+                error={!!errors.city}
+                helperText={errors.city}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LocationCity />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+
+            {/* Postcode */}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Postcode"
+                name="address.postcode"
+                value={formData.address.postcode}
+                onChange={handleChange}
+                error={!!errors.postcode}
+                helperText={errors.postcode}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LocalPostOffice />
                     </InputAdornment>
                   ),
                 }}
