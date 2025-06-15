@@ -14,28 +14,38 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import CategoryIcon from "@mui/icons-material/Category";
 
 const AdminCategoriesPage = () => {
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [editedName, setEditedName] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:3030/categories").then((res) => {
-      setCategories(res.data);
-    });
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get("http://localhost:3030/categories");
+      setCategories(res.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   const handleDelete = async (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
         await axios.delete(`http://localhost:3030/categories/${categoryId}`);
-        setCategories(categories.filter((c) => c.category_id !== categoryId));
+        setCategories((prev) =>
+          prev.filter((c) => c.category_id !== categoryId)
+        );
       } catch (error) {
         alert("Failed to delete category.");
         console.error(error);
@@ -45,12 +55,34 @@ const AdminCategoriesPage = () => {
 
   const handleOpenModal = (category) => {
     setSelectedCategory(category);
+    setEditedName(category.category_name);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedCategory(null);
+    setEditedName("");
+  };
+
+  const handleUpdateCategory = async () => {
+    try {
+      await axios.put(
+        `http://localhost:3030/categories/${selectedCategory.category_id}`,
+        { category_name: editedName }
+      );
+      setCategories((prev) =>
+        prev.map((cat) =>
+          cat.category_id === selectedCategory.category_id
+            ? { ...cat, category_name: editedName }
+            : cat
+        )
+      );
+      handleCloseModal();
+    } catch (err) {
+      alert("Failed to update category.");
+      console.error(err);
+    }
   };
 
   const filteredCategories = categories.filter((category) =>
@@ -83,19 +115,31 @@ const AdminCategoriesPage = () => {
             <React.Fragment key={category.category_id}>
               <ListItem
                 alignItems="flex-start"
-                sx={{ px: 3, py: 2, cursor: "pointer" }}
-                onClick={() => handleOpenModal(category)}
+                sx={{ px: 3, py: 2 }}
                 secondaryAction={
-                  <IconButton
-                    edge="end"
-                    color="error"
-                    onClick={(e) => {
-                      e.stopPropagation(); // prevent modal open on delete
-                      handleDelete(category.category_id);
-                    }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <IconButton
+                        edge="end"
+                        color="primary"
+                        onClick={() => handleOpenModal(category)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Grid>
+                    <Grid item>
+                      <IconButton
+                        edge="end"
+                        color="error"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(category.category_id);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
                 }
               >
                 <Grid container spacing={2} alignItems="center">
@@ -135,31 +179,32 @@ const AdminCategoriesPage = () => {
         )}
       </List>
 
-      {/* Category Details Modal */}
+      {/* Edit Category Modal */}
       <Dialog
         open={isModalOpen}
         onClose={handleCloseModal}
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle sx={{ fontWeight: "bold" }}>Category Details</DialogTitle>
-        {selectedCategory && (
-          <DialogContent dividers>
-            <Typography variant="body1" sx={{ mb: 1 }}>
-              <strong>Category ID:</strong> {selectedCategory.category_id}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Category Name:</strong> {selectedCategory.category_name}
-            </Typography>
-          </DialogContent>
-        )}
+        <DialogTitle sx={{ fontWeight: "bold" }}>Edit Category</DialogTitle>
+        <DialogContent dividers>
+          <TextField
+            label="Category Name"
+            value={editedName}
+            onChange={(e) => setEditedName(e.target.value)}
+            fullWidth
+            variant="outlined"
+            autoFocus
+          />
+        </DialogContent>
         <DialogActions>
+          <Button onClick={handleCloseModal}>Cancel</Button>
           <Button
-            onClick={handleCloseModal}
+            onClick={handleUpdateCategory}
             variant="contained"
             color="primary"
           >
-            Close
+            Save
           </Button>
         </DialogActions>
       </Dialog>
