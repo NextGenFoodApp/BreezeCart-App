@@ -10,10 +10,11 @@ import {
   Button,
   Grid,
   Box,
+  Divider,
 } from "@mui/material";
-import axios from "axios";
-
 import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import axios from "axios";
 
 const ShopInfo = () => {
   const [shopId, setShopId] = useState(0);
@@ -93,46 +94,57 @@ const ShopInfo = () => {
           md={4}
           sx={{
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
+            gap: 2,
           }}
         >
-          <Box
+          <Card
             sx={{
               width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
               p: 2,
+              boxShadow: 4,
+              borderRadius: 2,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <Link to={`/shop-owners/${shopId}`} style={{ width: "100%" }}>
-              <CardMedia
-                component="img"
-                alt={`Shop ${shopId}`}
-                image={shop.logo}
-                title={`Shop ${shopId}`}
+            <CardMedia
+              component="img"
+              alt={`Shop ${shopId}`}
+              image={shop.logo}
+              sx={{
+                width: "100%",
+                maxHeight: 250,
+                objectFit: "contain",
+                borderRadius: 2,
+                mb: 2,
+              }}
+            />
+            <Link
+              to={`/shop-owners/${shopId}`}
+              style={{ textDecoration: "none", width: "100%" }}
+            >
+              <Button
+                variant="contained"
+                startIcon={<VisibilityIcon />}
+                fullWidth
                 sx={{
-                  width: "100%",
-                  maxHeight: 250,
-                  objectFit: "contain",
+                  textTransform: "none",
                   borderRadius: 2,
-                  boxShadow: 3,
-                  cursor: "pointer",
-                  transition: "transform 0.2s ease",
-                  "&:hover": {
-                    transform: "scale(1.03)",
-                  },
+                  fontWeight: "bold",
                 }}
-              />
+              >
+                View Shop
+              </Button>
             </Link>
-          </Box>
+          </Card>
         </Grid>
 
         {/* Right Side - Shop Details */}
         <Grid item xs={12} md={8}>
-          <Card elevation={4}>
+          <Card elevation={5} sx={{ borderRadius: 3 }}>
             <CardContent>
               {[
                 { label: "Shop Name", key: "shopName" },
@@ -142,56 +154,58 @@ const ShopInfo = () => {
                 { label: "Email", key: "email" },
                 { label: "Phone", key: "phone" },
               ].map(({ label, key }, index) => (
-                <Grid
-                  container
-                  key={index}
-                  alignItems="center"
-                  spacing={1}
-                  sx={{ mb: 2 }}
-                >
-                  <Grid item xs={4}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                      {label}:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    {editField === key ? (
-                      <TextField
-                        fullWidth
-                        variant="standard"
-                        name={key}
-                        value={shop[key]}
-                        onChange={handleInputChange}
-                        sx={{ fontSize: "1rem" }}
-                      />
-                    ) : (
-                      <Typography variant="body1" sx={{ fontSize: "1rem" }}>
-                        {shop[key]}
+                <React.Fragment key={index}>
+                  <Grid
+                    container
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ mb: 2 }}
+                  >
+                    <Grid item xs={4}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ fontWeight: 600, color: "#555" }}
+                      >
+                        {label}:
                       </Typography>
-                    )}
+                    </Grid>
+                    <Grid item xs={6}>
+                      {editField === key ? (
+                        <TextField
+                          fullWidth
+                          variant="standard"
+                          name={key}
+                          value={shop[key]}
+                          onChange={handleInputChange}
+                        />
+                      ) : (
+                        <Typography variant="body1">{shop[key]}</Typography>
+                      )}
+                    </Grid>
+                    <Grid item xs={2}>
+                      {editField === key ? (
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={handleSaveClick}
+                          sx={{ minWidth: "36px", px: 1 }}
+                        >
+                          ✔
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outlined"
+                          onClick={() => handleEditClick(key)}
+                          startIcon={<EditIcon />}
+                          sx={{ textTransform: "none", px: 1 }}
+                        >
+                          Edit
+                        </Button>
+                      )}
+                    </Grid>
                   </Grid>
-                  <Grid item xs={2}>
-                    {editField === key ? (
-                      <Button
-                        variant="contained"
-                        color="success"
-                        onClick={handleSaveClick}
-                        sx={{ minWidth: "36px", px: 1 }}
-                      >
-                        ✔
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outlined"
-                        onClick={() => handleEditClick(key)}
-                        startIcon={<EditIcon />}
-                        sx={{ textTransform: "none", px: 1 }}
-                      >
-                        Edit
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
+                  {index !== 5 && <Divider sx={{ mb: 2 }} />}
+                </React.Fragment>
               ))}
             </CardContent>
           </Card>
