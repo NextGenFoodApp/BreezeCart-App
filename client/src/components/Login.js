@@ -8,7 +8,19 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Box,
+  Paper,
+  Avatar,
+  InputAdornment,
+  CircularProgress,
 } from "@mui/material";
+import {
+  Person as PersonIcon,
+  Store as StoreIcon,
+  Email as EmailIcon,
+  Lock as LockIcon,
+  VpnKey as ShopIdIcon,
+} from "@mui/icons-material";
 import axios from "axios";
 
 const Login = () => {
@@ -32,12 +44,12 @@ const Login = () => {
         password,
       });
       console.log("Customer Login: ", email, password);
-      console.log("Response Data: ", response.data);
+      console.log("Response Data: -----------  ", response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
       const user = JSON.parse(localStorage.getItem("user"));
       console.log(user);
       localStorage.setItem("bulk_id", user?.current_bulk_id[0]);
-      // window.location.href = "/customerview/dashboard";
+      window.location.href = "/customerview/dashboard";
       if (user?.is_admin) {
         window.location.href = "/adminview/dashboard";
       } else {
@@ -50,89 +62,218 @@ const Login = () => {
 
   const handleShopOwnerLogin = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.post("http://localhost:3030/shops/login", {
         shop_id: shopId,
         password: shopPassword,
       });
-      console.log("Shop Owner Login: ", shopId, shopPassword);
       localStorage.setItem("shop", JSON.stringify(response.data));
-      console.log(localStorage.getItem("shop"));
       window.location.href = "/shopownerview/dashboard";
     } catch (error) {
       console.error("Error logging in as shop owner:", error);
+      setError("Invalid shop ID or password");
+      setIsLoading(false);
     }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
-        Login
-      </Typography>
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Login Type</InputLabel>
-        <Select value={loginType} onChange={handleLoginTypeChange}>
-          <MenuItem value="customer">Customer</MenuItem>
-          <MenuItem value="shopOwner">Shop Owner</MenuItem>
-        </Select>
-      </FormControl>
-      {loginType === "customer" ? (
-        <>
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={handleCustomerLogin}
+    <Container maxWidth="sm" sx={{ mt: 8 }}>
+      <Paper elevation={6} sx={{ p: 4, borderRadius: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar
+            sx={{
+              m: 1,
+              bgcolor: "secondary.main",
+              width: 60,
+              height: 60,
+            }}
           >
-            Login
-          </Button>
-        </>
-      ) : (
-        <>
-          <TextField
-            label="Shop ID"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={shopId}
-            onChange={(e) => setShopId(e.target.value)}
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            type="password"
-            value={shopPassword}
-            onChange={(e) => setShopPassword(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={handleShopOwnerLogin}
+            {loginType === "customer" ? (
+              <PersonIcon fontSize="large" />
+            ) : (
+              <StoreIcon fontSize="large" />
+            )}
+          </Avatar>
+          <Typography
+            variant="h4"
+            component="h1"
+            sx={{ mb: 2, fontWeight: "bold" }}
           >
-            Login
-          </Button>
-        </>
-      )}
+            {loginType === "customer" ? "Customer Login" : "Shop Owner Login"}
+          </Typography>
+        </Box>
+
+        <FormControl fullWidth margin="normal" sx={{ mb: 3 }}>
+          <InputLabel
+            sx={{
+              backgroundColor: "background.paper",
+              px: 1,
+              zIndex: 1,
+              "&.Mui-focused": {
+                color: "primary.main",
+              },
+            }}
+          >
+            Login Type
+          </InputLabel>
+          <Select
+            value={loginType}
+            onChange={handleLoginTypeChange}
+            sx={{
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "divider",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "primary.light",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "primary.main",
+                borderWidth: 2,
+              },
+            }}
+          >
+            <MenuItem value="customer">
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <PersonIcon sx={{ mr: 1 }} /> Customer
+              </Box>
+            </MenuItem>
+            <MenuItem value="shopOwner">
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <StoreIcon sx={{ mr: 1 }} /> Shop Owner
+              </Box>
+            </MenuItem>
+          </Select>
+        </FormControl>
+
+        {error && (
+          <Typography color="error" align="center" sx={{ mb: 2 }}>
+            {error}
+          </Typography>
+        )}
+
+        {loginType === "customer" ? (
+          <>
+            <TextField
+              label="Email"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailIcon />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockIcon />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 3 }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleCustomerLogin}
+              disabled={isLoading}
+              size="large"
+              sx={{
+                py: 1.5,
+                fontSize: "1rem",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: 3,
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              {isLoading ? <CircularProgress size={24} /> : "Login as Customer"}
+            </Button>
+          </>
+        ) : (
+          <>
+            <TextField
+              label="Shop ID"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={shopId}
+              onChange={(e) => setShopId(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <ShopIdIcon />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              type="password"
+              value={shopPassword}
+              onChange={(e) => setShopPassword(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockIcon />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 3 }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleShopOwnerLogin}
+              disabled={isLoading}
+              size="large"
+              sx={{
+                py: 1.5,
+                fontSize: "1rem",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: 3,
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              {isLoading ? (
+                <CircularProgress size={24} />
+              ) : (
+                "Login as Shop Owner"
+              )}
+            </Button>
+          </>
+        )}
+      </Paper>
     </Container>
   );
 };

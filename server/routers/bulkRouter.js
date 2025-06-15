@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
     items: [],
     frequency: req.body.frequency,
     delivery_starting_date: req.body.delivery_starting_date,
-    status: req.body.status,
+    status: "active",
   };
   await BulkController.addNewBulk(new_bulk);
 });
