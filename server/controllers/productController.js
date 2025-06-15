@@ -25,7 +25,7 @@ exports.getSpecificProduct = async (id) => {
 exports.getShopProducts = async (shop_id) => {
   try {
     const products = await Product.find({ shop_id: shop_id });
-    console.log(products);
+
     return products;
   } catch (err) {
     console.log(err);
@@ -36,7 +36,7 @@ exports.getShopProducts = async (shop_id) => {
 exports.getCategoryProducts = async (category_id) => {
   try {
     const products = await Product.find({ category_id: category_id });
-    console.log(products);
+
     return products;
   } catch (err) {
     console.log(err);

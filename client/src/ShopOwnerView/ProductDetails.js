@@ -43,6 +43,7 @@ const ProductDetailsPage = () => {
         const productRes = await axios.get(
           `http://localhost:3030/products/${id}`
         );
+        console.log("Product response:", productRes.data);
         setProduct(productRes.data);
         setSelectedItem(
           productRes.data.items.length === 1 ? productRes.data.items[0] : null
@@ -177,29 +178,80 @@ const ProductDetailsPage = () => {
                 </>
               )}
 
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                {selectedItem
-                  ? `${selectedItem.unit}, Price: $${selectedItem.price}`
-                  : product.items.length === 1
-                  ? `${product.items[0].unit}, Price: $${product.items[0].price}`
-                  : "Select a variation to see price"}
-              </Typography>
+              {selectedItem || product.items.length === 1 ? (
+                <Box
+                  sx={{
+                    mb: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Typography variant="body1" fontWeight={500}>
+                    Unit:
+                  </Typography>
+                  <Box
+                    sx={{
+                      px: 1.5,
+                      py: 0.5,
+                      bgcolor: "#e3f2fd",
+                      borderRadius: "12px",
+                      fontWeight: 600,
+                      color: "#1976d2",
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    {(selectedItem || product.items[0]).unit}
+                  </Box>
 
-              <TextField
-                label="Quantity"
-                type="number"
-                value={quantity}
-                onChange={handleQuantityChange}
-                inputProps={{ min: 1 }}
-                fullWidth
-                sx={{ mb: 3 }}
-              />
+                  <Typography variant="body1" fontWeight={500}>
+                    Price:
+                  </Typography>
+                  <Box
+                    sx={{
+                      px: 1.5,
+                      py: 0.5,
+                      bgcolor: "#fbe9e7",
+                      borderRadius: "12px",
+                      fontWeight: 600,
+                      color: "#d84315",
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    $
+                    {Number((selectedItem || product.items[0]).price).toFixed(
+                      2
+                    )}
+                  </Box>
+                </Box>
+              ) : (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    mb: 2,
+                    color: "text.secondary",
+                    fontStyle: "italic",
+                  }}
+                >
+                  Select a variation to see the price
+                </Typography>
+              )}
 
               <Button
                 variant="contained"
                 color="success"
                 fullWidth
                 onClick={handleUpdateProduct}
+                sx={{
+                  mt: 3,
+                  py: 1.2,
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                  borderRadius: "10px",
+                  boxShadow: 3,
+                  textTransform: "none",
+                }}
               >
                 Update Product
               </Button>

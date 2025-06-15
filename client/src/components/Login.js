@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import axios from 'axios';
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import axios from "axios";
 
 const Login = () => {
-  const [loginType, setLoginType] = useState('customer');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [shopId, setShopId] = useState('');
-  const [shopPassword, setShopPassword] = useState('');
+  const [loginType, setLoginType] = useState("customer");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [shopId, setShopId] = useState("");
+  const [shopPassword, setShopPassword] = useState("");
 
   const handleLoginTypeChange = (event) => {
     setLoginType(event.target.value);
@@ -15,27 +24,39 @@ const Login = () => {
 
   const handleCustomerLogin = async () => {
     try {
-        const response = await axios.post('http://localhost:3030/users/login', { email, password });
-        console.log("Customer Login: ", email, password);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        const user = JSON.parse(localStorage.getItem('user'));
-        console.log(user); 
-        localStorage.setItem('bulk_id', user.current_bulk_id[0]);
-        window.location.href = '/customerview/dashboard';
+      const response = await axios.post("http://localhost:3030/users/login", {
+        email,
+        password,
+      });
+      console.log("Customer Login: ", email, password);
+      console.log("Response Data: ", response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      const user = JSON.parse(localStorage.getItem("user"));
+      console.log(user);
+      localStorage.setItem("bulk_id", user?.current_bulk_id[0]);
+      // window.location.href = "/customerview/dashboard";
+      if (user?.is_admin) {
+        window.location.href = "/adminview/dashboard";
+      } else {
+        window.location.href = "/customerview/dashboard";
+      }
     } catch (error) {
-    console.error('Error logging in as customer:', error);
+      console.error("Error logging in as customer:", error);
     }
   };
 
   const handleShopOwnerLogin = async () => {
     try {
-        const response = await axios.post('http://localhost:3030/shops/login', { shop_id: shopId, password: shopPassword });
-        console.log("Shop Owner Login: ", shopId, shopPassword);
-        localStorage.setItem('shop', JSON.stringify(response.data));
-        console.log(localStorage.getItem('shop'));
-        window.location.href = '/shopownerview/dashboard';
+      const response = await axios.post("http://localhost:3030/shops/login", {
+        shop_id: shopId,
+        password: shopPassword,
+      });
+      console.log("Shop Owner Login: ", shopId, shopPassword);
+      localStorage.setItem("shop", JSON.stringify(response.data));
+      console.log(localStorage.getItem("shop"));
+      window.location.href = "/shopownerview/dashboard";
     } catch (error) {
-    console.error('Error logging in as shop owner:', error);
+      console.error("Error logging in as shop owner:", error);
     }
   };
 
@@ -46,22 +67,19 @@ const Login = () => {
       </Typography>
       <FormControl fullWidth margin="normal">
         <InputLabel>Login Type</InputLabel>
-        <Select
-          value={loginType}
-          onChange={handleLoginTypeChange}
-        >
+        <Select value={loginType} onChange={handleLoginTypeChange}>
           <MenuItem value="customer">Customer</MenuItem>
           <MenuItem value="shopOwner">Shop Owner</MenuItem>
         </Select>
       </FormControl>
-      {loginType === 'customer' ? (
+      {loginType === "customer" ? (
         <>
           <TextField
             label="Email"
             variant="outlined"
             fullWidth
             margin="normal"
-            type='email'
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -74,7 +92,12 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button variant="contained" color="primary" fullWidth onClick={handleCustomerLogin}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleCustomerLogin}
+          >
             Login
           </Button>
         </>
@@ -97,7 +120,12 @@ const Login = () => {
             value={shopPassword}
             onChange={(e) => setShopPassword(e.target.value)}
           />
-          <Button variant="contained" color="primary" fullWidth onClick={handleShopOwnerLogin}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleShopOwnerLogin}
+          >
             Login
           </Button>
         </>

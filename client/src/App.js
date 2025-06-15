@@ -26,6 +26,8 @@ import Bulks from "./CustomerView/Bulks";
 import Checkout from "./CustomerView/Checkout";
 import AddProduct from "./ShopOwnerView/AddProduct";
 import ProductDetailsPage from "./ShopOwnerView/ProductDetails";
+import UpdateProductForm from "./CustomerView/UpdateProductForm";
+import AdminDashboard from "./AdminView/AdminDashboard";
 
 const App = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -52,8 +54,8 @@ const App = () => {
             const response = await axios.get(
               `http://localhost:3030/users/${parsedUser.user_id}`
             );
-            setCurrentBulks(response.data.current_bulk_id);
-            console.log("Current Bulks:", response.data.current_bulk_id);
+            setCurrentBulks(response.data?.current_bulk_id);
+            console.log("Current Bulks:", response.data?.current_bulk_id);
           } catch (error) {
             console.error("Error fetching user data from API:", error);
           }
@@ -108,6 +110,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/customerview/dashboard" element={<UserDashboard />} />
+        <Route path="/adminview/dashboard" element={<AdminDashboard />} />
         <Route path="/shopownerview/dashboard" element={<ShopDashboard />} />
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/product-details/:id" element={<ProductDetailsPage />} />
@@ -115,6 +118,7 @@ const App = () => {
         <Route path="/bulks" element={<Bulks />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/update-product/:id" element={<UpdateProductForm />} />
       </Routes>
 
       <div style={{ textAlign: "center", padding: "20px" }}>

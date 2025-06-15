@@ -125,8 +125,15 @@ router.delete("/:product_id", async (req, res) => {
 
 // Update product (PUT or PATCH)
 router.put("/:id", async (req, res) => {
+  console.log(
+    "Comes to the update method. ------------------------------------------------------------------------------------"
+  );
   const product_id = parseInt(req.params.id); // assuming product_id is numeric
   const updatedData = req.body;
+
+  updatedData.items = JSON.parse(updatedData.items);
+
+  console.log("Received updated data:", updatedData);
 
   try {
     const updatedProduct = await ProductController.updateProductById(
