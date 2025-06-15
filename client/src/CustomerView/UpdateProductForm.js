@@ -6,7 +6,11 @@ import {
   Typography,
   Grid,
   Paper,
+  IconButton,
 } from "@mui/material";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -34,7 +38,6 @@ const UpdateProductForm = () => {
     fetchProduct();
   }, [id]);
 
-  // Handle field changes
   const handleChange = (e) => {
     setProduct({
       ...product,
@@ -48,6 +51,39 @@ const UpdateProductForm = () => {
     setItems(updatedItems);
   };
 
+  const handleImageUpload = async (index, file) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      const res = await axios.post(
+        "http://localhost:3030/products/upload-item-image",
+        formData
+      );
+      const newItems = [...items];
+      newItems[index].image = res.data.url;
+      setItems(newItems);
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      alert("❌ Failed to upload image.");
+    }
+  };
+
+  const addNewItem = () => {
+    setItems([
+      ...items,
+      {
+        image: "",
+        price: 0,
+        unit: "",
+      },
+    ]);
+  };
+
+  const removeItem = (indexToRemove) => {
+    const updated = items.filter((_, index) => index !== indexToRemove);
+    setItems(updated);
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -57,15 +93,6 @@ const UpdateProductForm = () => {
         image: items[0]?.image || product.image,
         price: items[0]?.price || product.price,
       };
-
-      console.log("Submitting payload:", payload);
-
-      const req_body = {
-        ...payload,
-        items: JSON.stringify(payload.items),
-      };
-
-      console.log("Request body:", req_body);
 
       const res = await axios.put(
         `http://localhost:3030/products/${product.product_id}`,
@@ -77,6 +104,7 @@ const UpdateProductForm = () => {
 
       if (res.status === 200) {
         alert("✅ Product updated successfully!");
+        navigate(`/product-details/${product.product_id}`);
       } else {
         alert("⚠️ Failed to update product.");
       }
@@ -140,20 +168,49 @@ const UpdateProductForm = () => {
             />
           </Grid>
 
-          {/* Items Array - At least One */}
+          {/* Items */}
           {items.map((item, index) => (
             <React.Fragment key={index}>
-              <Grid item xs={6}>
-                <TextField
-                  label="Item Image URL"
+              <Grid item xs={12} md={4}>
+                <Button
+                  variant="contained"
+                  component="label"
                   fullWidth
-                  value={item.image}
-                  onChange={(e) =>
-                    handleItemChange(index, "image", e.target.value)
-                  }
-                />
+                  startIcon={<UploadFileIcon />}
+                >
+                  Upload Image
+                  <input
+                    hidden
+                    type="file"
+                    onChange={(e) =>
+                      handleImageUpload(index, e.target.files[0])
+                    }
+                  />
+                </Button>
+                {item.image && (
+                  <>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "green", mt: 1, display: "block" }}
+                    >
+                      Image uploaded
+                    </Typography>
+                    <img
+                      src={item.image}
+                      alt="Preview"
+                      style={{
+                        width: "100%",
+                        maxHeight: "120px",
+                        objectFit: "cover",
+                        marginTop: "5px",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </>
+                )}
               </Grid>
-              <Grid item xs={3}>
+
+              <Grid item xs={12} md={3}>
                 <TextField
                   label="Price"
                   type="number"
@@ -164,7 +221,8 @@ const UpdateProductForm = () => {
                   }
                 />
               </Grid>
-              <Grid item xs={3}>
+
+              <Grid item xs={9} md={3}>
                 <TextField
                   label="Unit"
                   fullWidth
@@ -174,8 +232,30 @@ const UpdateProductForm = () => {
                   }
                 />
               </Grid>
+
+              <Grid item xs={3} md={2}>
+                <IconButton
+                  color="error"
+                  onClick={() => removeItem(index)}
+                  sx={{ mt: 1 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
             </React.Fragment>
           ))}
+
+          <Grid item xs={12}>
+            <Button
+              variant="outlined"
+              startIcon={<AddIcon />}
+              fullWidth
+              onClick={addNewItem}
+              sx={{ mt: 2 }}
+            >
+              Add New Item
+            </Button>
+          </Grid>
 
           <Grid item xs={12}>
             <Button
