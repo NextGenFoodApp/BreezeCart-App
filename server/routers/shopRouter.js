@@ -58,7 +58,7 @@ router.post("/update", async (req, res) => {
 router.get("/count", async (req, res) => {
   console.log("Fetching shop count...");
   try {
-    const count = await shopService.getShopCount();
+    const count = await ShopController.getShopCount();
     res.status(200).json({ count });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch shop count" });
