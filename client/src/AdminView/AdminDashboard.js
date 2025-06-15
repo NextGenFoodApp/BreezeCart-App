@@ -69,7 +69,7 @@ const AdminDashboard = () => {
 
   const handleAddShop = () => {
     // navigate to shop creation page
-    window.location.href = "/add-shop";
+    window.location.href = "/adminview/add-shop";
   };
 
   // const handleAddCategory = () => {

@@ -28,6 +28,7 @@ import AddProduct from "./ShopOwnerView/AddProduct";
 import ProductDetailsPage from "./ShopOwnerView/ProductDetails";
 import UpdateProductForm from "./CustomerView/UpdateProductForm";
 import AdminDashboard from "./AdminView/AdminDashboard";
+import AddShopPage from "./AdminView/AddShopPage";
 
 const App = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -111,6 +112,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/customerview/dashboard" element={<UserDashboard />} />
         <Route path="/adminview/dashboard" element={<AdminDashboard />} />
+        <Route path="/adminview/add-shop" element={<AddShopPage />} />
         <Route path="/shopownerview/dashboard" element={<ShopDashboard />} />
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/product-details/:id" element={<ProductDetailsPage />} />
