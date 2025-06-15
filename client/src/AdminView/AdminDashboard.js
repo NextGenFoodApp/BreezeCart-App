@@ -78,11 +78,13 @@ const AdminDashboard = () => {
   // };
 
   const handleSubmitCategory = async () => {
+    console.log("Comes to submit category", categoryName, description);
     try {
       await axios.post("http://localhost:3030/categories", {
         category_name: categoryName,
         description: description,
       });
+      console.log("Category added successfully");
       alert("Category added successfully");
       handleCloseCategoryModal();
     } catch (error) {
