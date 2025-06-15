@@ -73,3 +73,19 @@ exports.getShopCount = async () => {
     throw err;
   }
 };
+
+// Delete a shop by shop_id
+exports.deleteShop = async (id) => {
+  try {
+    const deletedShop = await Shop.findOneAndDelete({ shop_id: id });
+    if (!deletedShop) {
+      console.log("Shop not found for deletion");
+      return null;
+    }
+    console.log("Deleted Shop:", deletedShop);
+    return deletedShop;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
