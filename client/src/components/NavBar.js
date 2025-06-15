@@ -14,6 +14,8 @@ import LoginIcon from "@mui/icons-material/Login";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HomeIcon from "@mui/icons-material/Home";
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 const NavBar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -57,7 +59,8 @@ const NavBar = () => {
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Button
+            {!isShopLoggedIn && (
+            <Button
             color="inherit"
             component={Link}
             to="/"
@@ -72,6 +75,7 @@ const NavBar = () => {
           >
             Home
           </Button>
+          )}
 
           {isUserLoggedIn || isShopLoggedIn ? null : (
             <Button
@@ -185,6 +189,7 @@ const NavBar = () => {
                 color="inherit"
                 component={Link}
                 to="/bulks"
+                startIcon={<ShoppingBasketIcon />}
                 sx={{
                   "&:hover": {
                     backgroundColor: "rgba(255,255,255,0.1)",
@@ -199,6 +204,7 @@ const NavBar = () => {
                 color="inherit"
                 component={Link}
                 to="/checkout"
+                startIcon={<ReceiptLongIcon />}
                 sx={{
                   "&:hover": {
                     backgroundColor: "rgba(255,255,255,0.1)",
