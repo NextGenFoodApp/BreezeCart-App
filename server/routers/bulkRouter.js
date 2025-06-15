@@ -131,4 +131,6 @@ router.get("/active", async (req, res) => {
   }
 });
 
+router.post("/update-bulk-meta", BulkController.updateBulkMeta);
+
 module.exports = router;
