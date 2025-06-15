@@ -149,6 +149,20 @@ exports.emptyTheCart = async (id) => {
   }
 };
 
+exports.updateUser = async (id, updateObject) => {
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { user_id: id },
+      { $set: updateObject },
+      { new: true }
+    );
+    return updatedUser;
+  } catch (err) {
+    console.error("Error updating user:", err);
+    throw err;
+  }
+};
+
 exports.getUsersCount = async () => {
   try {
     const count = await User.countDocuments();

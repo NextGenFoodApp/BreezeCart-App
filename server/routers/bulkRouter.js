@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const BulkController = require("../controllers/bulkController");
+const UserController = require("../controllers/userController");
 
 // Get all bulks in the database.
 router.get("/", async (req, res) => {
@@ -60,7 +61,27 @@ router.post("/default", async (req, res) => {
 
     // Save new bulk
     const savedBulk = await BulkController.addNewBulk(new_bulk);
-    console.log("Bulk Created Successfully ------------------ ");
+    console.log("Bulk Created Successfully ----------------------------- ");
+
+    // add bulk to user
+    // Append bulk_id to current_bulk_id array in user
+    const user = await UserController.getSpecificUser(user_id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const updatedBulks = Array.isArray(user.current_bulk_id)
+      ? [...user.current_bulk_id, new_bulk_id]
+      : [new_bulk_id];
+
+    user.current_bulk_id = updatedBulks;
+
+    const updatedUser = await UserController.updateUser(user_id, {
+      current_bulk_id: updatedBulks,
+    });
+
+    console.log("Bulk Created and Assigned to User ------------------ ");
 
     return res.status(201).json({
       message: "Default bulk created successfully",
