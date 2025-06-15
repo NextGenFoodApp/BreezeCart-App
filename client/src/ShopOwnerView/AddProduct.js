@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -8,6 +8,10 @@ import {
   CardContent,
   IconButton,
   Box,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -21,6 +25,33 @@ const AddProduct = () => {
     shop_id: "",
     attribute: "",
   });
+
+  const [shopId, setShopId] = useState(0);
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("http://localhost:3030/categories"); // make sure the route matches your backend
+        setCategories(res.data);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+      }
+    };
+    const storedShop = localStorage.getItem("shop");
+    const parsedShop = JSON.parse(storedShop);
+    const shopId = parsedShop.shop_id;
+    setShopId(shopId);
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    setProduct((prev) => ({
+      ...prev,
+      shop_id: shopId,
+    }));
+  }, [shopId]);
 
   const [items, setItems] = useState([
     { item_id: "", price: "", unit: "", image: "" },
@@ -102,22 +133,52 @@ const AddProduct = () => {
           Add Product
         </Typography>
         <Grid container spacing={2} mt={1}>
-          {["product_name", "category_id", "shop_id", "attribute"].map(
-            (field) => (
-              <Grid item xs={12} md={6} key={field}>
-                <TextField
-                  fullWidth
-                  label={field.replace("_", " ").toUpperCase()}
-                  name={field}
-                  value={product[field]}
-                  onChange={handleProductChange}
-                  InputLabelProps={{
-                    sx: { fontSize: "0.8rem" }, // 👈 smaller label font size
-                  }}
-                />
-              </Grid>
-            )
-          )}
+          {["product_name", "attribute"].map((field) => (
+            <Grid item xs={12} md={6} key={field}>
+              <TextField
+                fullWidth
+                label={field.replace("_", " ").toUpperCase()}
+                name={field}
+                value={product[field]}
+                onChange={handleProductChange}
+                InputLabelProps={{
+                  sx: { fontSize: "0.8rem" }, // 👈 smaller label font size
+                }}
+              />
+            </Grid>
+          ))}
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="Shop ID"
+              name="shop_id"
+              value={product.shop_id}
+              disabled
+              InputLabelProps={{
+                sx: { fontSize: "0.8rem" },
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="category-label">Category</InputLabel>
+              <Select
+                labelId="category-label"
+                name="category_id"
+                value={product.category_id}
+                label="Category"
+                onChange={handleProductChange}
+              >
+                {categories.map((cat) => (
+                  <MenuItem key={cat.category_id} value={cat.category_id}>
+                    {cat.category_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
 
           <Grid item xs={12}>
             <Typography

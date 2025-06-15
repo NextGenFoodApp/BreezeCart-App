@@ -143,7 +143,7 @@ const ShopProducts = () => {
                     color="primary"
                     sx={{ borderRadius: 2 }}
                     onClick={() =>
-                      (window.location.href = `http://localhost:3000/products/${product.product_id}`)
+                      (window.location.href = `http://localhost:3000/product-details/${product.product_id}`)
                     }
                   >
                     View Product
