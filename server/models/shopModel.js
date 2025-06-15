@@ -1,75 +1,77 @@
-const mongoose = require('mongoose');
-const db = require('../db');
+const mongoose = require("mongoose");
+const db = require("../db");
 
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
-const shopSchema = new Schema({
-    shop_id:{
-        type: Number,
-        required: true,
-        unique: true 
+const shopSchema = new Schema(
+  {
+    shop_id: {
+      type: Number,
+      required: true,
+      unique: true,
     },
-    shop_name:{
-        type: String,
-        required: true
+    shop_name: {
+      type: String,
+      required: true,
     },
-    password:{
-        type: String,
-        required: true
+    password: {
+      type: String,
+      required: true,
     },
-    shop_owner:{
-        type: String,
-        required: true
+    shop_owner: {
+      type: String,
+      required: true,
     },
     address: {
-        type: String,
-        required : true 
+      type: String,
+      required: true,
     },
     postal_code: {
-        type: Number,
-        required : true 
+      type: Number,
+      required: true,
     },
     phone_no: {
-        type: String,
-        required : true 
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        required : true 
+      type: String,
+      required: true,
     },
-    products:{
-        type: Array,
-        default: []
+    products: {
+      type: Array,
+      default: [],
     },
-    orders:{
-        type: String,
-        required: true
+    orders: {
+      type: Array,
+      default: [],
     },
-    logo:{
-        type: String,
-        required: true
+    logo: {
+      type: String,
+      required: true,
     },
-    bank_acc_number:{
-        type: String,
-        required: true 
+    bank_acc_number: {
+      type: String,
+      required: true,
     },
-    bank_acc_holder:{
-        type: String,
-        required: true 
+    bank_acc_holder: {
+      type: String,
+      required: true,
     },
-    bank:{
-        type: String,
-        required: true 
+    bank: {
+      type: String,
+      required: true,
     },
-    bank_branch:{
-        type: String,
-        required: true 
+    bank_branch: {
+      type: String,
+      required: true,
     },
-},
-{
-    timestamps: true
-});
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const shopModel = db.model('shops', shopSchema);
+const shopModel = db.model("shops", shopSchema);
 
 module.exports = shopModel;

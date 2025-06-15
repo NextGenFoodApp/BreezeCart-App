@@ -4,6 +4,7 @@ import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHea
 import { Delete, Check } from '@mui/icons-material';
 import axios from 'axios';
 import Checkout from './Checkout';
+import SelectBulk from "../components/HomeComponents/SelectBulk";
 
 const CartPage = () => {
   const [user, setUser] = useState(null);
@@ -149,6 +150,7 @@ const CartPage = () => {
 
   return (
     <>
+      <SelectBulk />
     <Grid container spacing={3} style={{ padding: '20px', justifyContent: 'center' }}>
       <Grid item xs={12} style={{ textAlign: 'center' }}>
         <Typography variant="h4" gutterBottom>Shopping Cart</Typography>
