@@ -1,73 +1,107 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { Container, Grid, Card, CardMedia, CardContent, Typography, Button, Link } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
+import {
+    Container,
+    Grid,
+    Card,
+    CardMedia,
+    CardContent,
+    Typography,
+    Box,
+    useTheme
+} from '@mui/material';
 
 const CategoryPage = () => {
-  const { id } = useParams();
-  const [categoryDetails, setCategoryDetails] = useState(null);
-  const [products, setProducts] = useState([]);
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const theme = useTheme();
 
-  useEffect( () => {
-    // Fetch category details
-    axios.get(`http://localhost:3030/categories/${id}`)
-      .then(response => {
-        setCategoryDetails(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching shop details:', error);
-      });
+    const [categoryDetails, setCategoryDetails] = useState(null);
+    const [products, setProducts] = useState([]);
+    const [hoveredProduct, setHoveredProduct] = useState(null);
 
-    // Fetch products of the category
-    axios.get(`http://localhost:3030/products/c/${id}`)
-      .then(response => {
-        setProducts(response.data);
-        console.log(response);
-      })
-      .catch(error => {
-        console.error('Error fetching products:', error);
-      });
-  }, [id]);
+    useEffect(() => {
+        axios.get(`http://localhost:3030/categories/${id}`)
+            .then(response => {
+                setCategoryDetails(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching category details:', error);
+            });
 
-  return (
-    <Container maxWidth="md">
-      {categoryDetails && (
-        <div>
-          <Typography variant="h4" gutterBottom>
-            {categoryDetails.category_name}
-          </Typography>
-        </div>
-      )}
-      <Typography variant="h5" gutterBottom style={{ marginTop: '20px' }}>
-        Products
-      </Typography>
-      <Grid container spacing={3}>
-        {products.map((product, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card>
-                <CardMedia
-                  component="img"
-                  alt={product.product_name}
-                  image={product.image}
-                  title={product.product_name}
-                />
-                <CardContent>
-                  <Typography variant="h6" component="h2">
-                    {product.product_name}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {product.price}
-                  </Typography>
-                  <Button variant="contained" color="primary" onClick={() => {
-                    window.location.href = `http://localhost:3000/products/${product.product_id}`
-                  }}>View Product</Button>
-                </CardContent>
-              </Card>
+        axios.get(`http://localhost:3030/products/c/${id}`)
+            .then(response => {
+                setProducts(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+            });
+    }, [id]);
+
+    const handleProductClick = (productId) => {
+        navigate(`/products/${productId}`);
+    };
+
+    return (
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+            {categoryDetails && (
+                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.primary.main }}>
+                    {categoryDetails.category_name}
+                </Typography>
+            )}
+
+            <Typography variant="h5" gutterBottom sx={{ mt: 4, mb: 2 }}>
+                Products
+            </Typography>
+
+            <Grid container spacing={4}>
+                {products.map((product) => (
+                    <Grid item xs={12} sm={6} md={4} key={product.product_id}>
+                        <Card
+                            onClick={() => handleProductClick(product.product_id)}
+                            onMouseEnter={() => setHoveredProduct(product.product_id)}
+                            onMouseLeave={() => setHoveredProduct(null)}
+                            sx={{
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                borderRadius: 3,
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: '#fce4ec',
+                                border: `1px solid ${theme.palette.divider}`,
+                                '&:hover': {
+                                    transform: 'translateY(-5px)',
+                                    boxShadow: 6,
+                                    borderColor: theme.palette.primary.main
+                                }
+                            }}
+                        >
+                            <CardMedia
+                                component="img"
+                                alt={product.product_name}
+                                image={product.image}
+                                title={product.product_name}
+                                sx={{
+                                    height: 200,
+                                    objectFit: 'contain',
+                                    backgroundColor: theme.palette.grey[100],
+                                    transition: 'transform 0.3s ease',
+                                    transform: hoveredProduct === product.product_id ? 'scale(1.05)' : 'scale(1)'
+                                }}
+                            />
+                            <CardContent sx={{ flexGrow: 1 }}>
+                                <Typography variant="h6" component="h2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                                    {product.product_name}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
             </Grid>
-          ))}
-      </Grid>
-    </Container>
-  );
+        </Container>
+    );
 };
 
 export default CategoryPage;
