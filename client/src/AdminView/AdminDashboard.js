@@ -119,6 +119,7 @@ const AdminDashboard = () => {
                 title="Total Users"
                 value={stats.users}
                 color="#4caf50"
+                link={"/adminview/users"}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -126,6 +127,7 @@ const AdminDashboard = () => {
                 title="Total Shops"
                 value={stats.shops}
                 color="#ff9800"
+                link={"/adminview/shops"}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -133,6 +135,7 @@ const AdminDashboard = () => {
                 title="Total Products"
                 value={stats.products}
                 color="#f44336"
+                link={"/adminview/products"}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -140,6 +143,7 @@ const AdminDashboard = () => {
                 title="Total Categories"
                 value={stats.categories}
                 color="#2196f3"
+                link={"/adminview/catagories"}
               />
             </Grid>
           </Grid>

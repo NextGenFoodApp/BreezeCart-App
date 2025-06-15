@@ -9,6 +9,7 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
 
 const AddShopPage = () => {
@@ -41,35 +42,43 @@ const AddShopPage = () => {
     setImageFile(e.target.files[0]);
   };
 
-  const handleImageUpload = async () => {
-    if (!imageFile) return;
-
+  const handleImageUpload = async (file) => {
     const formData = new FormData();
-    formData.append("image", imageFile);
-
-    try {
-      setUploading(true);
-      const response = await axios.post(
-        "http://localhost:3030/products/upload-item-image",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("Image uploaded successfully:", response.data.url);
-      setFormData((prev) => ({
-        ...prev,
-        logo: response.data.url,
-      }));
-    } catch (error) {
-      console.error("Image upload failed", error);
-      alert("Failed to upload image.");
-    } finally {
-      setUploading(false);
-    }
+    formData.append("image", file);
+    const response = await axios.post(
+      "http://localhost:3030/products/upload-item-image",
+      formData
+    );
+    console.log("Image uploaded successfully:", response.data.url);
+    setFormData((prev) => ({
+      ...prev,
+      logo: response.data.url,
+    }));
   };
+
+  // const handleImageUload = async () => {
+  //   if (!imageFile) return;
+
+  //   const formData = new FormData();
+  //   formData.append("image", imageFile);
+
+  //   console.log("Uploading image:", imageFile.name);
+
+  //   try {
+  //     setUploading(true);
+  //     const response = await axios.post(
+  //       "http://localhost:3030/products/upload-item-image",
+  //       formData
+  //     );
+
+  //     setUploading(false);
+  //   } catch (error) {
+  //     console.error("Image upload failed", error);
+  //     alert("Failed to upload image.");
+  //   } finally {
+  //     setUploading(false);
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -212,25 +221,28 @@ const AddShopPage = () => {
               />
             </Grid>
 
-            {/* Image Upload */}
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                Upload Logo
-              </Typography>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-              <Box mt={1}>
-                <Button
-                  variant="contained"
-                  onClick={handleImageUpload}
-                  disabled={uploading || !imageFile}
+            <Grid item xs={12} md={4}>
+              <Button
+                variant="contained"
+                component="label"
+                fullWidth
+                startIcon={<UploadFileIcon />} // <-- Add icon here
+              >
+                Upload shop Logo
+                <input
+                  hidden
+                  type="file"
+                  onChange={(e) => handleImageUpload(e.target.files[0])}
+                />
+              </Button>
+              {formData.logo && (
+                <Typography
+                  variant="caption"
+                  sx={{ color: "green", mt: 1, display: "block" }}
                 >
-                  {uploading ? <CircularProgress size={24} /> : "Upload Logo"}
-                </Button>
-              </Box>
+                  Image uploaded
+                </Typography>
+              )}
               {formData.logo && (
                 <Box mt={2}>
                   <img
