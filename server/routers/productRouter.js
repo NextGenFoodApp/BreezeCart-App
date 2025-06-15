@@ -123,4 +123,28 @@ router.delete("/:product_id", async (req, res) => {
   }
 });
 
+// Update product (PUT or PATCH)
+router.put("/:id", async (req, res) => {
+  const product_id = parseInt(req.params.id); // assuming product_id is numeric
+  const updatedData = req.body;
+
+  try {
+    const updatedProduct = await ProductController.updateProductById(
+      product_id,
+      updatedData
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found." });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Product updated.", product: updatedProduct });
+  } catch (err) {
+    console.error("Error in update route:", err);
+    return res.status(500).json({ error: "Failed to update product." });
+  }
+});
+
 module.exports = router;

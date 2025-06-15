@@ -9,6 +9,7 @@ import {
   Button,
   TextField,
   Box,
+  Paper,
 } from "@mui/material";
 import axios from "axios";
 
@@ -18,165 +19,148 @@ const ProductDetailsPage = () => {
   const [category, setCategory] = useState(null);
   const [user, setUser] = useState(null);
   const [shop, setShop] = useState(null);
-  const [quantity, setQuantity] = useState(1); // State for quantity
-  const [selectedItem, setSelectedItem] = useState(null); // State for selected variation item
+  const [quantity, setQuantity] = useState(1);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const storedUser = localStorage.getItem("user");
-        console.log(localStorage);
-        console.log(localStorage.getItem("user"));
-        console.log(storedUser);
         if (storedUser) {
           const parsedUser = JSON.parse(storedUser);
           setUser(parsedUser);
-          console.log("Parsed user:", parsedUser);
-        } else {
-          console.error("No user found in localStorage");
         }
       } catch (error) {
         console.error("Error parsing user data:", error);
       }
     };
-
     fetchUserData();
   }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const productResponse = await axios.get(
+        const productRes = await axios.get(
           `http://localhost:3030/products/${id}`
         );
-        setProduct(productResponse.data);
+        setProduct(productRes.data);
         setSelectedItem(
-          productResponse.data.items.length === 1
-            ? productResponse.data.items[0]
-            : null
+          productRes.data.items.length === 1 ? productRes.data.items[0] : null
         );
 
-        const categoryResponse = await axios.get(
-          `http://localhost:3030/categories/${productResponse.data.category_id}`
+        const categoryRes = await axios.get(
+          `http://localhost:3030/categories/${productRes.data.category_id}`
         );
-        setCategory(categoryResponse.data);
+        setCategory(categoryRes.data);
 
-        const shopResponse = await axios.get(
-          `http://localhost:3030/shops/${productResponse.data.shop_id}`
+        const shopRes = await axios.get(
+          `http://localhost:3030/shops/${productRes.data.shop_id}`
         );
-        setShop(shopResponse.data);
+        setShop(shopRes.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching product:", error);
       }
     };
-
     fetchProduct();
   }, [id]);
 
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
-  };
+  const handleQuantityChange = (event) => setQuantity(event.target.value);
+  const handleItemClick = (item) => setSelectedItem(item);
 
-  const handleAddToCart = async (itemId) => {
-    console.log("Added product to cart: ", product.product_id);
-    console.log("Added item: ", itemId);
-    console.log("Added quantity: ", quantity);
-    if (user)
-      await axios.post("http://localhost:3030/users/add-to-cart", {
-        userId: user.user_id,
-        addItem: {
-          item_id: itemId,
-          product_id: product.product_id,
-          quantity: +quantity,
-        },
-      });
-    else window.location.href = "/login";
-  };
-
-  const handleAddToBulk = async (itemId) => {
-    console.log("Added product to bulk:", product.product_id);
-    console.log("Added item: ", itemId);
-    console.log("Added quantity: ", quantity);
-    if (user)
-      await axios.post("http://localhost:3030/bulks/add-to-bulk", {
-        bulkId: JSON.parse(localStorage.getItem("bulk_id")),
-        addItem: {
-          item_id: itemId,
-          product_id: product.product_id,
-          quantity: +quantity,
-        },
-      });
-    else window.location.href = "/login";
-  };
-
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
+  const handleUpdateProduct = () => {
+    window.location.href = `/update-product/${id}`;
   };
 
   return (
-    <Grid container spacing={3} sx={{ padding: 3 }}>
+    <Grid
+      container
+      spacing={12}
+      sx={{
+        padding: 4,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 1,
+      }}
+    >
       {product && (
         <>
-          <Grid item xs={12} md={6}>
-            <Card sx={{ border: "1px solid #ccc", padding: 2 }}>
-              <CardMedia
+          {/* Left Side - Image */}
+          <Grid item xs={12} md={4}>
+            <Paper
+              elevation={4}
+              sx={{
+                borderRadius: 3,
+                height: 400,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#f5f5f5", // optional calm background
+                overflow: "hidden",
+              }}
+            >
+              <Box
                 component="img"
-                image={selectedItem ? selectedItem.image : product.image}
+                src={selectedItem ? selectedItem.image : product.image}
                 alt={product.product_name}
-                sx={{ borderRadius: 2 }}
+                sx={{
+                  maxHeight: "100%",
+                  maxWidth: "100%",
+                  objectFit: "contain",
+                }}
               />
-            </Card>
+            </Paper>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Box sx={{ padding: 2 }}>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                component="p"
-                sx={{ marginBottom: 1 }}
-              >
+
+          {/* Right Side - Info */}
+          <Grid item xs={12} md={4}>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 1 }}>
                 <Link
-                  href={`http://localhost:3000/categories/${product.category_id}`}
+                  href={`/categories/${product.category_id}`}
                   underline="hover"
+                  color="primary"
                 >
-                  {category && category.category_name}
+                  {category?.category_name}
                 </Link>
               </Typography>
-              <Typography variant="h4" component="h1" sx={{ marginBottom: 2 }}>
+
+              <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>
                 {product.product_name}
               </Typography>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                component="p"
-                sx={{ marginBottom: 2 }}
-              >
-                From<spacing> </spacing>
+
+              <Typography variant="body2" sx={{ mb: 2 }}>
+                From{" "}
                 <Link
-                  href={`http://localhost:3000/shops/${product.shop_id}`}
+                  href={`/shops/${product.shop_id}`}
                   underline="hover"
+                  color="secondary"
                 >
-                  {shop && shop.shop_name}
+                  {shop?.shop_name}
                 </Link>
               </Typography>
+
               {product.items.length > 1 && (
                 <>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    sx={{ marginBottom: 2 }}
-                  >
+                  <Typography variant="h6" sx={{ mb: 1 }}>
                     {product.attribute}:
                   </Typography>
-                  <Grid container spacing={2} sx={{ marginBottom: 2 }}>
+                  <Grid container spacing={2} sx={{ mb: 2 }}>
                     {product.items.map((item) => (
                       <Grid item key={item.item_id}>
                         <Card
                           onClick={() => handleItemClick(item)}
                           sx={{
-                            border: "1px solid #ccc",
+                            border:
+                              selectedItem?.item_id === item.item_id
+                                ? "2px solid #1976d2"
+                                : "1px solid #ccc",
                             borderRadius: 2,
                             cursor: "pointer",
+                            width: 60,
+                            height: 60,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
                             "&:hover": { borderColor: "primary.main" },
                           }}
                         >
@@ -192,49 +176,33 @@ const ProductDetailsPage = () => {
                   </Grid>
                 </>
               )}
-              {selectedItem && product.items.length > 1 && (
-                <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                  {selectedItem.unit}, Price: ${selectedItem.price}
-                </Typography>
-              )}
-              {product.items.length === 1 && (
-                <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                  {product.items[0].unit}, Price: ${product.items[0].price}
-                </Typography>
-              )}
+
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                {selectedItem
+                  ? `${selectedItem.unit}, Price: $${selectedItem.price}`
+                  : product.items.length === 1
+                  ? `${product.items[0].unit}, Price: $${product.items[0].price}`
+                  : "Select a variation to see price"}
+              </Typography>
+
               <TextField
                 label="Quantity"
                 type="number"
                 value={quantity}
                 onChange={handleQuantityChange}
                 inputProps={{ min: 1 }}
-                sx={{ marginBottom: 2 }}
                 fullWidth
+                sx={{ mb: 3 }}
               />
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() =>
-                    handleAddToCart(selectedItem ? selectedItem.item_id : 1)
-                  }
-                  sx={{ flex: 1 }}
-                  disabled={!selectedItem && product.items.length > 1}
-                >
-                  Add to my cart
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() =>
-                    handleAddToBulk(selectedItem ? selectedItem.item_id : 1)
-                  }
-                  sx={{ flex: 1 }}
-                  disabled={!selectedItem && product.items.length > 1}
-                >
-                  Add to my bulk
-                </Button>
-              </Box>
+
+              <Button
+                variant="contained"
+                color="success"
+                fullWidth
+                onClick={handleUpdateProduct}
+              >
+                Update Product
+              </Button>
             </Box>
           </Grid>
         </>

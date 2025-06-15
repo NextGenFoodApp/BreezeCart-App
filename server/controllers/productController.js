@@ -55,13 +55,34 @@ exports.addNewProduct = async (product) => {
   }
 };
 
-// In ProductController.js
 exports.deleteProductById = async (product_id) => {
   try {
     const result = await Product.deleteOne({ product_id }); // assuming product_id is a field in your schema
     return result.deletedCount > 0; // returns true if a product was deleted
   } catch (err) {
     console.error("Error in deleteProductById:", err);
+    throw err;
+  }
+};
+
+// Update product by product_id
+exports.updateProductById = async (product_id, updatedData) => {
+  try {
+    const updatedProduct = await Product.findOneAndUpdate(
+      { product_id: product_id },
+      updatedData,
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      console.log("Product not found.");
+      return null;
+    }
+
+    console.log("Product updated successfully:", updatedProduct);
+    return updatedProduct;
+  } catch (err) {
+    console.error("Error updating product:", err);
     throw err;
   }
 };

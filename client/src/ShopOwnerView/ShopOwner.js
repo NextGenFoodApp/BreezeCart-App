@@ -158,7 +158,9 @@ const ShopOwnerPage = () => {
                   variant="outlined"
                   color="primary"
                   size="small"
-                  onClick={() => navigate(`/products/${product.product_id}`)}
+                  onClick={() =>
+                    navigate(`/product-details/${product.product_id}`)
+                  }
                   sx={{ textTransform: "none" }}
                 >
                   View
