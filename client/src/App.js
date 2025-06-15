@@ -25,6 +25,7 @@ import CartPage from "./CustomerView/Cart";
 import Bulks from "./CustomerView/Bulks";
 import Checkout from "./CustomerView/Checkout";
 import AddProduct from "./ShopOwnerView/AddProduct";
+import ProductDetailsPage from "./ShopOwnerView/ProductDetails";
 
 const App = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -109,6 +110,7 @@ const App = () => {
         <Route path="/customerview/dashboard" element={<UserDashboard />} />
         <Route path="/shopownerview/dashboard" element={<ShopDashboard />} />
         <Route path="/products/:id" element={<ProductPage />} />
+        <Route path="/product-details/:id" element={<ProductDetailsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/bulks" element={<Bulks />} />
         <Route path="/checkout" element={<Checkout />} />

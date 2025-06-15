@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Container,
   Card,
@@ -106,19 +107,26 @@ const ShopInfo = () => {
               p: 2,
             }}
           >
-            <CardMedia
-              component="img"
-              alt={`Shop ${shopId}`}
-              image={shop.logo}
-              title={`Shop ${shopId}`}
-              sx={{
-                width: "100%",
-                maxHeight: 250,
-                objectFit: "contain",
-                borderRadius: 2,
-                boxShadow: 3,
-              }}
-            />
+            <Link to={`/shop-owners/${shopId}`} style={{ width: "100%" }}>
+              <CardMedia
+                component="img"
+                alt={`Shop ${shopId}`}
+                image={shop.logo}
+                title={`Shop ${shopId}`}
+                sx={{
+                  width: "100%",
+                  maxHeight: 250,
+                  objectFit: "contain",
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  cursor: "pointer",
+                  transition: "transform 0.2s ease",
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                  },
+                }}
+              />
+            </Link>
           </Box>
         </Grid>
 

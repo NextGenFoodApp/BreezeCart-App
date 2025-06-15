@@ -54,3 +54,14 @@ exports.addNewProduct = async (product) => {
     console.log(err);
   }
 };
+
+// In ProductController.js
+exports.deleteProductById = async (product_id) => {
+  try {
+    const result = await Product.deleteOne({ product_id }); // assuming product_id is a field in your schema
+    return result.deletedCount > 0; // returns true if a product was deleted
+  } catch (err) {
+    console.error("Error in deleteProductById:", err);
+    throw err;
+  }
+};
