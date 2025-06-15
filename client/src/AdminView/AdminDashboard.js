@@ -17,6 +17,7 @@ import AdminHeader from "./components/AdminHeader";
 import StatCard from "./components/StatCard";
 import SalesChart from "./components/SalesChart";
 import axios from "axios";
+import AdminOrdersTabs from "./components/AdminOrdersTabs";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -213,6 +214,9 @@ const AdminDashboard = () => {
               </Button>
             </DialogActions>
           </Dialog>
+
+          {/* Admin Orders Tabs */}
+          <AdminOrdersTabs />
 
           {/* Chart */}
           <Box mt={6}>

@@ -32,3 +32,10 @@ exports.addNewBulkOrder = async (order) => {
         console.log(err);
     }
 }
+
+exports.updateOrderStatus = async (orderId, newStatus) => {
+  const order = await BulkOrder.findOne({bulk_order_id: orderId});
+  if (!order) throw new Error('Order not found');
+  order.status = newStatus;
+  await order.save();
+};

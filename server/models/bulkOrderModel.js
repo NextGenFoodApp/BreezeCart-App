@@ -32,6 +32,11 @@ const bulkOrderSchema = new Schema({
     paid_amount:{
         type: Number,
         required: true
+    },
+    status: {
+        type: String,
+        enum: ['Placed', 'Complete', 'Cancelled'],
+        default: 'Placed'
     }
 },
 {

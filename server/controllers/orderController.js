@@ -32,3 +32,10 @@ exports.addNewOrder = async (order) => {
         console.log(err);
     }
 }
+
+exports.updateOrderStatus = async (orderId, newStatus) => {
+  const order = await Order.findOne({order_id: orderId});
+  if (!order) throw new Error('Order not found');
+  order.status = newStatus;
+  await order.save();
+};

@@ -33,6 +33,10 @@ import UsersPage from "./AdminView/components/UsersPage";
 import ProductsPage from "./AdminView/components/ProductsPage";
 import AdminShopsPage from "./AdminView/components/ShopsPage";
 import AdminCategoriesPage from "./AdminView/components/CategoriesPage";
+import UserBulk from "./components/UserBulk";
+import UserInfo from "./components/UserInfo";
+import UserProfile from "./AdminView/components/UserProfile";
+import BulkProfile from "./AdminView/components/BulkProfile";
 
 const App = () => {
   return (
@@ -49,6 +53,8 @@ const App = () => {
         <Route path="/adminview/dashboard" element={<AdminDashboard />} />
         <Route path="/adminview/add-shop" element={<AddShopPage />} />
         <Route path="/adminview/users" element={<UsersPage />} />
+        <Route path="/adminview/users/:id" element={<UserProfile />} />
+        <Route path="/adminview/bulks/:id" element={<BulkProfile />} />
         <Route path="/adminview/products" element={<ProductsPage />} />
         <Route path="/adminview/shops" element={<AdminShopsPage />} />
         <Route path="/adminview/catagories" element={<AdminCategoriesPage />} />

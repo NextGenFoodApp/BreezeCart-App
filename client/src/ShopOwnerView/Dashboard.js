@@ -3,6 +3,7 @@ import { Container, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import ShopInfo from "../components/ShopInfo";
 import ShopProducts from "../components/ShopProducts";
+import ShopOrdersTabs from "../AdminView/components/ShopOrdersTabs";
 
 const UserDashboard = () => {
   return (
@@ -14,6 +15,7 @@ const UserDashboard = () => {
       }}
     >
       <ShopInfo />
+      <ShopOrdersTabs />
       <ShopProducts />
     </Box>
   );
