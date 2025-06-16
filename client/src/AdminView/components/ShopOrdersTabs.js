@@ -199,7 +199,7 @@ const AdminOrdersTabs = () => {
   );
 
   return (
-    <Box sx={{ width: '100%', p: 3 }}>
+    <Box sx={{ width: '89%', p: 3, ml: 6 }}>
       <Typography variant="h4" color="primary" gutterBottom>
         Shop Order Panel
       </Typography>
