@@ -28,8 +28,7 @@ const UserInfo = () => {
   const theme = useTheme();
   const [userId, setUserId] = useState(0);
   const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     address: {
       line1: "",
@@ -52,8 +51,7 @@ const UserInfo = () => {
       .then((response) => {
         const data = response.data;
         const userData = {
-          firstName: data.name.first_name,
-          lastName: data.name.last_name,
+          name: data.name,
           email: data.email,
           address: {
             line1: data.address.address_line_1,
@@ -240,18 +238,8 @@ const UserInfo = () => {
           Personal Information
         </Typography>
 
-        {renderField(
-          "First Name",
-          user.firstName,
-          "firstName",
-          <PersonIcon color="primary" />
-        )}
-        {renderField(
-          "Last Name",
-          user.lastName,
-          "lastName",
-          <PersonIcon color="primary" />
-        )}
+        {renderField("Name", user.name, "name", <PersonIcon color="primary" />)}
+
         {renderField(
           "Email",
           user.email,

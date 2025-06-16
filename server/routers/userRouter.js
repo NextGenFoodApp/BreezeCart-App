@@ -60,10 +60,7 @@ router.post("/", async (req, res) => {
     // 3. Construct new user object
     const new_user = {
       user_id: new_user_id,
-      name: {
-        first_name: req.body.name.first_name,
-        last_name: req.body.name.last_name,
-      },
+      name: req.body.name,
       password: req.body.password,
       address: {
         address_line_1: req.body.address.address_line_1,

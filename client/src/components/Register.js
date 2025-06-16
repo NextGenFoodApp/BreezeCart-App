@@ -25,10 +25,7 @@ import axios from "axios";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
-    name: {
-      first_name: "",
-      last_name: "",
-    },
+    name: "",
     password: "",
     confirmPassword: "",
     address: {
@@ -48,9 +45,7 @@ const RegisterPage = () => {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name.first_name)
-      newErrors.first_name = "First name is required";
-    if (!formData.name.last_name) newErrors.last_name = "Last name is required";
+    if (!formData.name) newErrors.name = "Name is required";
     if (!formData.password) newErrors.password = "Password is required";
     if (formData.password.length < 6)
       newErrors.password = "Minimum 6 characters";
@@ -76,14 +71,7 @@ const RegisterPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Handle nested values
-    if (name.startsWith("name.")) {
-      const key = name.split(".")[1];
-      setFormData((prev) => ({
-        ...prev,
-        name: { ...prev.name, [key]: value },
-      }));
-    } else if (name.startsWith("address.")) {
+    if (name.startsWith("address.")) {
       const key = name.split(".")[1];
       setFormData((prev) => ({
         ...prev,
@@ -106,7 +94,7 @@ const RegisterPage = () => {
       alert("User registered successfully!");
       // Reset
       setFormData({
-        name: { first_name: "", last_name: "" },
+        name: "",
         password: "",
         confirmPassword: "",
         address: {
@@ -147,36 +135,16 @@ const RegisterPage = () => {
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            {/* First Name */}
-            <Grid item xs={12} sm={6}>
+            {/* Name */}
+            <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="First Name"
-                name="name.first_name"
-                value={formData.name.first_name}
+                label="Full Name"
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
-                error={!!errors.first_name}
-                helperText={errors.first_name}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Person />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-
-            {/* Last Name */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Last Name"
-                name="name.last_name"
-                value={formData.name.last_name}
-                onChange={handleChange}
-                error={!!errors.last_name}
-                helperText={errors.last_name}
+                error={!!errors.name}
+                helperText={errors.name}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
